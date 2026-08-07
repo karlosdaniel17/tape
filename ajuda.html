@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajuda</title>
+<style>
+:root {
+  --paper: #F5F4F0;
+  --ink: #26241F;
+  --line: #00000014;
+  --seg: #FF6B6B;
+  --ter: #FF9F43;
+  --qua: #F4C430;
+  --qui: #4CAF7D;
+  --sex: #4D96FF;
+  --sab: #A78BFA;
+  --dom: #FF6FB5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Navbar ---------- */
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+.brand span { opacity: 0.4; font-weight: 500; }
+nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.mainnav a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  opacity: 0.55;
+  transition: all .15s ease;
+}
+nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
+
+main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+
+/* ---------- Week nav ---------- */
+.weeknav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 20px;
+}
+.weeknav button {
+  width: 34px; height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: white;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.weeknav button:hover { background: #00000008; }
+.weekrange { font-size: 0.9rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: #00000008; }
+.today-link { font-size: 0.8rem; opacity: 0.55; text-decoration: underline; cursor: pointer; background: none; border: none; }
+
+/* ---------- Disciplinas chips ---------- */
+.disc-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 26px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600;
+  cursor: grab;
+  user-select: none;
+}
+.chip button {
+  border: none; width: 16px; height: 16px; border-radius: 999px;
+  font-size: 11px; cursor: pointer; opacity: 0.5;
+}
+.chip button:hover { opacity: 1; }
+.add-disc { display: inline-flex; gap: 6px; }
+.add-disc input {
+  font-size: 0.85rem; padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--line); width: 150px;
+}
+.add-disc button {
+  width: 32px; height: 32px; border-radius: 999px; border: none;
+  background: var(--ink); color: white; cursor: pointer; font-size: 1rem;
+}
+
+/* ---------- Day grid ---------- */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+
+.day-card { background: white; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+.day-head {
+  padding: 12px 16px; color: white; display: flex; align-items: center; justify-content: space-between;
+}
+.day-head .date { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.85; }
+.day-head .name { font-size: 1.1rem; font-weight: 800; }
+.day-head button {
+  width: 26px; height: 26px; border-radius: 999px; border: none;
+  background: rgba(255,255,255,0.25); color: white; cursor: pointer; font-weight: 700;
+}
+.day-addlist { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; }
+.day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: white; cursor: pointer; }
+
+.day-schedule { padding: 10px 14px 6px; display: flex; flex-direction: column; gap: 6px; min-height: 30px; }
+.sched-empty { font-size: 0.78rem; opacity: 0.4; padding: 4px 0; }
+.sched-item {
+  display: flex; align-items: center; gap: 8px;
+  background: white; border-radius: 10px; padding: 6px 10px;
+  cursor: grab;
+}
+.sched-item .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
+.sched-item .nm { flex: 1; font-size: 0.85rem; font-weight: 600; }
+.sched-item input { width: 52px; font-size: 0.75rem; text-align: right; border: none; background: transparent; opacity: 0.7; }
+.sched-item .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.8rem; }
+.sched-item .rm:hover { opacity: 0.8; }
+
+.day-body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--line); }
+.field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 5px; }
+textarea, .textinput {
+  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
+}
+textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
+
+.task-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.task-row span.done { opacity: 0.4; text-decoration: line-through; }
+.task-row .rm { margin-left: auto; border: none; background: none; opacity: 0; cursor: pointer; }
+.task-row:hover .rm { opacity: 0.4; }
+.task-row .rm:hover { opacity: 1; }
+.task-add { display: flex; gap: 6px; margin-top: 2px; }
+.task-add input { flex: 1; font-size: 0.85rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 10px; }
+
+/* ---------- Disciplinas page ---------- */
+.disc-card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.disc-card .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.disc-card input.small { flex: 1; min-width: 140px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.9rem; }
+.disc-card textarea { min-height: 60px; }
+.disc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.disc-name { font-weight: 800; font-size: 1.05rem; }
+.del-btn { border: none; background: none; color: #B33; cursor: pointer; font-size: 0.8rem; opacity: 0.6; }
+.del-btn:hover { opacity: 1; }
+.new-disc-btn {
+  padding: 10px 18px; border-radius: 999px; border: none; background: var(--ink); color: white;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+}
+
+/* ---------- Anotacoes page ---------- */
+.notes-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+@media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
+.notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
+.calc-box { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
+.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
+.calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.calc-grid button {
+  padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
+}
+.calc-grid button.op { background: var(--ink); color: white; }
+.calc-grid button:hover { filter: brightness(0.95); }
+.calc-hist { margin-top: 12px; font-size: 0.75rem; opacity: 0.5; max-height: 90px; overflow-y: auto; }
+
+/* ---------- Estudos extras page ---------- */
+.study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.study-card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.study-card .top { display: flex; justify-content: space-between; align-items: center; }
+.study-card input.title {
+  font-size: 1.05rem; font-weight: 800; border: none; background: transparent; flex: 1; padding: 2px 0;
+}
+.study-card textarea { min-height: 100px; }
+.add-study-card {
+  border: 2px dashed var(--line); border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; min-height: 100px; opacity: 0.5; font-weight: 700; background: none;
+}
+.add-study-card:hover { opacity: 0.9; }
+
+footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
+
+
+.help-section { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+.help-section h2 { font-size: 1.1rem; margin: 0 0 12px; letter-spacing: -0.01em; }
+.help-section p, .help-section li { font-size: 0.95rem; line-height: 1.7; opacity: 0.85; }
+.help-section ol, .help-section ul { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.help-section li { padding-left: 0; }
+.lang-dropdown { position: relative; }
+.lang-toggle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: white; cursor: pointer; color: var(--ink);
+}
+.lang-toggle:hover { background: #00000008; }
+.lang-toggle .caret { font-size: 9px; opacity: 0.5; }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: white; border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden;
+  min-width: 150px; display: none; z-index: 30;
+}
+.lang-menu.open { display: block; }
+.lang-menu button {
+  width: 100%; text-align: left; padding: 10px 14px; border: none; background: white;
+  font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
+}
+.lang-menu button:hover { background: #00000008; }
+.lang-menu button.active { font-weight: 800; background: #00000006; }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand" id="brand"></div>
+    <nav class="mainnav" id="mainnav"></nav>
+    <div class="lang-switch" id="langSwitch"></div>
+  </div>
+</div>
+
+<main>
+  <div class="eyebrow" id="txtEyebrow">Acessibilidade</div>
+  <h1 id="txtTitulo">Guia de ajuda</h1>
+  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub"></p>
+
+  <div class="help-section">
+    <h2 id="txtSec1Titulo"></h2>
+    <p id="txtSec1Texto"></p>
+  </div>
+
+  <div class="help-section">
+    <h2 id="txtSec2Titulo"></h2>
+    <ol id="listaPassos"></ol>
+  </div>
+
+  <div class="help-section">
+    <h2 id="txtSec3Titulo"></h2>
+    <ul id="listaDicas"></ul>
+  </div>
+</main>
+
+<footer class="foot" id="txtFooter"></footer>
+
+<script>
+// ---------- Configuração ----------
+const SITE_NAME = "tape"; // nome do site
+
+const DAY_DEFS = [
+  { key: "seg", label: "Segunda", css: "--seg" },
+  { key: "ter", label: "Terça", css: "--ter" },
+  { key: "qua", label: "Quarta", css: "--qua" },
+  { key: "qui", label: "Quinta", css: "--qui" },
+  { key: "sex", label: "Sexta", css: "--sex" },
+  { key: "sab", label: "Sábado", css: "--sab" },
+  { key: "dom", label: "Domingo", css: "--dom" },
+];
+
+const DISC_COLORS = ["#FF6B6B", "#FF9F43", "#F4C430", "#4CAF7D", "#4D96FF", "#A78BFA", "#FF6FB5", "#2BB4B4"];
+
+// ---------- localStorage helpers ----------
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw);
+  } catch (e) {
+    return fallback;
+  }
+}
+function saveJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ---------- Datas ----------
+function startOfWeekMonday(d) {
+  const date = new Date(d);
+  const day = date.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  date.setDate(date.getDate() + diff);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+function addDays(d, n) {
+  const r = new Date(d);
+  r.setDate(r.getDate() + n);
+  return r;
+}
+function isoDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const da = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${da}`;
+}
+function fmtShort(d) {
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+}
+function uid() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
+// ---------- Disciplinas (compartilhado entre páginas) ----------
+function getDisciplinas() {
+  return loadJSON("disciplinas", []);
+}
+function saveDisciplinas(list) {
+  saveJSON("disciplinas", list);
+}
+
+const I18N = {"pt": {"nav_semana": "Semana", "nav_disciplinas": "Disciplinas", "nav_anotacoes": "Anotações", "nav_estudos": "Estudos extras", "nav_ajuda": "Ajuda", "tagline": "caderno acadêmico", "footer_rodape": "Seus dados ficam salvos automaticamente neste navegador.", "day_seg": "Segunda", "day_ter": "Terça", "day_qua": "Quarta", "day_qui": "Quinta", "day_sex": "Sexta", "day_sab": "Sábado", "day_dom": "Domingo", "eyebrow_semana": "Caderno de rotina", "titulo_semana": "Minha semana", "aria_semana_anterior": "Semana anterior", "aria_proxima_semana": "Próxima semana", "hoje": "hoje", "salvo": "Salvo", "erro_salvar": "Erro ao salvar", "eyebrow_disc_bar": "Minhas disciplinas · arraste para um dia", "disc_vazia_texto": "Nenhuma disciplina ainda — cadastre em", "nenhuma_aula": "Nenhuma aula — arraste uma disciplina aqui", "cadastre_primeiro": "Cadastre disciplinas primeiro.", "hora_placeholder": "hora", "aprendi_label": "O que aprendi hoje", "resumo_label": "Resumo", "tarefas_label": "Tarefas extras · reunião, monitoria…", "anote_placeholder": "Anote em poucas palavras…", "tarefa_placeholder": "+ tarefa", "eyebrow_cadastro": "Cadastro", "titulo_disciplinas": "Disciplinas", "subtitulo_disciplinas": "Sala, professor e ementa de cada disciplina. As disciplinas cadastradas aqui aparecem na página Semana.", "nenhuma_disciplina": "Nenhuma disciplina cadastrada ainda.", "remover_btn": "remover", "sala_placeholder": "Sala", "professor_placeholder": "Professor(a)", "ementa_label": "Ementa", "ementa_placeholder": "Conteúdo programático da disciplina…", "btn_nova_disciplina": "+ Nova disciplina", "nome_padrao_disciplina": "Nova disciplina", "eyebrow_rascunho": "Rascunho", "titulo_anotacoes": "Anotações & cálculos", "subtitulo_anotacoes": "Um espaço livre para anotar o que quiser, e uma calculadora rápida ao lado.", "notas_placeholder": "Escreva aqui suas anotações…", "calculadora_label": "Calculadora", "footer_anotacoes": "Suas anotações ficam salvas automaticamente neste navegador.", "eyebrow_fora": "Fora da faculdade", "titulo_estudos": "Estudos extras", "subtitulo_estudos": "Linguagens, idiomas ou qualquer assunto que você está estudando por conta própria. Os títulos abaixo já vêm prontos — preencha o conteúdo quando quiser.", "titulo_assunto_placeholder": "Título do assunto", "notas_estudo_placeholder": "Anotações, progresso, links de estudo…", "btn_novo_assunto": "+ novo assunto", "novo_assunto_titulo_padrao": "Novo assunto", "eyebrow_ajuda": "Acessibilidade", "titulo_ajuda": "Guia de ajuda", "subtitulo_ajuda": "Este site foi feito para ser simples de entender. Aqui vai uma explicação de cada parte, em passos curtos.", "ajuda_sec1_titulo": "O que é o tape", "ajuda_sec1_texto": "Tape é um caderno digital de rotina acadêmica. Você organiza suas aulas da semana, anota o que aprendeu, guarda resumos e tarefas extras — tudo em um só lugar, sem precisar de internet depois de aberto e sem enviar seus dados para nenhum servidor.", "ajuda_sec2_titulo": "Passo a passo", "ajuda_passo1": "1. Vá em \"Disciplinas\" e cadastre as matérias que você cursa (nome, sala, professor e ementa, se quiser).", "ajuda_passo2": "2. Volte para \"Semana\": arraste o nome de cada disciplina para o dia certo, ou clique no botão \"+\" do dia e escolha na lista.", "ajuda_passo3": "3. Em cada dia, preencha \"O que aprendi hoje\" e o \"Resumo\" com poucas palavras.", "ajuda_passo4": "4. Use \"Tarefas extras\" para reuniões, monitorias ou qualquer compromisso fora da aula.", "ajuda_passo5": "5. Em \"Anotações\", escreva ideias soltas ou use a calculadora ao lado.", "ajuda_passo6": "6. Em \"Estudos extras\", registre o que você estuda por conta própria, como programação ou idiomas.", "ajuda_sec3_titulo": "Dicas de acessibilidade", "ajuda_dica1": "Para aumentar o tamanho do texto, use Ctrl e + (ou Cmd e + no Mac). Para diminuir, Ctrl e −.", "ajuda_dica2": "Todos os campos e botões podem ser acessados pelo teclado, usando a tecla Tab para avançar.", "ajuda_dica3": "O site usa títulos e botões comuns de HTML, o que ajuda leitores de tela a identificar cada parte da página.", "ajuda_dica4": "As cores de cada dia são só um apoio visual — todo texto também aparece escrito, então não é preciso enxergar as cores para usar o site.", "ajuda_dica5": "Você pode trocar o idioma do site a qualquer momento nos botões PT / EN / ES, no topo da página.", "lang_pt": "PT", "lang_en": "EN", "lang_es": "ES", "nav_sugestoes": "Sugestões", "nav_creditos": "Créditos", "eyebrow_sugestoes": "Fale comigo", "titulo_sugestoes": "Sugestões e dúvidas", "subtitulo_sugestoes": "Encontrou algo estranho, tem uma ideia ou uma dúvida sobre o site? Escreva abaixo.", "compose_titulo": "Nova mensagem", "label_email": "Seu e-mail", "placeholder_email": "seuemail@exemplo.com", "placeholder_mensagem": "Escreva sua sugestão ou dúvida aqui…", "btn_enviar": "Enviar", "sugestoes_aviso": "Ao clicar em Enviar, seu aplicativo de e-mail vai abrir com a mensagem pronta — este site não tem servidor, então nada é enviado automaticamente.", "eyebrow_creditos": "Créditos", "titulo_creditos": "Sobre o autor", "creditos_bio": "Este site foi idealizado e desenvolvido por Karlos Daniel Alves dos Santos, natural de Pesqueira (PE) e pertencente ao povo Xukuru do Ororubá. Karlos cursa Ciências da Computação na Unicamp (Universidade Estadual de Campinas) e criou o tape para organizar sua própria rotina acadêmica — com o sonho de crescer como profissional e levar oportunidades para sua cidade natal.", "creditos_rodape": "Obrigado por usar o tape."}, "en": {"nav_semana": "Week", "nav_disciplinas": "Subjects", "nav_anotacoes": "Notes", "nav_estudos": "Extra studies", "nav_ajuda": "Help", "tagline": "academic notebook", "footer_rodape": "Your data is saved automatically in this browser.", "day_seg": "Monday", "day_ter": "Tuesday", "day_qua": "Wednesday", "day_qui": "Thursday", "day_sex": "Friday", "day_sab": "Saturday", "day_dom": "Sunday", "eyebrow_semana": "Routine notebook", "titulo_semana": "My week", "aria_semana_anterior": "Previous week", "aria_proxima_semana": "Next week", "hoje": "today", "salvo": "Saved", "erro_salvar": "Error saving", "eyebrow_disc_bar": "My subjects · drag onto a day", "disc_vazia_texto": "No subjects yet — add them in", "nenhuma_aula": "No classes — drag a subject here", "cadastre_primeiro": "Add subjects first.", "hora_placeholder": "time", "aprendi_label": "What I learned today", "resumo_label": "Summary", "tarefas_label": "Extra tasks · meeting, office hours…", "anote_placeholder": "Write a few words…", "tarefa_placeholder": "+ task", "eyebrow_cadastro": "Registry", "titulo_disciplinas": "Subjects", "subtitulo_disciplinas": "Room, teacher and syllabus for each subject. Subjects added here show up on the Week page.", "nenhuma_disciplina": "No subjects added yet.", "remover_btn": "remove", "sala_placeholder": "Room", "professor_placeholder": "Teacher", "ementa_label": "Syllabus", "ementa_placeholder": "Subject's course content…", "btn_nova_disciplina": "+ New subject", "nome_padrao_disciplina": "New subject", "eyebrow_rascunho": "Scratchpad", "titulo_anotacoes": "Notes & calculator", "subtitulo_anotacoes": "A free space to jot down anything, plus a quick calculator on the side.", "notas_placeholder": "Write your notes here…", "calculadora_label": "Calculator", "footer_anotacoes": "Your notes are saved automatically in this browser.", "eyebrow_fora": "Outside college", "titulo_estudos": "Extra studies", "subtitulo_estudos": "Languages, coding, or anything you're studying on your own. The titles below are ready — fill in the content whenever you like.", "titulo_assunto_placeholder": "Topic title", "notas_estudo_placeholder": "Notes, progress, study links…", "btn_novo_assunto": "+ new topic", "novo_assunto_titulo_padrao": "New topic", "eyebrow_ajuda": "Accessibility", "titulo_ajuda": "Help guide", "subtitulo_ajuda": "This site was made to be easy to understand. Here's a short explanation of each part.", "ajuda_sec1_titulo": "What is tape", "ajuda_sec1_texto": "Tape is a digital notebook for your academic routine. You organize your weekly classes, note what you learned, keep summaries and extra tasks — all in one place, with no internet needed once it's open, and no data sent to any server.", "ajuda_sec2_titulo": "Step by step", "ajuda_passo1": "1. Go to \"Subjects\" and add the classes you're taking (name, room, teacher and syllabus, if you'd like).", "ajuda_passo2": "2. Go back to \"Week\": drag each subject onto the right day, or click the day's \"+\" button and pick it from the list.", "ajuda_passo3": "3. On each day, fill in \"What I learned today\" and \"Summary\" with a few words.", "ajuda_passo4": "4. Use \"Extra tasks\" for meetings, office hours, or anything outside class.", "ajuda_passo5": "5. In \"Notes\", jot down loose ideas or use the calculator next to it.", "ajuda_passo6": "6. In \"Extra studies\", track what you study on your own, like programming or languages.", "ajuda_sec3_titulo": "Accessibility tips", "ajuda_dica1": "To increase text size, use Ctrl and + (or Cmd and + on Mac). To decrease, Ctrl and −.", "ajuda_dica2": "Every field and button can be reached with the keyboard, using Tab to move forward.", "ajuda_dica3": "The site uses standard HTML headings and buttons, which helps screen readers identify each part of the page.", "ajuda_dica4": "Each day's color is just a visual aid — every label is also written out, so you don't need to see color to use the site.", "ajuda_dica5": "You can change the site's language anytime with the PT / EN / ES buttons at the top of the page.", "lang_pt": "PT", "lang_en": "EN", "lang_es": "ES", "nav_sugestoes": "Suggestions", "nav_creditos": "Credits", "eyebrow_sugestoes": "Get in touch", "titulo_sugestoes": "Suggestions & questions", "subtitulo_sugestoes": "Found something odd, have an idea, or a question about the site? Write below.", "compose_titulo": "New message", "label_email": "Your email", "placeholder_email": "youremail@example.com", "placeholder_mensagem": "Write your suggestion or question here…", "btn_enviar": "Send", "sugestoes_aviso": "Clicking Send opens your email app with the message ready — this site has no server, so nothing is sent automatically.", "eyebrow_creditos": "Credits", "titulo_creditos": "About the author", "creditos_bio": "This site was designed and developed by Karlos Daniel Alves dos Santos, born in Pesqueira, Brazil, and a member of the Xukuru do Ororubá people. Karlos is a Computer Science student at Unicamp (State University of Campinas) and created tape to organize his own academic routine — with the dream of growing as a professional and bringing opportunities back to his hometown.", "creditos_rodape": "Thanks for using tape."}, "es": {"nav_semana": "Semana", "nav_disciplinas": "Materias", "nav_anotacoes": "Notas", "nav_estudos": "Estudios extra", "nav_ajuda": "Ayuda", "tagline": "cuaderno académico", "footer_rodape": "Tus datos se guardan automáticamente en este navegador.", "day_seg": "Lunes", "day_ter": "Martes", "day_qua": "Miércoles", "day_qui": "Jueves", "day_sex": "Viernes", "day_sab": "Sábado", "day_dom": "Domingo", "eyebrow_semana": "Cuaderno de rutina", "titulo_semana": "Mi semana", "aria_semana_anterior": "Semana anterior", "aria_proxima_semana": "Semana siguiente", "hoje": "hoy", "salvo": "Guardado", "erro_salvar": "Error al guardar", "eyebrow_disc_bar": "Mis materias · arrastra a un día", "disc_vazia_texto": "Aún no hay materias — agrégalas en", "nenhuma_aula": "Ninguna clase — arrastra una materia aquí", "cadastre_primeiro": "Agrega materias primero.", "hora_placeholder": "hora", "aprendi_label": "Qué aprendí hoy", "resumo_label": "Resumen", "tarefas_label": "Tareas extra · reunión, tutoría…", "anote_placeholder": "Anota en pocas palabras…", "tarefa_placeholder": "+ tarea", "eyebrow_cadastro": "Registro", "titulo_disciplinas": "Materias", "subtitulo_disciplinas": "Aula, profesor y programa de cada materia. Las materias registradas aquí aparecen en la página Semana.", "nenhuma_disciplina": "Aún no hay materias registradas.", "remover_btn": "eliminar", "sala_placeholder": "Aula", "professor_placeholder": "Profesor(a)", "ementa_label": "Programa", "ementa_placeholder": "Contenido programático de la materia…", "btn_nova_disciplina": "+ Nueva materia", "nome_padrao_disciplina": "Nueva materia", "eyebrow_rascunho": "Borrador", "titulo_anotacoes": "Notas y calculadora", "subtitulo_anotacoes": "Un espacio libre para anotar lo que quieras, con una calculadora rápida al lado.", "notas_placeholder": "Escribe tus notas aquí…", "calculadora_label": "Calculadora", "footer_anotacoes": "Tus notas se guardan automáticamente en este navegador.", "eyebrow_fora": "Fuera de la universidad", "titulo_estudos": "Estudios extra", "subtitulo_estudos": "Idiomas, programación o cualquier tema que estudies por tu cuenta. Los títulos de abajo ya vienen listos — completa el contenido cuando quieras.", "titulo_assunto_placeholder": "Título del tema", "notas_estudo_placeholder": "Notas, progreso, enlaces de estudio…", "btn_novo_assunto": "+ nuevo tema", "novo_assunto_titulo_padrao": "Nuevo tema", "eyebrow_ajuda": "Accesibilidad", "titulo_ajuda": "Guía de ayuda", "subtitulo_ajuda": "Este sitio fue hecho para ser fácil de entender. Aquí va una explicación de cada parte, en pasos cortos.", "ajuda_sec1_titulo": "Qué es tape", "ajuda_sec1_texto": "Tape es un cuaderno digital de rutina académica. Organizas tus clases de la semana, anotas lo que aprendiste, guardas resúmenes y tareas extra — todo en un solo lugar, sin necesitar internet después de abrirlo y sin enviar tus datos a ningún servidor.", "ajuda_sec2_titulo": "Paso a paso", "ajuda_passo1": "1. Ve a \"Materias\" y registra las asignaturas que cursas (nombre, aula, profesor y programa, si quieres).", "ajuda_passo2": "2. Vuelve a \"Semana\": arrastra cada materia al día correspondiente, o haz clic en el \"+\" del día y elígela de la lista.", "ajuda_passo3": "3. En cada día, completa \"Qué aprendí hoy\" y el \"Resumen\" con pocas palabras.", "ajuda_passo4": "4. Usa \"Tareas extra\" para reuniones, tutorías o cualquier compromiso fuera de clase.", "ajuda_passo5": "5. En \"Notas\", escribe ideas sueltas o usa la calculadora al lado.", "ajuda_passo6": "6. En \"Estudios extra\", registra lo que estudias por tu cuenta, como programación o idiomas.", "ajuda_sec3_titulo": "Consejos de accesibilidad", "ajuda_dica1": "Para aumentar el tamaño del texto, usa Ctrl y + (o Cmd y + en Mac). Para disminuir, Ctrl y −.", "ajuda_dica2": "Todos los campos y botones se pueden usar con el teclado, con la tecla Tab para avanzar.", "ajuda_dica3": "El sitio usa títulos y botones estándar de HTML, lo que ayuda a los lectores de pantalla a identificar cada parte de la página.", "ajuda_dica4": "El color de cada día es solo un apoyo visual — todo también aparece escrito, así que no hace falta ver los colores para usar el sitio.", "ajuda_dica5": "Puedes cambiar el idioma del sitio en cualquier momento con los botones PT / EN / ES, en la parte superior de la página.", "lang_pt": "PT", "lang_en": "EN", "lang_es": "ES", "nav_sugestoes": "Sugerencias", "nav_creditos": "Créditos", "eyebrow_sugestoes": "Contáctame", "titulo_sugestoes": "Sugerencias y dudas", "subtitulo_sugestoes": "¿Encontraste algo raro, tienes una idea o una duda sobre el sitio? Escribe abajo.", "compose_titulo": "Nuevo mensaje", "label_email": "Tu correo", "placeholder_email": "tucorreo@ejemplo.com", "placeholder_mensagem": "Escribe tu sugerencia o duda aquí…", "btn_enviar": "Enviar", "sugestoes_aviso": "Al hacer clic en Enviar, se abrirá tu aplicación de correo con el mensaje listo — este sitio no tiene servidor, así que nada se envía automáticamente.", "eyebrow_creditos": "Créditos", "titulo_creditos": "Sobre el autor", "creditos_bio": "Este sitio fue ideado y desarrollado por Karlos Daniel Alves dos Santos, nacido en Pesqueira, Brasil, y perteneciente al pueblo Xukuru do Ororubá. Karlos estudia Ciencias de la Computación en la Unicamp (Universidad Estatal de Campinas) y creó tape para organizar su propia rutina académica, con el sueño de crecer como profesional y llevar oportunidades a su ciudad natal.", "creditos_rodape": "Gracias por usar tape."}};
+let currentLang = localStorage.getItem("idioma") || "pt";
+function t(key) {
+  return (I18N[currentLang] && I18N[currentLang][key]) || I18N.pt[key] || key;
+}
+function setLang(lang) {
+  localStorage.setItem("idioma", lang);
+  location.reload();
+}
+function renderLangSwitch() {
+  const el = document.getElementById("langSwitch");
+  if (!el) return;
+  const langs = [["pt","Português"],["en","English"],["es","Español"]];
+  el.innerHTML = `
+    <div class="lang-dropdown">
+      <button class="lang-toggle" id="langToggleBtn" aria-haspopup="true" aria-expanded="false">🌐 ${currentLang.toUpperCase()} <span class="caret">▾</span></button>
+      <div class="lang-menu" id="langMenu">
+        ${langs.map(([code, name]) => `<button data-lang="${code}" class="${code === currentLang ? "active" : ""}">${name}</button>`).join("")}
+      </div>
+    </div>`;
+  const toggleBtn = document.getElementById("langToggleBtn");
+  const menu = document.getElementById("langMenu");
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menu.classList.toggle("open");
+  });
+  menu.querySelectorAll("button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  document.addEventListener("click", () => menu.classList.remove("open"));
+}
+
+// ---------- Navbar ----------
+function renderNav(activePage) {
+  const links = [
+    { href: "index.html", key: "nav_semana" },
+    { href: "disciplinas.html", key: "nav_disciplinas" },
+    { href: "anotacoes.html", key: "nav_anotacoes" },
+    { href: "estudos.html", key: "nav_estudos" },
+    { href: "ajuda.html", key: "nav_ajuda" },
+    { href: "sugestoes.html", key: "nav_sugestoes" },
+    { href: "creditos.html", key: "nav_creditos" },
+  ];
+  const nav = document.getElementById("mainnav");
+  if (!nav) return;
+  nav.innerHTML = links
+    .map(
+      (l) =>
+        `<a href="${l.href}" class="${l.href === activePage ? "active" : ""}">${t(l.key)}</a>`
+    )
+    .join("");
+  const brand = document.getElementById("brand");
+  if (brand) brand.innerHTML = `<svg width="30" height="30" viewBox="0 0 200 200" style="flex-shrink:0">  <rect width="200" height="200" rx="40" fill="#F1E6CF"/>  <circle cx="100" cy="46" r="7" fill="#8C3B2E"/>  <polyline points="38,146 100,92 162,146" fill="none" stroke="#B65C38" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text">${SITE_NAME}</span><span>· ${t("tagline")}</span>`;
+  document.title = SITE_NAME;
+  renderLangSwitch();
+}
+
+</script>
+<script>
+renderNav("ajuda.html");
+
+document.getElementById("txtEyebrow").textContent = t("eyebrow_ajuda");
+document.getElementById("txtTitulo").textContent = t("titulo_ajuda");
+document.getElementById("txtSub").textContent = t("subtitulo_ajuda");
+document.getElementById("txtSec1Titulo").textContent = t("ajuda_sec1_titulo");
+document.getElementById("txtSec1Texto").textContent = t("ajuda_sec1_texto");
+document.getElementById("txtSec2Titulo").textContent = t("ajuda_sec2_titulo");
+document.getElementById("txtSec3Titulo").textContent = t("ajuda_sec3_titulo");
+document.getElementById("txtFooter").textContent = t("footer_rodape");
+
+const passos = ["ajuda_passo1","ajuda_passo2","ajuda_passo3","ajuda_passo4","ajuda_passo5","ajuda_passo6"];
+document.getElementById("listaPassos").innerHTML = passos.map(k => `<li>${t(k)}</li>`).join("");
+
+const dicas = ["ajuda_dica1","ajuda_dica2","ajuda_dica3","ajuda_dica4","ajuda_dica5"];
+document.getElementById("listaDicas").innerHTML = dicas.map(k => `<li>· ${t(k)}</li>`).join("");
+</script>
+</body>
+</html>
