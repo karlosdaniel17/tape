@@ -383,7 +383,13 @@ function renderLangSwitch() {
       <div class="lang-menu" id="langMenu">
         ${langs.map(([code, name]) => `<button data-lang="${code}" class="${code === currentLang ? "active" : ""}">${name}</button>`).join("")}
       </div>
-    </div>`;
+    <div id="authBox">
+  <form id="formCadastro" style="display:flex; gap:6px;">
+    <input type="email" id="emailInput" placeholder="E-mail" required style="padding:4px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.8rem;">
+    <input type="password" id="senhaInput" placeholder="Senha" required style="padding:4px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.8rem;">
+    <button type="submit" style="padding:4px 12px; border-radius:999px; background:#26241F; color:white; border:none; cursor:pointer; font-size:0.8rem;">Cadastrar</button>
+  </form>
+</div>
   const toggleBtn = document.getElementById("langToggleBtn");
   const menu = document.getElementById("langMenu");
   toggleBtn.addEventListener("click", (e) => {
@@ -704,6 +710,35 @@ document.addEventListener("click", () => {
 });
 
 refreshAll();
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+    authDomain: "tape-1717.firebaseapp.com",
+    projectId: "tape-1717",
+    storageBucket: "tape-1717.firebasestorage.app",
+    messagingSenderId: "244010846598",
+    appId: "1:244010846598:web:e704631b12d4137fdcc407"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  document.getElementById("formCadastro").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("emailInput").value;
+    const senha = document.getElementById("senhaInput").value;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, senha);
+      alert("Conta criada com sucesso!");
+      document.getElementById("formCadastro").reset();
+    } catch (erro) {
+      alert("Erro ao cadastrar: " + erro.message);
+    }
+  });
 </script>
 </body>
   <!-- Conexão com o Firebase Auth -->
