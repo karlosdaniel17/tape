@@ -18,6 +18,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Versão do site — mude só este número quando publicar uma atualização.
+// Ele aparece automaticamente no rodapé de todas as páginas.
+const TAPE_VERSION = "1.1";
+
 document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("emailInput");
   const senhaInput = document.getElementById("senhaInput");
@@ -81,6 +85,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Link "Apoie" antes do botão Sair (aparece em todas as páginas)
+  const authBoxForApoio = document.getElementById("authBox");
+  if (authBoxForApoio && !document.getElementById("linkApoie")) {
+    const linkApoie = document.createElement("a");
+    linkApoie.id = "linkApoie";
+    linkApoie.href = "apoie.html";
+    linkApoie.textContent = "💛 Contribua";
+    linkApoie.style.cssText = "font-size:.82rem;font-weight:700;color:#B65C38;text-decoration:none;padding:6px 10px;";
+    authBoxForApoio.insertBefore(linkApoie, authBoxForApoio.firstChild);
+  }
+
   // Botão Sair: garante que apareça em TODAS as páginas que tenham #authBox,
   // criando o botão automaticamente quando ele não estiver no HTML da página.
   let btnSair = document.getElementById("btnSair");
@@ -111,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cp = document.createElement("div");
     cp.id = "tapeCopyright";
     cp.style.cssText = "text-align:center;font-size:11px;opacity:.4;padding:4px 20px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;";
-    cp.textContent = "© 2026 tape. Todos os direitos reservados.";
+    cp.textContent = `© 2026 tape v${TAPE_VERSION} · Todos os direitos reservados.`;
     document.body.appendChild(cp);
   }
 
@@ -161,4 +176,4 @@ function showTermsModal() {
   document.body.appendChild(overlay);
   document.getElementById("fecharTermos").addEventListener("click", () => overlay.remove());
   overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
-}
+      }
