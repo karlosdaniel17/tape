@@ -1,9 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
@@ -17,28 +13,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Escuta o envio do formulário no seu site
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
-  
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       
-      // Pega o e-mail e a senha dos campos
-      const email = form.querySelector("input[type='email']").value;
-      const senha = form.querySelector("input[type='password']").value;
+      const emailInput = form.querySelector("input[type='email']");
+      const senhaInput = form.querySelector("input[type='password']");
+
+      if (!emailInput || !senhaInput) return;
 
       try {
-        // Tenta criar a conta no Firebase
-        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-        alert("Conta criada com sucesso! Bem-vindo(a), " + userCredential.user.email);
+        const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, senhaInput.value);
+        alert("Conta criada com sucesso! Bem-vindo, " + userCredential.user.email);
         form.reset();
       } catch (erro) {
         if (erro.code === 'auth/email-already-in-use') {
           alert("Este e-mail já está cadastrado!");
         } else if (erro.code === 'auth/weak-password') {
-          alert("A senha precisa ter pelo menos 6 caracteres.");
+          alert("A senha deve ter pelo menos 6 caracteres.");
         } else {
           alert("Erro ao cadastrar: " + erro.message);
         }
