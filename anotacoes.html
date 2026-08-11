@@ -220,12 +220,17 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
 .notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
 .calc-box { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
-.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
-.calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.calc-display { font-size: 1.3rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 6px; min-height: 28px; word-break: break-all; }
+.calc-sub { text-align: right; font-size: 0.72rem; opacity: 0.4; min-height: 14px; margin-bottom: 8px; }
+.calc-modes { display: flex; gap: 6px; margin-bottom: 8px; }
+.calc-modes button { flex: 1; font-size: 0.72rem; padding: 5px; border-radius: 8px; border: 1px solid var(--line); background: #00000006; cursor: pointer; }
+.calc-modes button.active { background: var(--ink); color: white; border-color: var(--ink); }
+.calc-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 .calc-grid button {
   padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
 }
 .calc-grid button.op { background: var(--ink); color: white; }
+.calc-grid button.fn { background: #00000010; font-size: 0.76rem; }
 .calc-grid button:hover { filter: brightness(0.95); }
 .calc-hist { margin-top: 12px; font-size: 0.75rem; opacity: 0.5; max-height: 90px; overflow-y: auto; }
 
@@ -273,6 +278,11 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     <div class="calc-box">
       <div class="field-label" id="txtCalc">Calculadora</div>
       <div class="calc-display" id="calcDisplay">0</div>
+      <div class="calc-sub" id="calcMemInd"></div>
+      <div class="calc-modes">
+        <button id="modeDeg" class="active">DEG</button>
+        <button id="modeRad">RAD</button>
+      </div>
       <div class="calc-grid" id="calcGrid"></div>
       <div class="calc-hist" id="calcHist"></div>
     </div>
@@ -427,53 +437,111 @@ notesArea.addEventListener("input", () => {
   notesTimer = setTimeout(() => saveJSON("anotacoes_texto", notesArea.value), 400);
 });
 
-// ---- Calculadora ----
+// ---- Calculadora científica ----
 const calcDisplay = document.getElementById("calcDisplay");
 const calcGrid = document.getElementById("calcGrid");
 const calcHist = document.getElementById("calcHist");
+const calcMemInd = document.getElementById("calcMemInd");
+const modeDeg = document.getElementById("modeDeg");
+const modeRad = document.getElementById("modeRad");
+
 let expr = "";
 let history = loadJSON("calc_historico", []);
+let memory = parseFloat(loadJSON("calc_memoria", 0)) || 0;
+let angleMode = "deg"; // deg | rad
 
-const keys = ["7","8","9","÷","4","5","6","×","1","2","3","−","0",".","C","+","=",""];
-// build a clean 4-col layout
+modeDeg.addEventListener("click", () => { angleMode = "deg"; modeDeg.classList.add("active"); modeRad.classList.remove("active"); });
+modeRad.addEventListener("click", () => { angleMode = "rad"; modeRad.classList.add("active"); modeDeg.classList.remove("active"); });
+
+// layout 5 colunas: funções científicas em cima, aritmética embaixo
 const layout = [
-  ["7","8","9","÷"],
-  ["4","5","6","×"],
-  ["1","2","3","−"],
-  ["C","0",".","+"],
-  ["=","","",""],
+  ["sin","cos","tan","√","1/x"],
+  ["log","ln","xʸ","(",")"],
+  ["MC","MR","M+","M−","C"],
+  ["7","8","9","÷","%"],
+  ["4","5","6","×","⌫"],
+  ["1","2","3","−",""],
+  ["0",".","π","+","="],
 ];
+
+const opKeys = ["÷","×","−","+","="];
+const fnKeys = ["sin","cos","tan","√","1/x","log","ln","xʸ","(",")","MC","MR","M+","M−","%","⌫","π"];
 
 layout.flat().forEach(k => {
   if (k === "") { const spacer = document.createElement("div"); calcGrid.appendChild(spacer); return; }
   const b = document.createElement("button");
   b.textContent = k;
-  if (["÷","×","−","+","=","C"].includes(k)) b.classList.add("op");
-  if (k === "=") b.style.gridColumn = "span 4";
+  if (opKeys.includes(k) || k === "C") b.classList.add("op");
+  if (fnKeys.includes(k)) b.classList.add("fn");
   b.addEventListener("click", () => handleKey(k));
   calcGrid.appendChild(b);
 });
 
+function updateMemInd() {
+  calcMemInd.textContent = memory !== 0 ? `M = ${memory}` : "";
+}
+updateMemInd();
+
 function handleKey(k) {
   if (k === "C") { expr = ""; }
+  else if (k === "⌫") { expr = expr.slice(0, -1); }
+  else if (k === "π") { expr += "π"; }
+  else if (k === "√") { expr += "√("; }
+  else if (k === "xʸ") { expr += "^"; }
+  else if (k === "1/x") { expr = `1/(${expr || "0"})`; }
+  else if (k === "%") { expr += "/100"; }
+  else if (["sin","cos","tan","log","ln"].includes(k)) { expr += `${k}(`; }
+  else if (k === "MC") { memory = 0; saveJSON("calc_memoria", memory); updateMemInd(); return; }
+  else if (k === "MR") { expr += String(memory); }
+  else if (k === "M+" || k === "M−") {
+    const val = parseFloat(evaluate(expr));
+    if (!isNaN(val)) { memory = k === "M+" ? memory + val : memory - val; saveJSON("calc_memoria", memory); updateMemInd(); }
+    return;
+  }
   else if (k === "=") {
-    try {
-      const safe = expr.replace(/÷/g, "/").replace(/×/g, "*").replace(/−/g, "-");
-      if (!/^[0-9+\-*/.() ]+$/.test(safe)) throw new Error("inválido");
-      // eslint-disable-next-line no-eval
-      const result = Function(`"use strict"; return (${safe})`)();
+    const result = evaluate(expr);
+    if (result !== null) {
       history.unshift(`${expr} = ${result}`);
       history = history.slice(0, 12);
       saveJSON("calc_historico", history);
       expr = String(result);
       renderHist();
-    } catch (e) {
+    } else {
       expr = "erro";
     }
   } else {
     expr += k;
   }
   calcDisplay.textContent = expr || "0";
+}
+
+function evaluate(rawExpr) {
+  try {
+    const D2R = Math.PI / 180;
+    const sinF = angleMode === "deg" ? (x) => Math.sin(x * D2R) : Math.sin;
+    const cosF = angleMode === "deg" ? (x) => Math.cos(x * D2R) : Math.cos;
+    const tanF = angleMode === "deg" ? (x) => Math.tan(x * D2R) : Math.tan;
+
+    const safe = rawExpr
+      .replace(/÷/g, "/")
+      .replace(/×/g, "*")
+      .replace(/−/g, "-")
+      .replace(/\^/g, "**")
+      .replace(/π/g, "PI")
+      .replace(/√\(/g, "sqrt(")
+      .replace(/log\(/g, "log10(");
+
+    if (!/^[0-9+\-*/.()%\s a-zA-Z]*$/.test(safe)) throw new Error("inválido");
+
+    // eslint-disable-next-line no-new-func
+    const fn = new Function("sin", "cos", "tan", "sqrt", "log10", "ln", "PI",
+      `"use strict"; return (${safe});`);
+    const result = fn(sinF, cosF, tanF, Math.sqrt, Math.log10, Math.log, Math.PI);
+    if (typeof result !== "number" || !isFinite(result)) return null;
+    return Math.round(result * 1e10) / 1e10;
+  } catch (e) {
+    return null;
+  }
 }
 
 function renderHist() {

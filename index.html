@@ -284,6 +284,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     <div class="weekrange" id="weekRange"></div>
     <button id="nextWeek" aria-label="Próxima semana">→</button>
     <button class="today-link" id="todayBtn">hoje</button>
+    <input type="date" id="pickDate" style="font-size:.8rem;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:white;color:var(--ink);cursor:pointer;">
     <span style="font-size:11px;opacity:.4" id="saveHint"></span>
   </div>
 
@@ -699,6 +700,14 @@ function refreshAll() {
 document.getElementById("prevWeek").addEventListener("click", () => { monday = addDays(monday, -7); refreshAll(); });
 document.getElementById("nextWeek").addEventListener("click", () => { monday = addDays(monday, 7); refreshAll(); });
 document.getElementById("todayBtn").addEventListener("click", () => { monday = startOfWeekMonday(new Date()); refreshAll(); });
+
+// Calendário manual: escolher qualquer data pula para a semana correspondente
+document.getElementById("pickDate").addEventListener("change", (e) => {
+  if (!e.target.value) return;
+  const [y, m, d] = e.target.value.split("-").map(Number);
+  monday = startOfWeekMonday(new Date(y, m - 1, d));
+  refreshAll();
+});
 
 document.addEventListener("click", () => {
   document.querySelectorAll(".day-popover").forEach((p) => p.remove());
