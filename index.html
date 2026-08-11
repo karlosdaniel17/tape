@@ -383,13 +383,7 @@ function renderLangSwitch() {
       <div class="lang-menu" id="langMenu">
         ${langs.map(([code, name]) => `<button data-lang="${code}" class="${code === currentLang ? "active" : ""}">${name}</button>`).join("")}
       </div>
-    <div id="authBox">
-  <form id="formCadastro" style="display:flex; gap:6px;">
-    <input type="email" id="emailInput" placeholder="E-mail" required style="padding:4px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.8rem;">
-    <input type="password" id="senhaInput" placeholder="Senha" required style="padding:4px 8px; border-radius:6px; border:1px solid #ccc; font-size:0.8rem;">
-    <button type="submit" style="padding:4px 12px; border-radius:999px; background:#26241F; color:white; border:none; cursor:pointer; font-size:0.8rem;">Cadastrar</button>
-  </form>
-</div>
+    </div>`;
   const toggleBtn = document.getElementById("langToggleBtn");
   const menu = document.getElementById("langMenu");
   toggleBtn.addEventListener("click", (e) => {
@@ -711,6 +705,5 @@ document.addEventListener("click", () => {
 
 refreshAll();
 </script>
-<script type="module" src="auth.js"></script>
 </body>
 </html>
