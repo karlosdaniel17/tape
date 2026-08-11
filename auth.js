@@ -22,6 +22,33 @@ const auth = getAuth(app);
 // Ele aparece automaticamente no rodapé de todas as páginas.
 const TAPE_VERSION = "1.1";
 
+// ---- PWA: injeta manifest, ícone e service worker em toda página ----
+(function setupPWA() {
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const link = document.createElement("link");
+    link.rel = "manifest";
+    link.href = "manifest.json";
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+    const appleIcon = document.createElement("link");
+    appleIcon.rel = "apple-touch-icon";
+    appleIcon.href = "apple-touch-icon.png";
+    document.head.appendChild(appleIcon);
+  }
+  if (!document.querySelector('meta[name="theme-color"]')) {
+    const theme = document.createElement("meta");
+    theme.name = "theme-color";
+    theme.content = "#F1E6CF";
+    document.head.appendChild(theme);
+  }
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("service-worker.js").catch(() => {});
+    });
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("emailInput");
   const senhaInput = document.getElementById("senhaInput");
@@ -176,4 +203,4 @@ function showTermsModal() {
   document.body.appendChild(overlay);
   document.getElementById("fecharTermos").addEventListener("click", () => overlay.remove());
   overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
-      }
+}
