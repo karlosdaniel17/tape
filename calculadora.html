@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sugestões</title>
+<title>Calculadora</title>
 <style>
 :root {
   --paper: #F5F4F0;
@@ -51,8 +51,12 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.brand span { opacity: 0.4; font-weight: 500; }
+.brand span { opacity: 0.4; font-weight: 500; font-size: 0.8em; }
+.brand span.brand-text { opacity: 1; font-weight: 800; font-size: 1em; letter-spacing: -0.02em; }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a {
   font-size: 0.85rem;
@@ -65,7 +69,35 @@ nav.mainnav a {
 nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 
-main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+.lang-dropdown { position: relative; }
+.lang-toggle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: white; cursor: pointer; color: var(--ink);
+}
+.lang-toggle:hover { background: #00000008; }
+.lang-toggle .caret { font-size: 9px; opacity: 0.5; }
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: white; border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden;
+  min-width: 150px; display: none; z-index: 30;
+}
+.lang-menu.open { display: block; }
+.lang-menu button {
+  width: 100%; text-align: left; padding: 10px 14px; border: none; background: white;
+  font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
+}
+.lang-menu button:hover { background: #00000008; }
+.lang-menu button.active { font-weight: 800; background: #00000006; }
+
+
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+@media (max-width: 480px) {
+  main { padding: 18px 12px 50px; }
+  h1 { font-size: 1.5rem; }
+  .topbar-inner { padding: 12px 14px; }
+}
 
 .eyebrow {
   font-size: 11px;
@@ -80,6 +112,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 .weeknav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin: 18px 0 20px;
 }
@@ -121,7 +154,10 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 }
 
 /* ---------- Day grid ---------- */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+@media (max-width: 380px) {
+  .grid { grid-template-columns: 1fr; }
+}
 
 .day-card { background: white; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
 .day-head {
@@ -209,55 +245,31 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 
 footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
 
-
-.lang-dropdown { position: relative; }
-.lang-toggle {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
-  border: 1px solid var(--line); background: white; cursor: pointer; color: var(--ink);
+/* ---------- Calculadora científica ---------- */
+.sci-wrap { max-width: 420px; }
+.sci-display { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; margin-bottom: 14px; }
+.sci-expr { font-size: 0.85rem; opacity: 0.45; min-height: 18px; text-align: right; word-break: break-all; }
+.sci-result { font-size: 2rem; font-weight: 800; text-align: right; word-break: break-all; letter-spacing: -0.02em; }
+.sci-modebar { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; justify-content: space-between; }
+.sci-modebar .deg-toggle { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.sci-modebar .deg-toggle button { border: none; background: white; padding: 6px 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer; opacity: 0.5; }
+.sci-modebar .deg-toggle button.active { background: var(--ink); color: white; opacity: 1; }
+.sci-modebar .mem-hint { font-size: 0.72rem; opacity: 0.45; }
+.sci-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.sci-grid button {
+  padding: 13px 0; border-radius: 10px; border: none; background: #00000008; font-size: 0.95rem; cursor: pointer;
+  font-family: inherit; color: var(--ink);
 }
-.lang-toggle:hover { background: #00000008; }
-.lang-toggle .caret { font-size: 9px; opacity: 0.5; }
-.lang-menu {
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: white; border: 1px solid var(--line); border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden;
-  min-width: 150px; display: none; z-index: 30;
+.sci-grid button:hover { filter: brightness(0.95); }
+.sci-grid button.fn { background: #00000010; font-size: 0.82rem; }
+.sci-grid button.op { background: var(--ink); color: white; }
+.sci-grid button.eq { background: var(--qui); color: white; grid-column: span 2; }
+.sci-grid button.zero { grid-column: span 2; }
+.sci-hist { margin-top: 14px; font-size: 0.78rem; opacity: 0.5; max-height: 110px; overflow-y: auto; }
+.sci-hist div { padding: 3px 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 420px) {
+  .sci-grid button { font-size: 0.85rem; padding: 11px 0; }
 }
-.lang-menu.open { display: block; }
-.lang-menu button {
-  width: 100%; text-align: left; padding: 10px 14px; border: none; background: white;
-  font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
-}
-.lang-menu button:hover { background: #00000008; }
-.lang-menu button.active { font-weight: 800; background: #00000006; }
-
-.compose-card { background: white; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); max-width: 640px; }
-.compose-head { background: var(--ink); color: var(--paper); padding: 12px 18px; font-weight: 700; font-size: 0.9rem; }
-.compose-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
-.compose-body label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; display: block; margin-bottom: 5px; }
-.compose-body input[type="email"] {
-  width: 100%; border: none; border-bottom: 1px solid var(--line); padding: 8px 2px;
-  font-size: 0.9rem; background: transparent; font-family: inherit;
-}
-.compose-body input[type="email"]:focus { outline: none; border-color: var(--ink); }
-.compose-body textarea {
-  min-height: 220px; border: none; background: #00000006; border-radius: 10px;
-  font-size: 0.95rem; line-height: 1.6; padding: 10px 12px; resize: vertical; font-family: inherit;
-}
-.compose-foot { padding: 12px 18px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; }
-.compose-foot button {
-  padding: 10px 24px; border-radius: 999px; border: none; background: var(--ink); color: white;
-  font-weight: 700; cursor: pointer; font-size: 0.85rem;
-}
-.compose-foot button:hover { filter: brightness(1.15); }
-.compose-hint { font-size: 0.78rem; opacity: 0.5; margin-top: 12px; max-width: 640px; line-height: 1.5; }
-
-.credits-card { max-width: 640px; background: white; border: 1px solid var(--line); border-radius: 16px; padding: 28px; }
-.credits-mark { margin-bottom: 16px; }
-.credits-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
-.credits-bio { font-size: 0.95rem; line-height: 1.7; opacity: 0.85; }
-.credits-foot { margin-top: 18px; font-size: 0.85rem; opacity: 0.5; }
 
 </style>
 </head>
@@ -277,29 +289,31 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow" id="txtEyebrow">Fale comigo</div>
-  <h1 id="txtTitulo">Sugestões e dúvidas</h1>
-  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub"></p>
+  <div class="eyebrow" id="txtEyebrow">Calculadora</div>
+  <h1 id="txtTitulo">Calculadora científica</h1>
+  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Operações básicas, raiz quadrada, potência, seno, cosseno, tangente, log, ln e mais.</p>
 
-  <div class="compose-card" style="margin-top:18px">
-    <div class="compose-head" id="txtComposeTitulo"></div>
-    <div class="compose-body">
-      <div>
-        <label id="txtLabelEmail"></label>
-        <input type="email" id="emailInput" placeholder="">
-      </div>
-      <div>
-        <textarea id="msgInput" placeholder=""></textarea>
-      </div>
+  <div class="sci-wrap" style="margin-top:20px">
+    <div class="sci-display">
+      <div class="sci-expr" id="sciExpr">&nbsp;</div>
+      <div class="sci-result" id="sciResult">0</div>
     </div>
-    <div class="compose-foot">
-      <button id="btnEnviar"></button>
+
+    <div class="sci-modebar">
+      <div class="deg-toggle">
+        <button id="degBtn" class="active">DEG</button>
+        <button id="radBtn">RAD</button>
+      </div>
+      <span class="mem-hint" id="memHint"></span>
     </div>
+
+    <div class="sci-grid" id="sciGrid"></div>
+
+    <div class="sci-hist" id="sciHist"></div>
   </div>
-  <p class="compose-hint" id="txtAviso"></p>
 </main>
 
-<footer class="foot" id="txtFooter"></footer>
+<footer class="foot" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
 
 <script>
 // ---------- Configuração ----------
@@ -430,31 +444,136 @@ function renderNav(activePage) {
 
 </script>
 <script>
+renderNav("calculadora.html");
 
-renderNav("sugestoes.html");
+// ---------- Calculadora científica ----------
+const CALC_T = {
+  pt: { erro: "erro" },
+  en: { erro: "error" },
+  es: { erro: "error" },
+};
+const ct = (k) => (CALC_T[currentLang] && CALC_T[currentLang][k]) || CALC_T.pt[k];
 
-document.getElementById("txtEyebrow").textContent = t("eyebrow_sugestoes");
-document.getElementById("txtTitulo").textContent = t("titulo_sugestoes");
-document.getElementById("txtSub").textContent = t("subtitulo_sugestoes");
-document.getElementById("txtComposeTitulo").textContent = t("compose_titulo");
-document.getElementById("txtLabelEmail").textContent = t("label_email");
-document.getElementById("emailInput").placeholder = t("placeholder_email");
-document.getElementById("msgInput").placeholder = t("placeholder_mensagem");
-document.getElementById("btnEnviar").textContent = t("btn_enviar");
-document.getElementById("txtAviso").textContent = t("sugestoes_aviso");
-document.getElementById("txtFooter").textContent = t("footer_rodape");
+const exprEl = document.getElementById("sciExpr");
+const resultEl = document.getElementById("sciResult");
+const histEl = document.getElementById("sciHist");
+const degBtn = document.getElementById("degBtn");
+const radBtn = document.getElementById("radBtn");
+const memHint = document.getElementById("memHint");
 
-const DESTINO_EMAIL = "SEU_EMAIL_AQUI@gmail.com"; // troque pelo seu e-mail
+let expr = "";
+let degrees = true;
+let memory = loadJSON("calc_memoria", 0);
+let history = loadJSON("calc_historico", []);
 
-document.getElementById("btnEnviar").addEventListener("click", () => {
-  const email = document.getElementById("emailInput").value.trim();
-  const msg = document.getElementById("msgInput").value.trim();
-  if (!msg) { document.getElementById("msgInput").focus(); return; }
-  const subject = encodeURIComponent("Sugestão/dúvida - tape");
-  const body = encodeURIComponent((email ? `De: ${email}\n\n` : "") + msg);
-  window.location.href = `mailto:${DESTINO_EMAIL}?subject=${subject}&body=${body}`;
+function renderMemHint() { memHint.textContent = memory ? `M = ${memory}` : ""; }
+function renderHist() { histEl.innerHTML = history.map((h) => `<div>${h}</div>`).join(""); }
+renderMemHint();
+renderHist();
+
+degBtn.addEventListener("click", () => { degrees = true; degBtn.classList.add("active"); radBtn.classList.remove("active"); });
+radBtn.addEventListener("click", () => { degrees = false; radBtn.classList.add("active"); degBtn.classList.remove("active"); });
+
+// ---- funções matemáticas disponíveis dentro da expressão ----
+// (declaradas com "function" para ficarem visíveis também dentro do avaliador)
+function sin(x) { return Math.sin(degrees ? (x * Math.PI) / 180 : x); }
+function cos(x) { return Math.cos(degrees ? (x * Math.PI) / 180 : x); }
+function tan(x) { return Math.tan(degrees ? (x * Math.PI) / 180 : x); }
+function sqrt(x) { return Math.sqrt(x); }
+function log10(x) { return Math.log10(x); }
+function ln(x) { return Math.log(x); }
+function sq(x) { return x * x; }
+function inv(x) { return 1 / x; }
+var pi = Math.PI;
+var e = Math.E;
+
+// botões: rótulo mostrado / texto inserido na expressão / classe visual
+const KEYS = [
+  { l: "sin", v: "sin(", c: "fn" }, { l: "cos", v: "cos(", c: "fn" }, { l: "tan", v: "tan(", c: "fn" }, { l: "M+", v: "M+", c: "fn" }, { l: "C", v: "C", c: "op" },
+  { l: "x²", v: "sq(", c: "fn" }, { l: "√", v: "sqrt(", c: "fn" }, { l: "xʸ", v: "^", c: "fn" }, { l: "MR", v: "MR", c: "fn" }, { l: "⌫", v: "back", c: "op" },
+  { l: "log", v: "log10(", c: "fn" }, { l: "ln", v: "ln(", c: "fn" }, { l: "1/x", v: "inv(", c: "fn" }, { l: "(", v: "(", c: "fn" }, { l: ")", v: ")", c: "fn" },
+  { l: "π", v: "pi", c: "fn" }, { l: "7", v: "7", c: "" }, { l: "8", v: "8", c: "" }, { l: "9", v: "9", c: "" }, { l: "÷", v: "÷", c: "op" },
+  { l: "e", v: "e", c: "fn" }, { l: "4", v: "4", c: "" }, { l: "5", v: "5", c: "" }, { l: "6", v: "6", c: "" }, { l: "×", v: "×", c: "op" },
+  { l: "%", v: "%", c: "fn" }, { l: "1", v: "1", c: "" }, { l: "2", v: "2", c: "" }, { l: "3", v: "3", c: "" }, { l: "−", v: "−", c: "op" },
+  { l: "0", v: "0", c: "zero" }, { l: ".", v: ".", c: "" }, { l: "+", v: "+", c: "op" }, { l: "=", v: "=", c: "eq" },
+];
+
+const grid = document.getElementById("sciGrid");
+KEYS.forEach((k) => {
+  const b = document.createElement("button");
+  b.textContent = k.l;
+  if (k.c) k.c.split(" ").forEach((cls) => b.classList.add(cls));
+  b.addEventListener("click", () => handleKey(k.v));
+  grid.appendChild(b);
 });
 
+function tokensToJS(raw) {
+  return raw
+    .replace(/÷/g, "/")
+    .replace(/×/g, "*")
+    .replace(/−/g, "-")
+    .replace(/\^/g, "**")
+    .replace(/%/g, "/100");
+}
+
+function autoCloseParens(s) {
+  const open = (s.match(/\(/g) || []).length;
+  const close = (s.match(/\)/g) || []).length;
+  return s + ")".repeat(Math.max(0, open - close));
+}
+
+function evaluate(raw) {
+  if (!raw) return null;
+  try {
+    const jsExpr = autoCloseParens(tokensToJS(raw));
+    const result = new Function(`"use strict"; return (${jsExpr});`)();
+    if (typeof result !== "number" || !isFinite(result)) return null;
+    return Math.round(result * 1e10) / 1e10;
+  } catch (err) {
+    return null;
+  }
+}
+
+function handleKey(v) {
+  if (v === "C") { expr = ""; }
+  else if (v === "back") { expr = expr.slice(0, -1); }
+  else if (v === "M+") {
+    const val = evaluate(expr);
+    if (val !== null) { memory = val; saveJSON("calc_memoria", memory); renderMemHint(); }
+    return;
+  }
+  else if (v === "MR") { expr += String(memory); }
+  else if (v === "=") {
+    const val = evaluate(expr);
+    if (val === null) { resultEl.textContent = ct("erro"); return; }
+    history.unshift(`${expr} = ${val}`);
+    history = history.slice(0, 14);
+    saveJSON("calc_historico", history);
+    renderHist();
+    exprEl.textContent = expr;
+    resultEl.textContent = String(val);
+    expr = String(val);
+    return;
+  } else {
+    expr += v;
+  }
+  updateDisplay();
+}
+
+function updateDisplay() {
+  exprEl.textContent = "\u00a0";
+  resultEl.textContent = expr === "" ? "0" : expr;
+}
+
+document.addEventListener("keydown", (e) => {
+  if (/^[0-9.+\-*/()]$/.test(e.key)) {
+    const map = { "*": "×", "/": "÷", "-": "−" };
+    expr += map[e.key] || e.key;
+    updateDisplay();
+  } else if (e.key === "Enter") { handleKey("="); }
+  else if (e.key === "Backspace") { handleKey("back"); }
+  else if (e.key === "Escape") { handleKey("C"); }
+});
 </script>
 </body>
 </html>

@@ -248,11 +248,16 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </style>
 </head>
 <body>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="auth.js"></script>
 
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand" id="brand"></div>
     <nav class="mainnav" id="mainnav"></nav>
+    <div id="authBox"></div>
     <div class="lang-switch" id="langSwitch"></div>
   </div>
 </div>
@@ -369,11 +374,13 @@ function renderLangSwitch() {
 
 // ---------- Navbar ----------
 function renderNav(activePage) {
+  const CALC_LABEL = { pt: "Calculadora", en: "Calculator", es: "Calculadora" };
   const links = [
     { href: "index.html", key: "nav_semana" },
     { href: "disciplinas.html", key: "nav_disciplinas" },
     { href: "anotacoes.html", key: "nav_anotacoes" },
     { href: "estudos.html", key: "nav_estudos" },
+    { href: "calculadora.html", key: "nav_calculadora" },
     { href: "ajuda.html", key: "nav_ajuda" },
     { href: "sugestoes.html", key: "nav_sugestoes" },
     { href: "creditos.html", key: "nav_creditos" },
@@ -383,7 +390,7 @@ function renderNav(activePage) {
   nav.innerHTML = links
     .map(
       (l) =>
-        `<a href="${l.href}" class="${l.href === activePage ? "active" : ""}">${t(l.key)}</a>`
+        `<a href="${l.href}" class="${l.href === activePage ? "active" : ""}">${l.key === "nav_calculadora" ? (CALC_LABEL[currentLang] || CALC_LABEL.pt) : t(l.key)}</a>`
     )
     .join("");
   const brand = document.getElementById("brand");
