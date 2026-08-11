@@ -726,7 +726,7 @@ refreshAll();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  document.getElementById("formCadastro").addEventListener("submit", async (e) => {
+  document.getElementById("formCadastro")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("emailInput").value;
     const senha = document.getElementById("senhaInput").value;
@@ -735,6 +735,10 @@ refreshAll();
       await createUserWithEmailAndPassword(auth, email, senha);
       alert("Conta criada com sucesso!");
       document.getElementById("formCadastro").reset();
- <script type="module" src="auth.js"></script>
+    } catch (erro) {
+      alert("Erro ao cadastrar: " + erro.message);
+    }
+  });
+</script>
 </body>
 </html>
