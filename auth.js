@@ -2,7 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { 
   getAuth, 
   createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
+  signInWithEmailAndPassword,
+  signOut 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -22,45 +23,76 @@ document.addEventListener("DOMContentLoaded", () => {
   const senhaInput = document.getElementById("senhaInput");
   const btnEntrar = document.getElementById("btnEntrar");
   const btnCadastrar = document.getElementById("btnCadastrar");
+  const btnSair = document.getElementById("btnSair");
 
-  // Função para Entrar
+  // Botão Entrar
   if (btnEntrar) {
     btnEntrar.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!emailInput.value || !senhaInput.value) {
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value;
+
+      if (!email || !senha) {
         alert("Preencha o e-mail e a senha.");
         return;
       }
+
       try {
-        await signInWithEmailAndPassword(auth, emailInput.value, senhaInput.value);
+        await signInWithEmailAndPassword(auth, email, senha);
         alert("Login realizado com sucesso!");
-        window.location.href = "index.html"; // Direciona para o site
+        window.location.href = "index.html";
       } catch (erro) {
-        alert("Erro ao entrar: " + erro.message);
+        if (erro.code === 'auth/invalid-email') {
+          alert("E-mail inválido!");
+        } else if (erro.code === 'auth/user-not-found' || erro.code === 'auth/wrong-password' || erro.code === 'auth/invalid-credential') {
+          alert("E-mail ou senha incorretos.");
+        } else {
+          alert("Erro ao entrar: " + erro.message);
+        }
       }
     });
   }
 
-  // Função para Cadastrar
+  // Botão Cadastrar
   if (btnCadastrar) {
     btnCadastrar.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!emailInput.value || !senhaInput.value) {
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value;
+
+      if (!email || !senha) {
         alert("Preencha o e-mail e a senha para cadastrar.");
         return;
       }
+
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, senhaInput.value);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         alert("Conta criada com sucesso! Bem-vindo(a) " + userCredential.user.email);
-        window.location.href = "index.html"; // Direciona para o site
+        window.location.href = "index.html";
       } catch (erro) {
-        if (erro.code === 'auth/email-already-in-use') {
-          alert("Este e-mail já está cadastrado. Clique em Entrar!");
+        if (erro.code === 'auth/invalid-email') {
+          alert("E-mail inválido!");
+        } else if (erro.code === 'auth/email-already-in-use') {
+          alert("Este e-mail já está cadastrado. Clique no botão 'Entrar'!");
         } else if (erro.code === 'auth/weak-password') {
           alert("A senha deve ter pelo menos 6 caracteres.");
         } else {
           alert("Erro ao cadastrar: " + erro.message);
         }
+      }
+    });
+  }
+
+  // Botão Sair (Logout)
+  if (btnSair) {
+    btnSair.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await signOut(auth);
+        alert("Você saiu da conta.");
+        window.location.href = "login.html";
+      } catch (erro) {
+        alert("Erro ao sair: " + erro.message);
       }
     });
   }
