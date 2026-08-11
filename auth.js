@@ -19,14 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       
-      const emailInput = form.querySelector("input[type='email']");
-      const senhaInput = form.querySelector("input[type='password']");
+      const emailInput = form.querySelector("input[type='email']") || document.getElementById("emailInput");
+      const senhaInput = form.querySelector("input[type='password']") || document.getElementById("senhaInput");
 
       if (!emailInput || !senhaInput) return;
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, senhaInput.value);
-        alert("Conta criada com sucesso! Bem-vindo, " + userCredential.user.email);
+        alert("Conta criada com sucesso! " + userCredential.user.email);
         form.reset();
       } catch (erro) {
         if (erro.code === 'auth/email-already-in-use') {
