@@ -3,10 +3,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
@@ -19,12 +17,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
-// Exporta as instâncias para uso em outros módulos do projeto
-export { auth, db };
-
-// Versão do site
+// Versão do site — mude só este número quando publicar uma atualização.
+// Ele aparece automaticamente no rodapé de todas as páginas.
 const TAPE_VERSION = "1.1";
 
 // ---- PWA: injeta manifest, ícone e service worker em toda página ----
@@ -61,23 +56,13 @@ const TAPE_VERSION = "1.1";
   }
 })();
 
-// Monitora em tempo real a sessão para garantir o redirecionamento correto
-onAuthStateChanged(auth, (user) => {
-  const pageActual = window.location.pathname.split("/").pop();
-  
-  // Se NÃO estiver logado e tentar acessar qualquer página que não seja login/index inicial
-  if (!user && pageActual !== "login.html" && pageActual !== "" && pageActual !== "index.html") {
-    window.location.href = "login.html";
-  }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("emailInput");
   const senhaInput = document.getElementById("senhaInput");
   const btnEntrar = document.getElementById("btnEntrar");
   const btnCadastrar = document.getElementById("btnCadastrar");
 
-  // Botão Entrar
+  // Botão Entrar (só existe em login.html)
   if (btnEntrar) {
     btnEntrar.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -104,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Botão Cadastrar
+  // Botão Cadastrar (só existe em login.html)
   if (btnCadastrar) {
     btnCadastrar.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -134,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Link "Apoie" antes do botão Sair
+  // Link "Apoie" antes do botão Sair (aparece em todas as páginas)
   const authBoxForApoio = document.getElementById("authBox");
   if (authBoxForApoio && !document.getElementById("linkApoie")) {
     const linkApoie = document.createElement("a");
@@ -145,7 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
     authBoxForApoio.insertBefore(linkApoie, authBoxForApoio.firstChild);
   }
 
-  // Botão Sair com limpeza profunda de cache e redirecionamento forçado
+  // Botão Sair: garante que apareça em TODAS as páginas que tenham #authBox,
+  // criando o botão automaticamente quando ele não estiver no HTML da página.
   let btnSair = document.getElementById("btnSair");
   if (!btnSair) {
     const authBox = document.getElementById("authBox");
@@ -162,24 +148,14 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       try {
         await signOut(auth);
-        
-        // Preserva o consentimento dos cookies, limpa o restante
-        const cookiesAceitos = localStorage.getItem("tape_cookies_aceitos");
-        localStorage.clear();
-        sessionStorage.clear();
-        if (cookiesAceitos) {
-          localStorage.setItem("tape_cookies_aceitos", cookiesAceitos);
-        }
-
-        // Força a navegação imediata para o login
-        window.location.replace("login.html");
+        window.location.href = "login.html";
       } catch (erro) {
         alert("Erro ao sair: " + erro.message);
       }
     });
   }
 
-  // Rodapé
+  // Rodapé com direitos autorais em todas as páginas
   if (!document.getElementById("tapeCopyright")) {
     const cp = document.createElement("div");
     cp.id = "tapeCopyright";
@@ -191,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieBanner();
 });
 
-// ---- Aviso de cookies + termos de uso ----
+// ---- Aviso de cookies + termos de uso (aparece em todas as páginas) ----
 function initCookieBanner() {
   if (localStorage.getItem("tape_cookies_aceitos") === "1") return;
   if (document.getElementById("cookieBar")) return;
