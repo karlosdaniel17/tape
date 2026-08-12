@@ -76,7 +76,6 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 16px; }
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 4px #00000005;
 }
 
 .card-materia .codigo {
@@ -114,11 +113,11 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   <h1>Grade Semanal</h1>
 
   <div id="gridSemana" class="grid-semana">
-    <p style="opacity: 0.5;">Carregando disciplinas cadastradas...</p>
+    <p style="opacity: 0.5;">Carregando disciplinas...</p>
   </div>
 </main>
 
-<footer class="foot">Sincronizado com Firebase Cloud Firestore</footer>
+<footer class="foot">Seus dados ficam salvos em tempo real na nuvem do Google.</footer>
 
 <script type="module">
   import { auth, db } from './auth.js';
@@ -138,7 +137,6 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
           disciplinas = JSON.parse(localStorage.getItem("disciplinas") || "[]");
         }
       } catch (e) {
-        console.error("Erro ao carregar matérias na semana:", e);
         disciplinas = JSON.parse(localStorage.getItem("disciplinas") || "[]");
       }
     } else {
