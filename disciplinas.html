@@ -9,13 +9,6 @@
   --paper: #F5F4F0;
   --ink: #26241F;
   --line: #00000014;
-  --seg: #FF6B6B;
-  --ter: #FF9F43;
-  --qua: #F4C430;
-  --qui: #4CAF7D;
-  --sex: #4D96FF;
-  --sab: #A78BFA;
-  --dom: #FF6FB5;
 }
 
 * { box-sizing: border-box; }
@@ -29,7 +22,6 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-/* ---------- Navbar ---------- */
 .topbar {
   border-bottom: 1px solid var(--line);
   background: var(--paper);
@@ -51,12 +43,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-.brand span { opacity: 0.4; font-weight: 500; font-size: 0.8em; }
-.brand span.brand-text { opacity: 1; font-weight: 800; font-size: 1em; letter-spacing: -0.02em; }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a {
   font-size: 0.85rem;
@@ -64,35 +51,19 @@ nav.mainnav a {
   padding: 8px 14px;
   border-radius: 999px;
   opacity: 0.55;
-  transition: all .15s ease;
 }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 
 main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
-@media (max-width: 480px) {
-  main { padding: 18px 12px 50px; }
-  h1 { font-size: 1.5rem; }
-  .topbar-inner { padding: 12px 14px; }
-}
 
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 4px;
-}
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 
-/* ---------- Disciplinas page ---------- */
 .disc-card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
 .disc-card .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .disc-card input.small { flex: 1; min-width: 140px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.9rem; }
 .disc-card textarea { width: 100%; min-height: 60px; border: none; background: #00000006; border-radius: 10px; padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical; }
 .disc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .del-btn { border: none; background: none; color: #B33; cursor: pointer; font-size: 0.8rem; opacity: 0.6; }
-.del-btn:hover { opacity: 1; }
 .new-disc-btn {
   padding: 7px 14px; border-radius: 999px; border: none; background: var(--ink); color: white;
   font-size: 0.78rem; font-weight: 700; cursor: pointer;
@@ -103,89 +74,74 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
   background: #00000006; flex-shrink: 0;
 }
 .disc-name-row { display: flex; gap: 8px; align-items: center; flex: 1; min-width: 0; }
-.size-toggle { display: inline-flex; gap: 4px; margin-left: auto; }
-.size-toggle button {
-  font-size: 0.72rem; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line);
-  background: white; cursor: pointer; opacity: 0.55;
+.status-bar {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  background: #E2E8F0;
+  display: none;
 }
-.size-toggle button.active { opacity: 1; background: var(--ink); color: white; border-color: var(--ink); }
-.disc-card.compact { padding: 10px 14px; margin-bottom: 8px; }
-.disc-card.compact textarea { min-height: 40px; }
-.disc-card.grande { padding: 22px; margin-bottom: 20px; }
-.disc-card.grande textarea { min-height: 90px; }
-.avaliacoes-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-.avaliacao-row { display: flex; gap: 8px; align-items: center; }
-.avaliacao-row select, .avaliacao-row input[type="date"] {
-  flex: 1; min-width: 110px; padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line);
-  font-size: 0.82rem; background: white; color: var(--ink);
-}
-.avaliacao-row .rm-aval { border: none; background: none; opacity: 0.35; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; }
-.avaliacao-row .rm-aval:hover { opacity: 0.85; }
-.add-aval-btn {
-  align-self: flex-start; font-size: 0.78rem; padding: 5px 12px; border-radius: 999px;
-  border: 1px dashed var(--line); background: none; cursor: pointer; opacity: 0.65; margin-top: 2px;
-}
-.add-aval-btn:hover { opacity: 1; }
-
-footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand" id="brand">tape <span>caderno acadêmico</span></div>
-    <nav class="mainnav" id="mainnav">
+    <div class="brand">tape <span>caderno acadômico</span></div>
+    <nav class="mainnav">
       <a href="index.html">Semana</a>
       <a href="disciplinas.html" class="active">Disciplinas</a>
       <a href="anotacoes.html">Anotações</a>
       <a href="estudos.html">Estudos extras</a>
     </nav>
-    <div id="authBox">
-      <button id="btnSair">Sair</button>
-    </div>
   </div>
 </div>
 
 <main>
-  <div class="eyebrow" id="txtEyebrow">Cadastro</div>
-  <h1 id="txtTitulo">Disciplinas</h1>
-  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Sala, professor e ementa de cada disciplina. As disciplinas cadastradas aqui aparecem na página Semana.</p>
+  <h1>Disciplinas</h1>
+  <p style="opacity:.55;font-size:.9rem;margin-top:0">Cadastre suas disciplinas. Elas ficam vinculadas à sua conta.</p>
 
-  <div id="discList" style="margin-top:20px">Carregando disciplinas...</div>
+  <div id="statusBox" class="status-bar"></div>
 
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+  <div id="discList" style="margin-top:20px">Aguardando verificação do usuário...</div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin-top:15px">
     <button class="new-disc-btn" id="addBtn">+ Nova disciplina</button>
-    <div class="size-toggle" id="sizeToggle">
-      <button data-size="compact">A−</button>
-      <button data-size="padrao" class="active">A</button>
-      <button data-size="grande">A+</button>
-    </div>
   </div>
 </main>
-
-<footer class="foot" id="txtFooter">Seus dados ficam salvos em tempo real na nuvem do Google.</footer>
 
 <script type="module">
   import { auth, db } from './auth.js';
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  const DISC_COLORS = ["#FF6B6B", "#FF9F43", "#F4C430", "#4CAF7D", "#4D96FF", "#A78BFA", "#FF6FB5", "#2BB4B4"];
+  const DISC_COLORS = ["#FF6B6B", "#FF9F43", "#F4C430", "#4CAF7D", "#4D96FF", "#A78BFA", "#FF6FB5"];
   let disciplinas = [];
   let currentUser = null;
-  let currentSize = "padrao";
+
+  const statusBox = document.getElementById("statusBox");
+
+  function showStatus(msg, isError = false) {
+    statusBox.style.display = "block";
+    statusBox.style.background = isError ? "#FEE2E2" : "#DCFCE7";
+    statusBox.style.color = isError ? "#991B1B" : "#166534";
+    statusBox.innerText = msg;
+  }
 
   function uid() {
     return Math.random().toString(36).slice(2, 10);
   }
 
-  // Monitora autenticação e carrega os dados salvos no Firestore
+  // Verifica Autenticação
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       currentUser = user;
+      showStatus(`Conectado como: ${user.email}`);
       await carregarDisciplinasCloud();
     } else {
+      currentUser = null;
+      showStatus("Você não está logado! Faça login na página inicial para sincronizar na nuvem.", true);
       disciplinas = JSON.parse(localStorage.getItem("disciplinas") || "[]");
       render();
     }
@@ -202,9 +158,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
       }
       render();
     } catch (e) {
-      console.error("Erro ao carregar do Firestore:", e);
-      disciplinas = JSON.parse(localStorage.getItem("disciplinas") || "[]");
-      render();
+      console.error("Erro ao carregar:", e);
+      showStatus("Erro ao carregar do banco de dados: " + e.message, true);
     }
   }
 
@@ -214,7 +169,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
       try {
         await setDoc(doc(db, "users", currentUser.uid), { disciplinas }, { merge: true });
       } catch (e) {
-        console.error("Erro ao salvar no Firestore:", e);
+        console.error("Erro ao salvar:", e);
+        showStatus("Erro ao salvar na nuvem: " + e.message, true);
       }
     }
   }
@@ -224,19 +180,19 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     listEl.innerHTML = "";
 
     if (disciplinas.length === 0) {
-      listEl.innerHTML = `<p style="opacity:0.5; font-size:0.9rem;">Nenhuma disciplina cadastrada ainda.</p>`;
+      listEl.innerHTML = `<p style="opacity:0.5; font-size:0.9rem;">Nenhuma disciplina cadastrada.</p>`;
       return;
     }
 
     disciplinas.forEach((d, idx) => {
       const card = document.createElement("div");
-      card.className = `disc-card ${currentSize}`;
+      card.className = "disc-card";
       card.style.borderLeft = `5px solid ${d.cor || DISC_COLORS[idx % DISC_COLORS.length]}`;
 
       card.innerHTML = `
         <div class="disc-top">
           <div class="disc-name-row">
-            <input type="text" class="disc-code-input" placeholder="Código" value="${d.codigo || ''}" data-field="codigo">
+            <input type="text" class="disc-code-input" placeholder="CÓDIGO" value="${d.codigo || ''}" data-field="codigo">
             <input type="text" class="small" placeholder="Nome da disciplina" value="${d.nome || ''}" data-field="nome" style="font-weight:bold">
           </div>
           <button class="del-btn" data-action="delete">remover</button>
@@ -244,24 +200,21 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
         <div class="row">
           <input type="text" class="small" placeholder="Sala" value="${d.sala || ''}" data-field="sala">
           <input type="text" class="small" placeholder="Professor(a)" value="${d.prof || ''}" data-field="prof">
-          <input type="text" class="small" placeholder="Horário (ex.: Seg/Qua 08h–10h)" value="${d.horario || ''}" data-field="horario">
+          <input type="text" class="small" placeholder="Horário" value="${d.horario || ''}" data-field="horario">
         </div>
         <div>
-          <label style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; opacity:0.45; display:block; margin-bottom:4px">Ementa</label>
-          <textarea placeholder="Conteúdo programático..." data-field="ementa">${d.ementa || ''}</textarea>
+          <textarea placeholder="Ementa / Conteúdo..." data-field="ementa">${d.ementa || ''}</textarea>
         </div>
       `;
 
-      // Eventos dos Inputs
       card.querySelectorAll("input, textarea").forEach(input => {
-        input.addEventListener("input", (e) => {
+        input.addEventListener("change", (e) => {
           const field = e.target.dataset.field;
           d[field] = e.target.value;
           salvarDisciplinasCloud();
         });
       });
 
-      // Evento de Remoção
       card.querySelector('[data-action="delete"]').addEventListener("click", () => {
         disciplinas.splice(idx, 1);
         salvarDisciplinasCloud();
@@ -272,12 +225,11 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     });
   }
 
-  // Adicionar Nova Disciplina
   document.getElementById("addBtn").addEventListener("click", () => {
     disciplinas.push({
       id: uid(),
       codigo: "",
-      nome: "Nova disciplina",
+      nome: "",
       sala: "",
       prof: "",
       horario: "",
@@ -286,16 +238,6 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     });
     salvarDisciplinasCloud();
     render();
-  });
-
-  // Tamanho do Card
-  document.getElementById("sizeToggle").addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      document.querySelectorAll("#sizeToggle button").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      currentSize = e.target.dataset.size;
-      render();
-    }
   });
 </script>
 </body>
