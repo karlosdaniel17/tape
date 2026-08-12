@@ -184,6 +184,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     } catch (e) {
       disciplinas = JSON.parse(localStorage.getItem("disciplinas") || "[]");
     }
+    // Mantém o localStorage sincronizado para as outras páginas originais lerem
+    localStorage.setItem("disciplinas", JSON.stringify(disciplinas));
     render();
   }
 
@@ -193,7 +195,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
       try {
         await setDoc(doc(db, "users", currentUser.uid), { disciplinas }, { merge: true });
       } catch (e) {
-        console.error("Erro ao salvar no Firestore:", e);
+        console.error("Erro ao salvar:", e);
       }
     }
   }
