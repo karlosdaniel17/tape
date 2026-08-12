@@ -36,13 +36,6 @@ const TAPE_VERSION = "1.1";
     appleIcon.href = "apple-touch-icon.png";
     document.head.appendChild(appleIcon);
   }
-  if (!document.querySelector('link[rel="icon"]')) {
-    const favicon = document.createElement("link");
-    favicon.rel = "icon";
-    favicon.type = "image/png";
-    favicon.href = "favicon-32.png";
-    document.head.appendChild(favicon);
-  }
   if (!document.querySelector('meta[name="theme-color"]')) {
     const theme = document.createElement("meta");
     theme.name = "theme-color";
