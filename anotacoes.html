@@ -256,10 +256,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </style>
 </head>
 <body>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="auth.js"></script>
+<script type="module" src="auth.js"></script>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -438,7 +435,10 @@ notesArea.value = loadJSON("anotacoes_texto", "");
 let notesTimer = null;
 notesArea.addEventListener("input", () => {
   clearTimeout(notesTimer);
-  notesTimer = setTimeout(() => saveJSON("anotacoes_texto", notesArea.value), 400);
+  notesTimer = setTimeout(() => {
+    saveJSON("anotacoes_texto", notesArea.value);
+    if (window.pushNotasToCloud) window.pushNotasToCloud(notesArea.value);
+  }, 400);
 });
 
 // ---- Calculadora científica ----
@@ -577,6 +577,56 @@ function renderHist() {
   });
 }
 renderHist();
+</script>
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+  authDomain: "tape-1717.firebaseapp.com",
+  projectId: "tape-1717",
+  storageBucket: "tape-1717.firebasestorage.app",
+  messagingSenderId: "244010846598",
+  appId: "1:244010846598:web:e704631b12d4137fdcc407"
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cloudUid = null;
+
+async function pullNotasFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "anotacoes");
+    const snap = await getDoc(ref);
+    const notesArea = document.getElementById("notesArea");
+    if (snap.exists() && typeof snap.data().texto === "string") {
+      saveJSON("anotacoes_texto", snap.data().texto);
+      if (notesArea) notesArea.value = snap.data().texto;
+    } else {
+      const local = loadJSON("anotacoes_texto", "");
+      if (local) await setDoc(ref, { texto: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar anotações", e);
+  }
+}
+
+window.pushNotasToCloud = async function (texto) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "anotacoes"), { texto, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar anotações na nuvem", e);
+  }
+};
+
+onAuthStateChanged(auth, (user) => {
+  cloudUid = user ? user.uid : null;
+  if (cloudUid) pullNotasFromCloud(cloudUid);
+});
 </script>
 </body>
 </html>

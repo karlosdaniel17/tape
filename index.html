@@ -262,9 +262,6 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </style>
 </head>
 <body>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -475,6 +472,7 @@ function persistWeek() {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     const ok = saveJSON(weekKey(monday), weekData);
+    if (window.pushWeekToCloud) window.pushWeekToCloud(isoDate(monday), weekData);
     const hint = document.getElementById("saveHint");
     hint.textContent = ok ? t("salvo") : t("erro_salvar");
     setTimeout(() => (hint.textContent = ""), 900);
@@ -717,6 +715,7 @@ function refreshAll() {
   renderDiscBar();
   loadWeek();
   renderGrid();
+  if (window.pullWeekFromCloud) window.pullWeekFromCloud(isoDate(monday));
 }
 
 document.getElementById("prevWeek").addEventListener("click", () => { monday = addDays(monday, -7); refreshAll(); });
@@ -736,6 +735,75 @@ document.addEventListener("click", () => {
 });
 
 refreshAll();
+</script>
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+  authDomain: "tape-1717.firebaseapp.com",
+  projectId: "tape-1717",
+  storageBucket: "tape-1717.firebasestorage.app",
+  messagingSenderId: "244010846598",
+  appId: "1:244010846598:web:e704631b12d4137fdcc407"
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cloudUid = null;
+
+async function pullDisciplinasFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "disciplinas");
+    const snap = await getDoc(ref);
+    if (snap.exists() && Array.isArray(snap.data().lista)) {
+      saveJSON("disciplinas", snap.data().lista);
+    } else {
+      const local = getDisciplinas();
+      if (local.length) await setDoc(ref, { lista: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar disciplinas", e);
+  }
+}
+
+window.pullWeekFromCloud = async function (mondayIso) {
+  if (!cloudUid) return;
+  try {
+    const ref = doc(db, "usuarios", cloudUid, "semanas", mondayIso);
+    const snap = await getDoc(ref);
+    if (snap.exists() && snap.data().dados) {
+      saveJSON(`semana:${mondayIso}`, snap.data().dados);
+      if (isoDate(monday) === mondayIso) { loadWeek(); renderGrid(); }
+    } else {
+      const local = loadJSON(`semana:${mondayIso}`, null);
+      if (local) await setDoc(ref, { dados: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar semana", e);
+  }
+};
+
+window.pushWeekToCloud = async function (mondayIso, dados) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "semanas", mondayIso), { dados, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar semana na nuvem", e);
+  }
+};
+
+onAuthStateChanged(auth, async (user) => {
+  cloudUid = user ? user.uid : null;
+  if (cloudUid) {
+    await pullDisciplinasFromCloud(cloudUid);
+    await window.pullWeekFromCloud(isoDate(monday));
+    refreshAll();
+  }
+});
 </script>
   <script type="module" src="auth.js"></script>
 </body>
