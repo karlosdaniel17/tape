@@ -22,6 +22,54 @@ const auth = getAuth(app);
 // Ele aparece automaticamente no rodapé de todas as páginas.
 const TAPE_VERSION = "1.1";
 
+// ---- Tema claro/escuro: aplica o mais cedo possível pra evitar "flash" de tela clara ----
+const TAPE_THEME_KEY = "tape_tema";
+function aplicarTema(tema) {
+  document.documentElement.setAttribute("data-theme", tema);
+}
+aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
+
+(function injetarEstilosTema() {
+  const style = document.createElement("style");
+  style.id = "tapeThemeStyles";
+  style.textContent = `
+    :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; }
+    [data-theme="escuro"] body { background: var(--paper); color: var(--ink); }
+    [data-theme="escuro"] .topbar { background: var(--paper); border-color: var(--line); }
+    [data-theme="escuro"] .day-card,
+    [data-theme="escuro"] .disc-card,
+    [data-theme="escuro"] .credits-card,
+    [data-theme="escuro"] .upload-card,
+    [data-theme="escuro"] .book-card,
+    [data-theme="escuro"] .sci-display,
+    [data-theme="escuro"] .calc-box,
+    [data-theme="escuro"] .study-card,
+    [data-theme="escuro"] .card,
+    [data-theme="escuro"] .lang-menu { background: #26241F !important; }
+    [data-theme="escuro"] input,
+    [data-theme="escuro"] textarea,
+    [data-theme="escuro"] select { background: #ffffff14 !important; color: var(--ink) !important; border-color: var(--line) !important; }
+    [data-theme="escuro"] ::placeholder { color: #ffffff55 !important; }
+    [data-theme="escuro"] .new-disc-btn,
+    [data-theme="escuro"] .upload-btn,
+    [data-theme="escuro"] .calc-grid button.op,
+    [data-theme="escuro"] .sci-grid button.op { color: var(--paper) !important; }
+    [data-theme="escuro"] .lang-toggle { background: #26241F !important; color: var(--ink) !important; border-color: var(--line) !important; }
+    [data-theme="escuro"] .lang-menu button { background: transparent !important; color: var(--ink) !important; }
+    [data-theme="escuro"] .lang-menu button:hover,
+    [data-theme="escuro"] nav.mainnav a:hover { background: #ffffff14 !important; }
+    [data-theme="escuro"] .calc-hist div:hover,
+    [data-theme="escuro"] .sci-hist div:hover { background: #ffffff10 !important; }
+    #tapeThemeToggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line, #00000014);
+      background: white; cursor: pointer; font-size: 15px; flex-shrink: 0;
+    }
+    [data-theme="escuro"] #tapeThemeToggle { background: #26241F; border-color: #FFFFFF26; }
+  `;
+  document.head.appendChild(style);
+})();
+
 // ---- PWA: injeta manifest, ícone e service worker em toda página ----
 (function setupPWA() {
   if (!document.querySelector('link[rel="manifest"]')) {
@@ -35,6 +83,13 @@ const TAPE_VERSION = "1.1";
     appleIcon.rel = "apple-touch-icon";
     appleIcon.href = "apple-touch-icon.png";
     document.head.appendChild(appleIcon);
+  }
+  if (!document.querySelector('link[rel="icon"]')) {
+    const favicon = document.createElement("link");
+    favicon.rel = "icon";
+    favicon.type = "image/png";
+    favicon.href = "favicon-32.png";
+    document.head.appendChild(favicon);
   }
   if (!document.querySelector('meta[name="theme-color"]')) {
     const theme = document.createElement("meta");
@@ -127,7 +182,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // criando o botão automaticamente quando ele não estiver no HTML da página.
   let btnSair = document.getElementById("btnSair");
   if (!btnSair) {
-    const authBox = document.getElementById("authBox");
+    // Botão de tema claro/escuro: aparece em toda página, perto do seletor de idioma
+  if (!document.getElementById("tapeThemeToggle")) {
+    const btn = document.createElement("button");
+    btn.id = "tapeThemeToggle";
+    const temaAtual = localStorage.getItem(TAPE_THEME_KEY) || "claro";
+    btn.textContent = temaAtual === "escuro" ? "☀️" : "🌙";
+    btn.title = "Alternar tema claro/escuro";
+    btn.addEventListener("click", () => {
+      const novo = document.documentElement.getAttribute("data-theme") === "escuro" ? "claro" : "escuro";
+      aplicarTema(novo);
+      localStorage.setItem(TAPE_THEME_KEY, novo);
+      btn.textContent = novo === "escuro" ? "☀️" : "🌙";
+    });
+    const langSwitch = document.getElementById("langSwitch");
+    if (langSwitch && langSwitch.parentElement) {
+      langSwitch.parentElement.insertBefore(btn, langSwitch);
+    } else {
+      const topbarInner = document.querySelector(".topbar-inner");
+      if (topbarInner) topbarInner.appendChild(btn);
+    }
+  }
+
+  const authBox = document.getElementById("authBox");
     if (authBox) {
       btnSair = document.createElement("button");
       btnSair.id = "btnSair";

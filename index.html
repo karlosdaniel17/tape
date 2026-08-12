@@ -577,10 +577,37 @@ function renderGrid() {
     const head = document.createElement("div");
     head.className = "day-head";
     head.style.background = `var(${day.css})`;
-    head.draggable = true;
-    head.addEventListener("dragstart", () => { dragCardKey = day.key; dragDiscId = null; dragItem = null; });
-    head.addEventListener("dragend", () => { dragCardKey = null; });
-    head.innerHTML = `<div><div class="date">${fmtShort(dayDate)}</div><div class="name">${t("day_" + day.key)}</div></div><span style="opacity:.6;font-size:15px;letter-spacing:2px;cursor:grab;padding:4px 6px" title="arraste para reordenar">⠿</span>`;
+    head.innerHTML = `<div><div class="date">${fmtShort(dayDate)}</div><div class="name">${t("day_" + day.key)}</div></div>`;
+
+    const moveWrap = document.createElement("div");
+    moveWrap.style.cssText = "display:flex;gap:2px;align-items:center";
+    const idxInOrder = cardOrder.indexOf(day.key);
+    const moveLeftBtn = document.createElement("button");
+    moveLeftBtn.textContent = "◀";
+    moveLeftBtn.title = "Mover para trás";
+    moveLeftBtn.disabled = idxInOrder === 0;
+    moveLeftBtn.style.cssText = "font-size:11px;opacity:" + (idxInOrder === 0 ? "0.35" : "0.9");
+    moveLeftBtn.addEventListener("click", () => {
+      if (idxInOrder <= 0) return;
+      [cardOrder[idxInOrder - 1], cardOrder[idxInOrder]] = [cardOrder[idxInOrder], cardOrder[idxInOrder - 1]];
+      saveJSON("card_order", cardOrder);
+      renderGrid();
+    });
+    const moveRightBtn = document.createElement("button");
+    moveRightBtn.textContent = "▶";
+    moveRightBtn.title = "Mover para frente";
+    moveRightBtn.disabled = idxInOrder === cardOrder.length - 1;
+    moveRightBtn.style.cssText = "font-size:11px;opacity:" + (idxInOrder === cardOrder.length - 1 ? "0.35" : "0.9");
+    moveRightBtn.addEventListener("click", () => {
+      if (idxInOrder >= cardOrder.length - 1) return;
+      [cardOrder[idxInOrder + 1], cardOrder[idxInOrder]] = [cardOrder[idxInOrder], cardOrder[idxInOrder + 1]];
+      saveJSON("card_order", cardOrder);
+      renderGrid();
+    });
+    moveWrap.appendChild(moveLeftBtn);
+    moveWrap.appendChild(moveRightBtn);
+    head.appendChild(moveWrap);
+
     const addBtn = document.createElement("button");
     addBtn.textContent = "+";
     addBtn.addEventListener("click", () => { openAddDay = openAddDay === day.key ? null : day.key; renderGrid(); });
