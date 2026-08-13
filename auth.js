@@ -171,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Link "Apoie" antes do botão Sair (aparece em todas as páginas)
   const authBoxForApoio = document.getElementById("authBox");
   if (authBoxForApoio && !document.getElementById("linkApoie")) {
     const linkApoie = document.createElement("a");
@@ -185,12 +184,33 @@ document.addEventListener("DOMContentLoaded", () => {
   // Botão Sair: garante que apareça em TODAS as páginas que tenham #authBox,
   // criando o botão automaticamente quando ele não estiver no HTML da página.
   let btnSair = document.getElementById("btnSair");
-  if (!btnSair) {
-    // Botão de tema claro/escuro: aparece em toda página, perto do seletor de idioma
+  const authBox = document.getElementById("authBox");
+  if (!btnSair && authBox) {
+    btnSair = document.createElement("button");
+    btnSair.id = "btnSair";
+    btnSair.textContent = "Sair";
+    btnSair.style.cssText = "background-color:#dc3545;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.82rem;";
+    authBox.appendChild(btnSair);
+  }
+  if (btnSair) {
+    btnSair.addEventListener("click", async (e) => {
+      e.preventDefault();
+      try {
+        await signOut(auth);
+        window.location.href = "login.html";
+      } catch (erro) {
+        alert("Erro ao sair: " + erro.message);
+      }
+    });
+  }
+
+  // Botão de tema claro/escuro: fica sempre agrupado junto do seletor de idioma,
+  // mesmo quando a barra do topo quebra linha em telas estreitas.
   const ICON_SOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12H5M19 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
   const ICON_LUA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.7A8.5 8.5 0 1 1 9.3 3.6a7 7 0 0 0 11.1 11.1Z"/></svg>';
+  const langSwitch = document.getElementById("langSwitch");
 
-  if (!document.getElementById("tapeThemeToggle")) {
+  if (langSwitch && !document.getElementById("tapeThemeToggle")) {
     const btn = document.createElement("button");
     btn.id = "tapeThemeToggle";
     const temaAtual = localStorage.getItem(TAPE_THEME_KEY) || "claro";
@@ -204,34 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.innerHTML = novo === "escuro" ? ICON_LUA : ICON_SOL;
       btn.style.color = novo === "escuro" ? "#F0EEE8" : "#26241F";
     });
-    const langSwitch = document.getElementById("langSwitch");
-    if (langSwitch && langSwitch.parentElement) {
-      langSwitch.parentElement.insertBefore(btn, langSwitch);
-    } else {
-      const topbarInner = document.querySelector(".topbar-inner");
-      if (topbarInner) topbarInner.appendChild(btn);
-    }
-  }
 
-  const authBox = document.getElementById("authBox");
-    if (authBox) {
-      btnSair = document.createElement("button");
-      btnSair.id = "btnSair";
-      btnSair.textContent = "Sair";
-      btnSair.style.cssText = "background-color:#dc3545;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.82rem;";
-      authBox.appendChild(btnSair);
-    }
-  }
-  if (btnSair) {
-    btnSair.addEventListener("click", async (e) => {
-      e.preventDefault();
-      try {
-        await signOut(auth);
-        window.location.href = "login.html";
-      } catch (erro) {
-        alert("Erro ao sair: " + erro.message);
-      }
-    });
+    // agrupa tema + idioma num contêiner só, pra eles nunca se separarem no wrap
+    const grupo = document.createElement("div");
+    grupo.id = "tapeThemeLangGroup";
+    grupo.style.cssText = "display:flex;align-items:center;gap:10px;flex-shrink:0;";
+    langSwitch.parentElement.insertBefore(grupo, langSwitch);
+    grupo.appendChild(btn);
+    grupo.appendChild(langSwitch);
   }
 
   // Rodapé com direitos autorais em todas as páginas
