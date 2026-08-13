@@ -62,10 +62,14 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
     [data-theme="escuro"] .sci-hist div:hover { background: #ffffff10 !important; }
     #tapeThemeToggle {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line, #00000014);
-      background: white; cursor: pointer; font-size: 15px; flex-shrink: 0;
+      width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line, #00000014);
+      background: white; cursor: pointer; flex-shrink: 0; padding: 0;
+      transition: background .15s ease, border-color .15s ease;
     }
+    #tapeThemeToggle:hover { background: #00000008; }
+    #tapeThemeToggle svg { width: 18px; height: 18px; display: block; }
     [data-theme="escuro"] #tapeThemeToggle { background: #26241F; border-color: #FFFFFF26; }
+    [data-theme="escuro"] #tapeThemeToggle:hover { background: #ffffff10; }
   `;
   document.head.appendChild(style);
 })();
@@ -183,17 +187,22 @@ document.addEventListener("DOMContentLoaded", () => {
   let btnSair = document.getElementById("btnSair");
   if (!btnSair) {
     // Botão de tema claro/escuro: aparece em toda página, perto do seletor de idioma
+  const ICON_SOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2.5 12H5M19 12h2.5M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+  const ICON_LUA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.7A8.5 8.5 0 1 1 9.3 3.6a7 7 0 0 0 11.1 11.1Z"/></svg>';
+
   if (!document.getElementById("tapeThemeToggle")) {
     const btn = document.createElement("button");
     btn.id = "tapeThemeToggle";
     const temaAtual = localStorage.getItem(TAPE_THEME_KEY) || "claro";
-    btn.textContent = temaAtual === "escuro" ? "☀️" : "🌙";
+    btn.innerHTML = temaAtual === "escuro" ? ICON_LUA : ICON_SOL;
+    btn.style.color = temaAtual === "escuro" ? "#F0EEE8" : "#26241F";
     btn.title = "Alternar tema claro/escuro";
     btn.addEventListener("click", () => {
       const novo = document.documentElement.getAttribute("data-theme") === "escuro" ? "claro" : "escuro";
       aplicarTema(novo);
       localStorage.setItem(TAPE_THEME_KEY, novo);
-      btn.textContent = novo === "escuro" ? "☀️" : "🌙";
+      btn.innerHTML = novo === "escuro" ? ICON_LUA : ICON_SOL;
+      btn.style.color = novo === "escuro" ? "#F0EEE8" : "#26241F";
     });
     const langSwitch = document.getElementById("langSwitch");
     if (langSwitch && langSwitch.parentElement) {

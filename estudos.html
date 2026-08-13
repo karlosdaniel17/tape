@@ -248,10 +248,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </style>
 </head>
 <body>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="auth.js"></script>
+<script type="module" src="auth.js"></script>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -417,7 +414,10 @@ function getTopics() {
   }
   return topics;
 }
-function saveTopics(t) { saveJSON("estudos_extra", t); }
+function saveTopics(t) {
+  saveJSON("estudos_extra", t);
+  if (window.pushEstudosToCloud) window.pushEstudosToCloud(t);
+}
 
 function render() {
   const topics = getTopics();
@@ -467,6 +467,55 @@ function render() {
 }
 
 render();
+</script>
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+  authDomain: "tape-1717.firebaseapp.com",
+  projectId: "tape-1717",
+  storageBucket: "tape-1717.firebasestorage.app",
+  messagingSenderId: "244010846598",
+  appId: "1:244010846598:web:e704631b12d4137fdcc407"
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cloudUid = null;
+
+async function pullEstudosFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "estudos_extra");
+    const snap = await getDoc(ref);
+    if (snap.exists() && Array.isArray(snap.data().lista)) {
+      saveJSON("estudos_extra", snap.data().lista);
+    } else {
+      const local = loadJSON("estudos_extra", null);
+      if (local && local.length) await setDoc(ref, { lista: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar estudos extras", e);
+  }
+  if (typeof render === "function") render();
+}
+
+window.pushEstudosToCloud = async function (lista) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "estudos_extra"), { lista, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar estudos extras na nuvem", e);
+  }
+};
+
+onAuthStateChanged(auth, (user) => {
+  cloudUid = user ? user.uid : null;
+  if (cloudUid) pullEstudosFromCloud(cloudUid);
+});
 </script>
 </body>
 </html>

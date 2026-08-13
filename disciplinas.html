@@ -576,7 +576,18 @@ function render() {
     const ementaTa = document.createElement("textarea");
     ementaTa.value = d.ementa || "";
     ementaTa.placeholder = t("ementa_placeholder");
+    if (d.ementaAltura) ementaTa.style.height = d.ementaAltura + "px";
     ementaTa.addEventListener("input", e => { d.ementa = e.target.value; saveDisciplinas(list); });
+    if (window.ResizeObserver) {
+      let resizeTimer = null;
+      new ResizeObserver(() => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          const h = Math.round(ementaTa.getBoundingClientRect().height);
+          if (h && d.ementaAltura !== h) { d.ementaAltura = h; saveDisciplinas(list); }
+        }, 300);
+      }).observe(ementaTa);
+    }
     card.appendChild(ementaTa);
 
     wrap.appendChild(card);
