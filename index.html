@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Semana</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <style>
+html { font-size: 100%; }
 :root {
   --paper: #F5F4F0;
   --ink: #26241F;
@@ -91,6 +95,20 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 .lang-menu button:hover { background: #00000008; }
 .lang-menu button.active { font-weight: 800; background: #00000006; }
 
+/* ---------- Zoom controls ---------- */
+.zoom-controls { display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: 999px; background: #00000008; }
+.zoom-btn {
+  width: 28px; height: 28px; border-radius: 999px; border: none; cursor: pointer;
+  font-weight: 800; font-size: 0.9rem; color: white; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--sex), var(--seg)); transition: transform .12s ease, filter .12s ease;
+}
+.zoom-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.zoom-btn:active { transform: translateY(0); }
+.zoom-reset {
+  font-size: 0.68rem; font-weight: 700; opacity: 0.55; padding: 0 6px; cursor: pointer;
+  border: none; background: none; color: var(--ink); min-width: 30px;
+}
+.zoom-reset:hover { opacity: 0.9; }
 
 main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
 @media (max-width: 480px) {
@@ -137,7 +155,10 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
   font-size: 0.85rem; font-weight: 600;
   cursor: grab;
   user-select: none;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
+.chip:hover { transform: translateY(-2px); box-shadow: 0 6px 14px -7px currentColor; }
+.chip:active { cursor: grabbing; }
 .chip button {
   border: none; width: 16px; height: 16px; border-radius: 999px;
   font-size: 11px; cursor: pointer; opacity: 0.5;
@@ -165,47 +186,113 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
   background: var(--ink); color: white; cursor: pointer; font-size: 1rem;
 }
 
-/* ---------- Day grid ---------- */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-@media (max-width: 380px) {
-  .grid { grid-template-columns: 1fr; }
+/* ---------- Day track (navegação horizontal) ---------- */
+.day-track {
+  display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 12px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+.day-pill {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 9px 16px; border-radius: 14px; border: 1px solid var(--line); background: white;
+  cursor: pointer; opacity: 0.55; transition: all .15s ease; font-family: inherit;
+}
+.day-pill:hover { opacity: 0.85; }
+.day-pill .pill-name { font-size: 0.82rem; font-weight: 800; }
+.day-pill .pill-date { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+.day-pill.today { box-shadow: 0 0 0 2px var(--pill-color, var(--ink)) inset; }
+.day-pill.active {
+  opacity: 1; color: white; background: var(--pill-color, var(--ink)); border-color: transparent;
+  transform: translateY(-2px); box-shadow: 0 8px 18px -8px var(--pill-color, rgba(0,0,0,.4));
 }
 
-.day-card { background: white; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+/* ---------- Day card (dia ativo) ---------- */
+.day-card { background: white; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s ease; }
+.day-card.drag-over { box-shadow: 0 0 0 3px var(--drop-color, #00000033) inset; }
 .day-head {
-  padding: 14px 16px; color: white; display: flex; align-items: center; justify-content: space-between;
-  cursor: grab; touch-action: none;
+  padding: 16px 18px; color: white; display: flex; align-items: center; justify-content: space-between;
 }
-.day-head:active { cursor: grabbing; }
-.day-head .date { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.85; }
-.day-head .name { font-size: 1.1rem; font-weight: 800; }
+.day-head .date { font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.85; }
+.day-head .name { font-size: 1.3rem; font-weight: 800; }
 .day-head button {
   width: 32px; height: 32px; border-radius: 999px; border: none;
   background: rgba(255,255,255,0.25); color: white; cursor: pointer; font-weight: 700; font-size: 1.1rem;
 }
-.day-addlist { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; }
+.day-addlist { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px; }
 .day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: white; cursor: pointer; }
 
-.day-schedule { padding: 10px 14px 6px; display: flex; flex-direction: column; gap: 6px; min-height: 30px; }
-.sched-empty { font-size: 0.78rem; opacity: 0.4; padding: 4px 0; }
+.day-schedule { padding: 12px 16px 6px; display: flex; flex-direction: column; gap: 6px; min-height: 30px; }
+.sched-empty { font-size: 0.8rem; opacity: 0.4; padding: 4px 0; }
 .sched-item {
-  display: flex; align-items: center; gap: 8px;
-  background: white; border-radius: 10px; padding: 6px 10px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  background: white; border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px;
   cursor: grab;
 }
 .sched-item .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
-.sched-item .nm { flex: 1; font-size: 0.85rem; font-weight: 600; }
+.sched-item .nm { font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+.sched-item .nm:hover { text-decoration: underline; }
+.sched-item .topic-badge {
+  font-size: 0.72rem; opacity: 0.55; cursor: pointer; padding: 2px 8px; border-radius: 999px;
+  background: #00000008; margin-right: auto;
+}
+.sched-item .topic-badge:hover { opacity: 0.9; background: #0000000f; }
 .sched-item input { width: 52px; font-size: 0.75rem; text-align: right; border: none; background: transparent; opacity: 0.7; }
 .sched-item .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.8rem; }
 .sched-item .rm:hover { opacity: 0.8; }
 
-.day-body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--line); }
+.day-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); }
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 5px; }
 textarea, .textinput {
   width: 100%; border: none; background: #00000006; border-radius: 10px;
   padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
 }
 textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
+
+/* botão que abre o campo de resumo/aprendizado só quando clicado */
+.field-toggle {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  border: none; background: #00000006; border-radius: 10px; padding: 9px 12px;
+  font-family: inherit; cursor: pointer; transition: background .12s ease;
+}
+.field-toggle:hover { background: #0000000f; }
+.field-toggle .ft-plus {
+  width: 20px; height: 20px; border-radius: 999px; background: var(--ink); color: white;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;
+}
+.field-toggle.filled .ft-plus { background: #00000022; }
+.field-toggle .ft-text { flex: 1; min-width: 0; }
+.field-toggle .ft-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; }
+.field-toggle .ft-preview { font-size: 0.82rem; opacity: 0.75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Modal ---------- */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(20,18,14,0.5); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center; z-index: 100; padding: 18px;
+}
+.modal-box {
+  background: var(--paper); border-radius: 20px; max-width: 640px; width: 100%; max-height: 88vh;
+  overflow-y: auto; padding: 22px 24px 20px; box-shadow: 0 30px 70px -20px rgba(0,0,0,0.45);
+}
+.modal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.modal-box h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+.modal-box .modal-sub { font-size: 0.78rem; opacity: 0.55; margin-top: 2px; }
+.modal-close { flex-shrink: 0; border: none; background: #00000010; width: 32px; height: 32px; border-radius: 999px; cursor: pointer; font-size: 1rem; }
+.modal-close:hover { background: #0000001a; }
+.modal-box input.topic-input {
+  width: 100%; border: none; background: #00000008; border-radius: 10px; padding: 9px 12px;
+  font-size: 0.95rem; font-weight: 700; font-family: inherit; margin-bottom: 10px;
+}
+.modal-box textarea { min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
+.modal-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+.modal-tabbtn { border: none; background: #00000008; padding: 6px 13px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; opacity: 0.6; cursor: pointer; }
+.modal-tabbtn.active { opacity: 1; background: var(--ink); color: white; }
+.katex-preview { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
+.modal-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 8px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.modal-actions button { padding: 9px 18px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+.modal-actions .btn-save { background: var(--ink); color: white; }
+.modal-actions .btn-save:hover { filter: brightness(1.15); }
+.modal-actions .btn-cancel { background: #00000010; color: var(--ink); }
+.modal-actions .btn-cancel:hover { background: #0000001a; }
 
 .task-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
 .task-row span.done { opacity: 0.4; text-decoration: line-through; }
@@ -270,6 +357,11 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     <div id="authBox">
   <button id="btnSair" style="background-color: #dc3545; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold;">Sair</button>
 </div>
+    <div class="zoom-controls" aria-label="Ajustar tamanho do texto">
+      <button class="zoom-btn" id="zoomOut" aria-label="Diminuir fonte" title="Diminuir fonte">−</button>
+      <button class="zoom-reset" id="zoomReset" title="Restaurar tamanho padrão">100%</button>
+      <button class="zoom-btn" id="zoomIn" aria-label="Aumentar fonte" title="Aumentar fonte">+</button>
+    </div>
     <div class="lang-switch" id="langSwitch"></div>
   </div>
 </div>
@@ -290,8 +382,11 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   <div class="eyebrow" style="margin-top:6px" id="txtEyebrowDisc">Minhas disciplinas · arraste para um dia</div>
   <div class="disc-bar" id="discBar"></div>
 
-  <div class="grid" id="weekGrid"></div>
+  <div class="day-track" id="dayTrack"></div>
+  <div id="dayCardWrap"></div>
 </main>
+
+<div id="modalRoot"></div>
 
 <footer class="foot" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
 
@@ -437,13 +532,144 @@ document.getElementById("txtFooter").textContent = t("footer_rodape");
 let monday = startOfWeekMonday(new Date());
 let weekData = emptyWeekData();
 let dragDiscId = null;
+let dragDiscColor = null;
 let dragItem = null; // { fromDay, itemId }
-let dragCardKey = null; // dia sendo arrastado para reordenar os cards
-let cardOrder = loadJSON("card_order", DAY_DEFS.map(d => d.key));
-// garante que todos os dias estejam presentes, mesmo se a lista salva estiver incompleta/corrompida
-cardOrder = cardOrder.filter(k => DAY_DEFS.some(d => d.key === k));
-DAY_DEFS.forEach(d => { if (!cardOrder.includes(d.key)) cardOrder.push(d.key); });
 let openAddDay = null;
+
+function todayKey() {
+  const idx = (new Date().getDay() + 6) % 7; // 0 = segunda ... 6 = domingo
+  return DAY_DEFS[idx].key;
+}
+let activeDayKey = todayKey();
+
+// ---------- Zoom de texto ----------
+const ZOOM_KEY = "zoom_scale";
+let zoomScale = parseInt(localStorage.getItem(ZOOM_KEY) || "100", 10);
+if (isNaN(zoomScale)) zoomScale = 100;
+function applyZoom() {
+  document.documentElement.style.fontSize = zoomScale + "%";
+  const label = document.getElementById("zoomReset");
+  if (label) label.textContent = zoomScale + "%";
+}
+function setupZoomControls() {
+  document.getElementById("zoomOut").addEventListener("click", () => {
+    zoomScale = Math.max(80, zoomScale - 10);
+    localStorage.setItem(ZOOM_KEY, zoomScale);
+    applyZoom();
+  });
+  document.getElementById("zoomIn").addEventListener("click", () => {
+    zoomScale = Math.min(160, zoomScale + 10);
+    localStorage.setItem(ZOOM_KEY, zoomScale);
+    applyZoom();
+  });
+  document.getElementById("zoomReset").addEventListener("click", () => {
+    zoomScale = 100;
+    localStorage.setItem(ZOOM_KEY, zoomScale);
+    applyZoom();
+  });
+  applyZoom();
+}
+setupZoomControls();
+
+// ---------- Modal genérico (anotações com suporte a KaTeX) ----------
+function renderKatexPreview(el, text) {
+  el.textContent = text || "";
+  if (window.renderMathInElement) {
+    try {
+      renderMathInElement(el, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+        ],
+        throwOnError: false,
+      });
+    } catch (e) { /* ignore */ }
+  }
+}
+
+function openNoteModal({ title, subtitle, showTopic, topicValue, topicPlaceholder, value, onSave }) {
+  const root = document.getElementById("modalRoot");
+  root.innerHTML = "";
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
+
+  const box = document.createElement("div");
+  box.className = "modal-box";
+
+  const top = document.createElement("div");
+  top.className = "modal-top";
+  top.innerHTML = `<div><h3>${title}</h3>${subtitle ? `<div class="modal-sub">${subtitle}</div>` : ""}</div>`;
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "modal-close"; closeBtn.textContent = "×";
+  closeBtn.addEventListener("click", close);
+  top.appendChild(closeBtn);
+  box.appendChild(top);
+
+  let topicInput = null;
+  if (showTopic) {
+    topicInput = document.createElement("input");
+    topicInput.className = "topic-input";
+    topicInput.placeholder = topicPlaceholder || "Título do tópico (ex: Mapa de Veitch-Karnaugh)";
+    topicInput.value = topicValue || "";
+    box.appendChild(topicInput);
+  }
+
+  const tabs = document.createElement("div");
+  tabs.className = "modal-tabs";
+  const tabEdit = document.createElement("button");
+  tabEdit.className = "modal-tabbtn active"; tabEdit.textContent = "Escrever";
+  const tabPreview = document.createElement("button");
+  tabPreview.className = "modal-tabbtn"; tabPreview.textContent = "Pré-visualizar (KaTeX)";
+  tabs.appendChild(tabEdit); tabs.appendChild(tabPreview);
+  box.appendChild(tabs);
+
+  const ta = document.createElement("textarea");
+  ta.className = "textinput";
+  ta.value = value || "";
+  ta.placeholder = t("anote_placeholder") + " use $x^2$ ou $$\\frac{a}{b}$$ para fórmulas";
+  box.appendChild(ta);
+
+  const preview = document.createElement("div");
+  preview.className = "katex-preview";
+  preview.style.display = "none";
+  box.appendChild(preview);
+
+  tabEdit.addEventListener("click", () => {
+    tabEdit.classList.add("active"); tabPreview.classList.remove("active");
+    ta.style.display = ""; preview.style.display = "none";
+  });
+  tabPreview.addEventListener("click", () => {
+    tabPreview.classList.add("active"); tabEdit.classList.remove("active");
+    ta.style.display = "none"; preview.style.display = "block";
+    renderKatexPreview(preview, ta.value);
+  });
+
+  const hint = document.createElement("div");
+  hint.className = "modal-hint";
+  hint.textContent = "Dica: use $ ... $ para fórmulas em linha e $$ ... $$ para fórmulas em destaque.";
+  box.appendChild(hint);
+
+  const actions = document.createElement("div");
+  actions.className = "modal-actions";
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "btn-cancel"; cancelBtn.textContent = "Cancelar";
+  cancelBtn.addEventListener("click", close);
+  const saveBtn = document.createElement("button");
+  saveBtn.className = "btn-save"; saveBtn.textContent = "Salvar";
+  saveBtn.addEventListener("click", () => {
+    onSave({ value: ta.value, topic: topicInput ? topicInput.value : undefined });
+    close();
+  });
+  actions.appendChild(cancelBtn); actions.appendChild(saveBtn);
+  box.appendChild(actions);
+
+  overlay.appendChild(box);
+  root.appendChild(overlay);
+  ta.focus();
+
+  function close() { root.innerHTML = ""; }
+}
 
 function emptyWeekData() {
   const schedule = {}, aprendizado = {}, resumo = {}, tarefas = {};
@@ -502,7 +728,7 @@ function renderDiscBar() {
     chip.draggable = true;
     chip.textContent = d.name;
     chip.title = t("clique_para_escolher_dia");
-    chip.addEventListener("dragstart", () => { dragDiscId = d.id; dragItem = null; });
+    chip.addEventListener("dragstart", () => { dragDiscId = d.id; dragDiscColor = d.color; dragItem = null; });
     chip.addEventListener("click", (e) => {
       e.stopPropagation();
       const existing = chip.querySelector(".day-popover");
@@ -515,9 +741,11 @@ function renderDiscBar() {
         dayBtn.textContent = t("day_" + day.key);
         dayBtn.addEventListener("click", (ev) => {
           ev.stopPropagation();
-          weekData.schedule[day.key].push({ id: uid(), disciplinaId: d.id, hora: "" });
+          weekData.schedule[day.key].push({ id: uid(), disciplinaId: d.id, hora: "", topico: "", nota: "" });
           persistWeek();
-          renderGrid();
+          activeDayKey = day.key;
+          renderDayTrack();
+          renderDayCard();
           pop.remove();
         });
         pop.appendChild(dayBtn);
@@ -535,220 +763,250 @@ function renderDiscBar() {
   }
 }
 
-function renderGrid() {
-  const grid = document.getElementById("weekGrid");
-  grid.innerHTML = "";
-  const disciplinas = getDisciplinas();
-  const orderedDays = cardOrder.map(key => DAY_DEFS.find(d => d.key === key)).filter(Boolean);
+// ---------- Trilha horizontal de dias (Segunda → Domingo, sempre nessa ordem) ----------
+function renderDayTrack() {
+  const track = document.getElementById("dayTrack");
+  track.innerHTML = "";
+  const tk = todayKey();
+  const thisWeekIsCurrent = isoDate(monday) === isoDate(startOfWeekMonday(new Date()));
 
-  orderedDays.forEach((day) => {
-    const di = DAY_DEFS.findIndex(d => d.key === day.key); // posição real do dia na semana (pra data continuar certa)
+  DAY_DEFS.forEach((day, di) => {
     const dayDate = addDays(monday, di);
-    const card = document.createElement("div");
-    card.className = "day-card";
-
-    card.addEventListener("dragover", e => e.preventDefault());
-    card.addEventListener("drop", () => {
-      if (dragCardKey && dragCardKey !== day.key) {
-        const fromIdx = cardOrder.indexOf(dragCardKey);
-        const toIdx = cardOrder.indexOf(day.key);
-        cardOrder.splice(fromIdx, 1);
-        cardOrder.splice(toIdx, 0, dragCardKey);
-        saveJSON("card_order", cardOrder);
-        dragCardKey = null;
-        renderGrid();
-        return;
-      }
-      if (dragDiscId) { weekData.schedule[day.key].push({ id: uid(), disciplinaId: dragDiscId, hora: "" }); persistWeek(); renderGrid(); }
-      if (dragItem) {
-        const { fromDay, itemId } = dragItem;
-        if (fromDay !== day.key) {
-          const idx = weekData.schedule[fromDay].findIndex(i => i.id === itemId);
-          if (idx > -1) {
-            const [it] = weekData.schedule[fromDay].splice(idx, 1);
-            weekData.schedule[day.key].push(it);
-            persistWeek(); renderGrid();
-          }
-        }
-      }
-      dragDiscId = null; dragItem = null;
-    });
-
-    // head
-    const head = document.createElement("div");
-    head.className = "day-head";
-    head.style.background = `var(${day.css})`;
-    head.innerHTML = `<div><div class="date">${fmtShort(dayDate)}</div><div class="name">${t("day_" + day.key)}</div></div>`;
-
-    const moveWrap = document.createElement("div");
-    moveWrap.style.cssText = "display:flex;gap:2px;align-items:center";
-    const idxInOrder = cardOrder.indexOf(day.key);
-    const moveLeftBtn = document.createElement("button");
-    moveLeftBtn.textContent = "◀";
-    moveLeftBtn.title = "Mover para trás";
-    moveLeftBtn.disabled = idxInOrder === 0;
-    moveLeftBtn.style.cssText = "font-size:11px;opacity:" + (idxInOrder === 0 ? "0.35" : "0.9");
-    moveLeftBtn.addEventListener("click", () => {
-      if (idxInOrder <= 0) return;
-      [cardOrder[idxInOrder - 1], cardOrder[idxInOrder]] = [cardOrder[idxInOrder], cardOrder[idxInOrder - 1]];
-      saveJSON("card_order", cardOrder);
-      renderGrid();
-    });
-    const moveRightBtn = document.createElement("button");
-    moveRightBtn.textContent = "▶";
-    moveRightBtn.title = "Mover para frente";
-    moveRightBtn.disabled = idxInOrder === cardOrder.length - 1;
-    moveRightBtn.style.cssText = "font-size:11px;opacity:" + (idxInOrder === cardOrder.length - 1 ? "0.35" : "0.9");
-    moveRightBtn.addEventListener("click", () => {
-      if (idxInOrder >= cardOrder.length - 1) return;
-      [cardOrder[idxInOrder + 1], cardOrder[idxInOrder]] = [cardOrder[idxInOrder], cardOrder[idxInOrder + 1]];
-      saveJSON("card_order", cardOrder);
-      renderGrid();
-    });
-    moveWrap.appendChild(moveLeftBtn);
-    moveWrap.appendChild(moveRightBtn);
-    head.appendChild(moveWrap);
-
-    const addBtn = document.createElement("button");
-    addBtn.textContent = "+";
-    addBtn.addEventListener("click", () => { openAddDay = openAddDay === day.key ? null : day.key; renderGrid(); });
-    head.appendChild(addBtn);
-    card.appendChild(head);
-
-    if (openAddDay === day.key) {
-      const addList = document.createElement("div");
-      addList.className = "day-addlist";
-      addList.style.background = `var(${day.css})22`;
-      if (disciplinas.length === 0) {
-        addList.innerHTML = `<span style="font-size:.75rem;opacity:.5">${t("cadastre_primeiro")}</span>`;
-      }
-      disciplinas.forEach(d => {
-        const b = document.createElement("button");
-        b.textContent = d.name;
-        b.style.color = d.color;
-        b.style.borderColor = d.color + "55";
-        b.addEventListener("click", () => {
-          weekData.schedule[day.key].push({ id: uid(), disciplinaId: d.id, hora: "" });
-          openAddDay = null;
-          persistWeek(); renderGrid();
-        });
-        addList.appendChild(b);
-      });
-      card.appendChild(addList);
-    }
-
-    // schedule
-    const sched = document.createElement("div");
-    sched.className = "day-schedule";
-    const items = weekData.schedule[day.key];
-    if (items.length === 0) {
-      const e = document.createElement("div");
-      e.className = "sched-empty";
-      e.textContent = t("nenhuma_aula");
-      sched.appendChild(e);
-    }
-    items.forEach(it => {
-      const disc = discById(it.disciplinaId);
-      if (!disc) return;
-      const row = document.createElement("div");
-      row.className = "sched-item";
-      row.draggable = true;
-      row.addEventListener("dragstart", () => { dragItem = { fromDay: day.key, itemId: it.id }; dragDiscId = null; });
-      row.innerHTML = `<span class="dot" style="background:${disc.color}"></span><span class="nm" style="color:${disc.color}">${disc.name}</span>`;
-      const horaInput = document.createElement("input");
-      horaInput.placeholder = t("hora_placeholder");
-      horaInput.value = it.hora;
-      horaInput.addEventListener("input", e => { it.hora = e.target.value; persistWeek(); });
-      row.appendChild(horaInput);
-      const rm = document.createElement("button");
-      rm.className = "rm"; rm.textContent = "×";
-      rm.addEventListener("click", () => {
-        weekData.schedule[day.key] = weekData.schedule[day.key].filter(x => x.id !== it.id);
-        persistWeek(); renderGrid();
-      });
-      row.appendChild(rm);
-      sched.appendChild(row);
-    });
-    card.appendChild(sched);
-
-    // body: aprendizado, resumo, tarefas
-    const body = document.createElement("div");
-    body.className = "day-body";
-
-    body.appendChild(makeField(t("aprendi_label"), weekData.aprendizado[day.key], v => { weekData.aprendizado[day.key] = v; persistWeek(); }));
-    body.appendChild(makeField(t("resumo_label"), weekData.resumo[day.key], v => { weekData.resumo[day.key] = v; persistWeek(); }));
-
-    const taskWrap = document.createElement("div");
-    const taskLabel = document.createElement("div");
-    taskLabel.className = "field-label";
-    taskLabel.textContent = t("tarefas_label");
-    taskWrap.appendChild(taskLabel);
-
-    weekData.tarefas[day.key].forEach(task => {
-      const row = document.createElement("label");
-      row.className = "task-row";
-      const cb = document.createElement("input");
-      cb.type = "checkbox"; cb.checked = task.done;
-      cb.addEventListener("change", () => { task.done = !task.done; persistWeek(); renderGrid(); });
-      row.appendChild(cb);
-      const span = document.createElement("span");
-      span.textContent = task.text;
-      if (task.done) span.className = "done";
-      row.appendChild(span);
-      const rm = document.createElement("button");
-      rm.className = "rm"; rm.textContent = "×";
-      rm.addEventListener("click", (e) => {
-        e.preventDefault();
-        weekData.tarefas[day.key] = weekData.tarefas[day.key].filter(x => x.id !== task.id);
-        persistWeek(); renderGrid();
-      });
-      row.appendChild(rm);
-      taskWrap.appendChild(row);
-    });
-
-    const addRow = document.createElement("div");
-    addRow.className = "task-add";
-    const input = document.createElement("input");
-    input.placeholder = t("tarefa_placeholder");
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter" && input.value.trim()) {
-        weekData.tarefas[day.key].push({ id: uid(), text: input.value.trim(), done: false });
-        input.value = "";
-        persistWeek(); renderGrid();
-      }
-    });
-    addRow.appendChild(input);
-    taskWrap.appendChild(addRow);
-    body.appendChild(taskWrap);
-
-    card.appendChild(body);
-    grid.appendChild(card);
+    const pill = document.createElement("button");
+    pill.className = "day-pill";
+    if (day.key === activeDayKey) pill.classList.add("active");
+    if (thisWeekIsCurrent && day.key === tk) pill.classList.add("today");
+    pill.style.setProperty("--pill-color", `var(${day.css})`);
+    pill.innerHTML = `<span class="pill-name">${t("day_" + day.key)}</span><span class="pill-date">${fmtShort(dayDate)}</span>`;
+    pill.addEventListener("click", () => { activeDayKey = day.key; renderDayTrack(); renderDayCard(); });
+    track.appendChild(pill);
   });
 }
 
-function makeField(label, value, onChange) {
-  const wrap = document.createElement("div");
-  const l = document.createElement("div");
-  l.className = "field-label"; l.textContent = label;
-  wrap.appendChild(l);
-  const ta = document.createElement("textarea");
-  ta.rows = 2; ta.value = value; ta.placeholder = t("anote_placeholder");
-  ta.addEventListener("input", e => onChange(e.target.value));
-  wrap.appendChild(ta);
-  return wrap;
+// ---------- Card do dia ativo ----------
+function renderDayCard() {
+  const wrap = document.getElementById("dayCardWrap");
+  wrap.innerHTML = "";
+  const disciplinas = getDisciplinas();
+  const day = DAY_DEFS.find(d => d.key === activeDayKey) || DAY_DEFS[0];
+  const di = DAY_DEFS.findIndex(d => d.key === day.key);
+  const dayDate = addDays(monday, di);
+
+  const card = document.createElement("div");
+  card.className = "day-card";
+
+  card.addEventListener("dragover", e => {
+    e.preventDefault();
+    card.classList.add("drag-over");
+    if (dragDiscColor) card.style.setProperty("--drop-color", dragDiscColor + "55");
+  });
+  card.addEventListener("dragleave", () => card.classList.remove("drag-over"));
+  card.addEventListener("drop", () => {
+    card.classList.remove("drag-over");
+    if (dragDiscId) { weekData.schedule[day.key].push({ id: uid(), disciplinaId: dragDiscId, hora: "", topico: "", nota: "" }); persistWeek(); renderDayCard(); }
+    if (dragItem) {
+      const { fromDay, itemId } = dragItem;
+      if (fromDay !== day.key) {
+        const idx = weekData.schedule[fromDay].findIndex(i => i.id === itemId);
+        if (idx > -1) {
+          const [it] = weekData.schedule[fromDay].splice(idx, 1);
+          weekData.schedule[day.key].push(it);
+          persistWeek(); renderDayCard();
+        }
+      }
+    }
+    dragDiscId = null; dragDiscColor = null; dragItem = null;
+  });
+
+  // head
+  const head = document.createElement("div");
+  head.className = "day-head";
+  head.style.background = `var(${day.css})`;
+  head.innerHTML = `<div><div class="date">${fmtShort(dayDate)}</div><div class="name">${t("day_" + day.key)}</div></div>`;
+
+  const addBtn = document.createElement("button");
+  addBtn.textContent = "+";
+  addBtn.title = t("clique_para_escolher_dia");
+  addBtn.addEventListener("click", () => { openAddDay = openAddDay === day.key ? null : day.key; renderDayCard(); });
+  head.appendChild(addBtn);
+  card.appendChild(head);
+
+  if (openAddDay === day.key) {
+    const addList = document.createElement("div");
+    addList.className = "day-addlist";
+    addList.style.background = `var(${day.css})22`;
+    if (disciplinas.length === 0) {
+      addList.innerHTML = `<span style="font-size:.75rem;opacity:.5">${t("cadastre_primeiro")}</span>`;
+    }
+    disciplinas.forEach(d => {
+      const b = document.createElement("button");
+      b.textContent = d.name;
+      b.style.color = d.color;
+      b.style.borderColor = d.color + "55";
+      b.addEventListener("click", () => {
+        weekData.schedule[day.key].push({ id: uid(), disciplinaId: d.id, hora: "", topico: "", nota: "" });
+        openAddDay = null;
+        persistWeek(); renderDayCard();
+      });
+      addList.appendChild(b);
+    });
+    card.appendChild(addList);
+  }
+
+  // schedule
+  const sched = document.createElement("div");
+  sched.className = "day-schedule";
+  const items = weekData.schedule[day.key];
+  if (items.length === 0) {
+    const e = document.createElement("div");
+    e.className = "sched-empty";
+    e.textContent = t("nenhuma_aula");
+    sched.appendChild(e);
+  }
+  items.forEach(it => {
+    const disc = discById(it.disciplinaId);
+    if (!disc) return;
+    const row = document.createElement("div");
+    row.className = "sched-item";
+    row.draggable = true;
+    row.addEventListener("dragstart", () => { dragItem = { fromDay: day.key, itemId: it.id }; dragDiscId = null; dragDiscColor = null; });
+
+    const openSubjectModal = () => {
+      openNoteModal({
+        title: disc.name,
+        subtitle: t("day_" + day.key) + " · " + fmtShort(dayDate),
+        showTopic: true,
+        topicValue: it.topico || "",
+        topicPlaceholder: "Título do tópico (ex: Mapa de Veitch-Karnaugh)",
+        value: it.nota || "",
+        onSave: ({ value, topic }) => {
+          it.nota = value;
+          it.topico = topic;
+          persistWeek(); renderDayCard();
+        },
+      });
+    };
+
+    const dot = document.createElement("span");
+    dot.className = "dot"; dot.style.background = disc.color;
+    row.appendChild(dot);
+
+    const nm = document.createElement("span");
+    nm.className = "nm"; nm.style.color = disc.color; nm.textContent = disc.name;
+    nm.addEventListener("click", openSubjectModal);
+    row.appendChild(nm);
+
+    const topicBadge = document.createElement("span");
+    topicBadge.className = "topic-badge";
+    topicBadge.textContent = it.topico ? it.topico : "+ tópico / anotação";
+    topicBadge.addEventListener("click", openSubjectModal);
+    row.appendChild(topicBadge);
+
+    const horaInput = document.createElement("input");
+    horaInput.placeholder = t("hora_placeholder");
+    horaInput.value = it.hora;
+    horaInput.addEventListener("input", e => { it.hora = e.target.value; persistWeek(); });
+    row.appendChild(horaInput);
+
+    const rm = document.createElement("button");
+    rm.className = "rm"; rm.textContent = "×";
+    rm.addEventListener("click", () => {
+      weekData.schedule[day.key] = weekData.schedule[day.key].filter(x => x.id !== it.id);
+      persistWeek(); renderDayCard();
+    });
+    row.appendChild(rm);
+    sched.appendChild(row);
+  });
+  card.appendChild(sched);
+
+  // body: aprendizado, resumo (só abrem ao clicar), tarefas
+  const body = document.createElement("div");
+  body.className = "day-body";
+
+  body.appendChild(makeFieldToggle(t("aprendi_label"), weekData.aprendizado[day.key], v => { weekData.aprendizado[day.key] = v; persistWeek(); renderDayCard(); }));
+  body.appendChild(makeFieldToggle(t("resumo_label"), weekData.resumo[day.key], v => { weekData.resumo[day.key] = v; persistWeek(); renderDayCard(); }));
+
+  const taskWrap = document.createElement("div");
+  const taskLabel = document.createElement("div");
+  taskLabel.className = "field-label";
+  taskLabel.textContent = t("tarefas_label");
+  taskWrap.appendChild(taskLabel);
+
+  weekData.tarefas[day.key].forEach(task => {
+    const row = document.createElement("label");
+    row.className = "task-row";
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.checked = task.done;
+    cb.addEventListener("change", () => { task.done = !task.done; persistWeek(); renderDayCard(); });
+    row.appendChild(cb);
+    const span = document.createElement("span");
+    span.textContent = task.text;
+    if (task.done) span.className = "done";
+    row.appendChild(span);
+    const rm = document.createElement("button");
+    rm.className = "rm"; rm.textContent = "×";
+    rm.addEventListener("click", (e) => {
+      e.preventDefault();
+      weekData.tarefas[day.key] = weekData.tarefas[day.key].filter(x => x.id !== task.id);
+      persistWeek(); renderDayCard();
+    });
+    row.appendChild(rm);
+    taskWrap.appendChild(row);
+  });
+
+  const addRow = document.createElement("div");
+  addRow.className = "task-add";
+  const input = document.createElement("input");
+  input.placeholder = t("tarefa_placeholder");
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter" && input.value.trim()) {
+      weekData.tarefas[day.key].push({ id: uid(), text: input.value.trim(), done: false });
+      input.value = "";
+      persistWeek(); renderDayCard();
+    }
+  });
+  addRow.appendChild(input);
+  taskWrap.appendChild(addRow);
+  body.appendChild(taskWrap);
+
+  card.appendChild(body);
+  wrap.appendChild(card);
+}
+
+// botão "+ Adicionar resumo/anotação" — o campo só aparece dentro do modal ao clicar
+function makeFieldToggle(label, value, onChange) {
+  const btn = document.createElement("button");
+  btn.className = "field-toggle" + (value ? " filled" : "");
+  const preview = value ? value.slice(0, 60) + (value.length > 60 ? "…" : "") : t("anote_placeholder");
+  btn.innerHTML = `
+    <span class="ft-plus">${value ? "✎" : "+"}</span>
+    <span class="ft-text">
+      <div class="ft-label">${label}</div>
+      <div class="ft-preview">${preview}</div>
+    </span>`;
+  btn.addEventListener("click", () => {
+    openNoteModal({
+      title: label,
+      showTopic: false,
+      value: value,
+      onSave: ({ value: v }) => onChange(v),
+    });
+  });
+  return btn;
 }
 
 function refreshAll() {
   renderWeekRange();
   renderDiscBar();
   loadWeek();
-  renderGrid();
+  renderDayTrack();
+  renderDayCard();
   if (window.pullWeekFromCloud) window.pullWeekFromCloud(isoDate(monday));
 }
 
 document.getElementById("prevWeek").addEventListener("click", () => { monday = addDays(monday, -7); refreshAll(); });
 document.getElementById("nextWeek").addEventListener("click", () => { monday = addDays(monday, 7); refreshAll(); });
-document.getElementById("todayBtn").addEventListener("click", () => { monday = startOfWeekMonday(new Date()); refreshAll(); });
+document.getElementById("todayBtn").addEventListener("click", () => { monday = startOfWeekMonday(new Date()); activeDayKey = todayKey(); refreshAll(); });
 
 // Calendário manual: escolher qualquer data pula para a semana correspondente
 document.getElementById("pickDate").addEventListener("change", (e) => {
@@ -805,7 +1063,7 @@ window.pullWeekFromCloud = async function (mondayIso) {
     const snap = await getDoc(ref);
     if (snap.exists() && snap.data().dados) {
       saveJSON(`semana:${mondayIso}`, snap.data().dados);
-      if (isoDate(monday) === mondayIso) { loadWeek(); renderGrid(); }
+      if (isoDate(monday) === mondayIso) { loadWeek(); renderDayCard(); }
     } else {
       const local = loadJSON(`semana:${mondayIso}`, null);
       if (local) await setDoc(ref, { dados: local, atualizadoEm: Date.now() });
