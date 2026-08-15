@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Perfil</title>
+<style>
+:root {
+  --paper: #F5F4F0;
+  --ink: #3B382F;
+  --line: #00000014;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+
+.topbar { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
+.topbar-inner { max-width: 1100px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: uppercase; }
+nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
+nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
+.lang-switch { flex-shrink: 0; }
+
+main { max-width: 640px; margin: 0 auto; padding: 30px 16px 60px; }
+.eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; }
+h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+.lead { opacity: 0.6; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
+
+.profile-card { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+.avatar-row { display: flex; align-items: center; gap: 14px; }
+.avatar-circle {
+  width: 62px; height: 62px; border-radius: 999px; background: var(--ink); color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; flex-shrink: 0;
+  position: relative; overflow: hidden; cursor: pointer; border: none; padding: 0;
+}
+.avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-circle .avatar-edit-hint {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.45); color: white; font-size: 0.55rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; text-align: center; opacity: 0; transition: opacity .15s ease;
+}
+.avatar-circle:hover .avatar-edit-hint { opacity: 1; }
+.avatar-actions { display: flex; flex-direction: column; gap: 4px; }
+.avatar-remove-btn {
+  font-size: 0.68rem; border: none; background: none; opacity: 0.4; cursor: pointer; text-decoration: underline;
+  padding: 0; text-align: left; width: fit-content;
+}
+.avatar-remove-btn:hover { opacity: 0.8; }
+.avatar-info .apelido-preview { font-size: 1.15rem; font-weight: 800; }
+.avatar-info .curso-preview { font-size: 0.82rem; opacity: 0.55; margin-top: 2px; }
+
+.field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 5px; }
+.field-group { display: flex; flex-direction: column; }
+.field-group input, .field-group select {
+  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  padding: 10px 12px; font-size: 0.92rem; font-family: inherit; color: var(--ink);
+}
+.field-group input:focus, .field-group select:focus { outline: 2px solid #00000022; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+
+.save-hint { font-size: 0.75rem; opacity: 0.4; text-align: center; }
+
+footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand" id="brand"></div>
+    <nav class="mainnav" id="mainnav"></nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="lang-switch" id="langSwitch"></div>
+      <div id="authBox"></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="eyebrow">Sua conta</div>
+  <h1>Perfil</h1>
+  <p class="lead">Esses dados são usados pelo site — por exemplo, para te chamar pelo apelido no assistente de voz.</p>
+
+  <div class="profile-card">
+    <div class="avatar-row">
+      <button class="avatar-circle" id="avatarBtn" type="button" title="Clique para escolher uma foto">
+        <span id="avatarLetter">?</span>
+        <img id="avatarImg" style="display:none" alt="Foto de perfil">
+        <span class="avatar-edit-hint">Trocar foto</span>
+      </button>
+      <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
+      <div class="avatar-info">
+        <div class="apelido-preview" id="apelidoPreview">Sem apelido ainda</div>
+        <div class="curso-preview" id="cursoPreview"></div>
+        <div class="avatar-actions">
+          <button class="avatar-remove-btn" id="avatarRemoveBtn" style="display:none">remover foto</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Nome completo</div>
+      <input type="text" id="nomeCompleto" placeholder="Seu nome completo">
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Apelido</div>
+      <input type="text" id="apelido" placeholder="Como você quer ser chamado(a)">
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <div class="field-label">Data de nascimento</div>
+        <input type="date" id="dataNascimento">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Gênero</div>
+        <select id="genero">
+          <option value="">Prefiro não informar</option>
+          <option value="feminino">Feminino</option>
+          <option value="masculino">Masculino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Curso</div>
+      <input type="text" id="curso" placeholder="Ex.: Ciência da Computação">
+    </div>
+
+    <div class="save-hint" id="saveHint">Salvo automaticamente neste navegador.</div>
+  </div>
+</main>
+
+<footer class="foot" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
+
+<script>
+const SITE_NAME = "tape";
+document.title = SITE_NAME + " · Perfil";
+document.getElementById("brand").innerHTML = `<svg width="30" height="30" viewBox="0 0 200 200" style="flex-shrink:0"><rect width="200" height="200" rx="40" fill="#F1E6CF"/><circle cx="100" cy="46" r="7" fill="#8C3B2E"/><polyline points="38,146 100,92 162,146" fill="none" stroke="#B65C38" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text">${SITE_NAME}</span>`;
+
+const NAV_LINKS = [
+  { href: "index.html", label: "Semana" },
+  { href: "disciplinas.html", label: "Disciplinas" },
+  { href: "anotacoes.html", label: "Anotações" },
+  { href: "estudos.html", label: "Estudos extras" },
+  { href: "aulas.html", label: "Aulas" },
+  { href: "formulas.html", label: "Guia de sobrevivência" },
+  { href: "foco.html", label: "Foco" },
+  { href: "calculadora.html", label: "Calculadora" },
+  { href: "perfil.html", label: "Perfil" },
+  { href: "ajuda.html", label: "Ajuda" },
+  { href: "sugestoes.html", label: "Sugestões" },
+  { href: "creditos.html", label: "Créditos" },
+];
+document.getElementById("mainnav").innerHTML = NAV_LINKS
+  .map(l => `<a href="${l.href}" class="${l.href === "perfil.html" ? "active" : ""}">${l.label}</a>`)
+  .join("");
+
+const langs = [["pt","Português"],["en","English"],["es","Español"]];
+const currentLang = localStorage.getItem("idioma") || "pt";
+document.getElementById("langSwitch").innerHTML = `
+  <div class="lang-dropdown" style="position:relative">
+    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:white;cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
+    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:150px;display:none;z-index:30">
+      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:white;font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
+    </div>
+  </div>`;
+document.getElementById("langToggleBtn").addEventListener("click", (e) => { e.stopPropagation(); document.getElementById("langMenu").style.display = document.getElementById("langMenu").style.display === "block" ? "none" : "block"; });
+document.querySelectorAll("#langMenu button").forEach(b => b.addEventListener("click", () => { localStorage.setItem("idioma", b.dataset.lang); location.href = "index.html"; }));
+document.addEventListener("click", () => { const m = document.getElementById("langMenu"); if (m) m.style.display = "none"; });
+
+// ---------- localStorage helpers ----------
+function loadJSON(key, fallback) {
+  try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+  catch (e) { return fallback; }
+}
+function saveJSON(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+  catch (e) { return false; }
+}
+
+const campos = ["nomeCompleto", "apelido", "dataNascimento", "genero", "curso"];
+const perfil = loadJSON("perfil_dados", {});
+
+function preencherCampos() {
+  campos.forEach(c => { const el = document.getElementById(c); if (el && perfil[c]) el.value = perfil[c]; });
+  atualizarPreview();
+}
+
+function atualizarPreview() {
+  const nome = document.getElementById("apelido").value.trim() || document.getElementById("nomeCompleto").value.trim();
+  const curso = document.getElementById("curso").value.trim();
+  document.getElementById("apelidoPreview").textContent = nome || "Sem apelido ainda";
+  document.getElementById("cursoPreview").textContent = curso;
+  document.getElementById("avatarLetter").textContent = nome ? nome.trim()[0].toUpperCase() : "?";
+  atualizarAvatarFoto();
+}
+
+function atualizarAvatarFoto() {
+  const img = document.getElementById("avatarImg");
+  const letter = document.getElementById("avatarLetter");
+  const removeBtn = document.getElementById("avatarRemoveBtn");
+  if (perfil.foto) {
+    img.src = perfil.foto;
+    img.style.display = "block";
+    letter.style.display = "none";
+    removeBtn.style.display = "inline";
+  } else {
+    img.style.display = "none";
+    letter.style.display = "block";
+    removeBtn.style.display = "none";
+  }
+}
+
+// redimensiona a foto pra não pesar no localStorage / na nuvem
+function processarFoto(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const tamanho = 240; // px, quadrado
+      const canvas = document.createElement("canvas");
+      canvas.width = tamanho; canvas.height = tamanho;
+      const ctx = canvas.getContext("2d");
+      const lado = Math.min(img.width, img.height);
+      const sx = (img.width - lado) / 2;
+      const sy = (img.height - lado) / 2;
+      ctx.drawImage(img, sx, sy, lado, lado, 0, 0, tamanho, tamanho);
+      perfil.foto = canvas.toDataURL("image/jpeg", 0.85);
+      saveJSON("perfil_dados", perfil);
+      if (window.pushPerfilToCloud) window.pushPerfilToCloud(perfil);
+      atualizarAvatarFoto();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById("avatarBtn").addEventListener("click", () => {
+  document.getElementById("avatarFileInput").click();
+});
+document.getElementById("avatarFileInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) processarFoto(file);
+  e.target.value = "";
+});
+document.getElementById("avatarRemoveBtn").addEventListener("click", () => {
+  delete perfil.foto;
+  saveJSON("perfil_dados", perfil);
+  if (window.pushPerfilToCloud) window.pushPerfilToCloud(perfil);
+  atualizarAvatarFoto();
+});
+
+let saveTimer = null;
+function salvar() {
+  campos.forEach(c => { const el = document.getElementById(c); if (el) perfil[c] = el.value; });
+  saveJSON("perfil_dados", perfil);
+  if (window.pushPerfilToCloud) window.pushPerfilToCloud(perfil);
+  atualizarPreview();
+  const hint = document.getElementById("saveHint");
+  hint.textContent = "Salvo ✓";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { hint.textContent = "Salvo automaticamente neste navegador."; }, 1500);
+}
+
+campos.forEach(c => {
+  const el = document.getElementById(c);
+  if (el) el.addEventListener(el.tagName === "SELECT" ? "change" : "input", salvar);
+});
+
+preencherCampos();
+</script>
+<script type="module" src="auth.js"></script>
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+  authDomain: "tape-1717.firebaseapp.com",
+  projectId: "tape-1717",
+  storageBucket: "tape-1717.firebasestorage.app",
+  messagingSenderId: "244010846598",
+  appId: "1:244010846598:web:e704631b12d4137fdcc407"
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cloudUid = null;
+
+async function pullPerfilFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "perfil_dados");
+    const snap = await getDoc(ref);
+    if (snap.exists() && snap.data().perfil) {
+      localStorage.setItem("perfil_dados", JSON.stringify(snap.data().perfil));
+    } else {
+      const local = JSON.parse(localStorage.getItem("perfil_dados") || "null");
+      if (local) await setDoc(ref, { perfil: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar perfil", e);
+  }
+  if (typeof preencherCampos === "function") preencherCampos();
+}
+
+window.pushPerfilToCloud = async function (perfil) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "perfil_dados"), { perfil, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar perfil na nuvem", e);
+  }
+};
+
+let jaSincronizou = false;
+onAuthStateChanged(auth, (user) => {
+  cloudUid = user ? user.uid : null;
+  if (cloudUid && !jaSincronizou) {
+    jaSincronizou = true;
+    pullPerfilFromCloud(cloudUid);
+  }
+});
+</script>
+<script src="assistente.js" defer></script>
+</body>
+</html>

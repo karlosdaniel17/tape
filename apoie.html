@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Contribua · tape</title>
 <style>
 :root {
   --paper: #F5F4F0;
-  --ink: #26241F;
+  --ink: #3B382F;
   --line: #00000014;
   --accent: #B65C38;
   --accent-2: #D89B4A;
@@ -17,7 +20,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 a { color: inherit; text-decoration: none; }
 
@@ -46,6 +49,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 8px;
 }
+.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: uppercase; }
 .back-link {
   font-size: 0.85rem;
   font-weight: 600;
@@ -140,7 +144,7 @@ h1 { font-size: 1.9rem; letter-spacing: -0.02em; margin: 0 0 8px; }
         <polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
         <polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      tape
+      <span class="brand-text">tape</span>
     </div>
     <a class="back-link" href="index.html">← voltar</a>
     <div id="authBox"></div>
@@ -149,7 +153,7 @@ h1 { font-size: 1.9rem; letter-spacing: -0.02em; margin: 0 0 8px; }
 
 <main>
   <div class="eyebrow">Contribua com o projeto</div>
-  <h1>Contribua com o tape 💛</h1>
+  <h1>Contribua com o tape</h1>
   <p class="lead">O tape é feito e mantido por mim, de forma independente. Se ele te ajuda na rotina da faculdade e você quiser contribuir com o projeto, essa é a forma mais direta.</p>
 
   <div class="card">
@@ -194,5 +198,6 @@ document.getElementById("btnCopyPix").addEventListener("click", async () => {
   setTimeout(() => { btn.textContent = "Copiar"; btn.classList.remove("copied"); }, 1800);
 });
 </script>
+<script src="assistente.js" defer></script>
 </body>
 </html>

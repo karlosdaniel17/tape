@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Guia de sobrevivência</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root {
+  --paper: #F5F4F0;
+  --ink: #3B382F;
+  --line: #00000014;
+  --accent: #4D96FF;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+
+.topbar { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
+.topbar-inner { max-width: 1100px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: uppercase; }
+nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
+nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
+.lang-switch { flex-shrink: 0; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+.eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; }
+h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+.lead { opacity: 0.6; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
+
+.search-row { margin-bottom: 18px; }
+.search-row input {
+  width: 100%; font-size: 0.9rem; padding: 11px 15px; border-radius: 12px; border: 1px solid var(--line);
+  background: white; font-family: inherit; color: var(--ink);
+}
+
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.formula-card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.formula-card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.formula-card input.titulo {
+  font-size: 1rem; font-weight: 800; border: none; background: transparent; flex: 1; padding: 2px 0; font-family: inherit; color: var(--ink);
+}
+.formula-card .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.95rem; flex-shrink: 0; }
+.formula-card .rm:hover { opacity: 0.9; }
+.formula-book {
+  background: #FCFBF8; border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+  font-family: "Times New Roman", Times, Georgia, serif; font-size: 1.05rem; text-align: center;
+  min-height: 70px; display: flex; align-items: center; justify-content: center; word-break: break-word;
+}
+.formula-book textarea {
+  width: 100%; border: none; background: transparent; text-align: center; resize: vertical;
+  font-family: "Times New Roman", Times, Georgia, serif; font-size: 1.05rem; color: var(--ink); min-height: 60px;
+}
+.formula-book textarea:focus { outline: none; }
+.formula-hint { font-size: 0.7rem; opacity: 0.4; text-align: center; }
+.add-formula-card {
+  border: 2px dashed var(--line); border-radius: 16px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; min-height: 120px; opacity: 0.5; font-weight: 700; background: none;
+}
+.add-formula-card:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand" id="brand"></div>
+    <nav class="mainnav" id="mainnav"></nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="lang-switch" id="langSwitch"></div>
+      <div id="authBox"></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="eyebrow">Cola rápida</div>
+  <h1>Guia de sobrevivência</h1>
+  <p class="lead">Suas fórmulas salvas — copie do Google e cole aqui, sem complicação. Suporta LaTeX entre <code>$...$</code>, mas texto simples também funciona.</p>
+
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="Buscar fórmula pelo nome…">
+  </div>
+
+  <div class="formula-grid" id="formulaGrid"></div>
+</main>
+
+<footer style="text-align:center;font-size:11px;opacity:.35;padding:30px 20px" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
+
+<script>
+const SITE_NAME = "tape";
+document.title = SITE_NAME + " · Guia de sobrevivência";
+document.getElementById("brand").innerHTML = `<svg width="30" height="30" viewBox="0 0 200 200" style="flex-shrink:0"><rect width="200" height="200" rx="40" fill="#F1E6CF"/><circle cx="100" cy="46" r="7" fill="#8C3B2E"/><polyline points="38,146 100,92 162,146" fill="none" stroke="#B65C38" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text">${SITE_NAME}</span>`;
+
+const NAV_LINKS = [
+  { href: "index.html", label: "Semana" },
+  { href: "disciplinas.html", label: "Disciplinas" },
+  { href: "anotacoes.html", label: "Anotações" },
+  { href: "estudos.html", label: "Estudos extras" },
+  { href: "aulas.html", label: "Aulas" },
+  { href: "formulas.html", label: "Guia de sobrevivência" },
+  { href: "foco.html", label: "Foco" },
+  { href: "calculadora.html", label: "Calculadora" },
+  { href: "perfil.html", label: "Perfil" },
+  { href: "ajuda.html", label: "Ajuda" },
+  { href: "sugestoes.html", label: "Sugestões" },
+  { href: "creditos.html", label: "Créditos" },
+];
+document.getElementById("mainnav").innerHTML = NAV_LINKS
+  .map(l => `<a href="${l.href}" class="${l.href === "formulas.html" ? "active" : ""}">${l.label}</a>`)
+  .join("");
+
+const langs = [["pt","Português"],["en","English"],["es","Español"]];
+const currentLang = localStorage.getItem("idioma") || "pt";
+document.getElementById("langSwitch").innerHTML = `
+  <div class="lang-dropdown" style="position:relative">
+    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:white;cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
+    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:150px;display:none;z-index:30">
+      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:white;font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
+    </div>
+  </div>`;
+document.getElementById("langToggleBtn").addEventListener("click", (e) => { e.stopPropagation(); document.getElementById("langMenu").style.display = document.getElementById("langMenu").style.display === "block" ? "none" : "block"; });
+document.querySelectorAll("#langMenu button").forEach(b => b.addEventListener("click", () => { localStorage.setItem("idioma", b.dataset.lang); location.href = "index.html"; }));
+document.addEventListener("click", () => { const m = document.getElementById("langMenu"); if (m) m.style.display = "none"; });
+
+// ---------- localStorage helpers ----------
+function loadJSON(key, fallback) {
+  try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+  catch (e) { return fallback; }
+}
+function saveJSON(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+  catch (e) { return false; }
+}
+function uid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+
+function getFormulas() {
+  const list = loadJSON("guia_formulas", null);
+  if (list) return list;
+  const padrao = [
+    { id: uid(), titulo: "Teorema de Pitágoras", conteudo: "$a^2 + b^2 = c^2$" },
+    { id: uid(), titulo: "Bhaskara", conteudo: "$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$" },
+  ];
+  saveJSON("guia_formulas", padrao);
+  return padrao;
+}
+function saveFormulas(list) {
+  saveJSON("guia_formulas", list);
+  if (window.pushFormulasToCloud) window.pushFormulasToCloud(list);
+}
+
+function renderKatexPreview(el, text) {
+  el.textContent = text || "";
+  if (window.renderMathInElement) {
+    try {
+      renderMathInElement(el, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+        ],
+        throwOnError: false,
+      });
+    } catch (e) { /* ignore */ }
+  }
+}
+
+let editingId = null;
+let filtro = "";
+
+function render() {
+  const list = getFormulas();
+  const grid = document.getElementById("formulaGrid");
+  grid.innerHTML = "";
+
+  const filtrados = list.filter(f => !filtro || f.titulo.toLowerCase().includes(filtro.toLowerCase()));
+
+  filtrados.forEach(f => {
+    const card = document.createElement("div");
+    card.className = "formula-card";
+
+    const top = document.createElement("div");
+    top.className = "top";
+    const titleInput = document.createElement("input");
+    titleInput.className = "titulo";
+    titleInput.value = f.titulo;
+    titleInput.placeholder = "Nome da fórmula (ex.: Teorema de Pitágoras)";
+    titleInput.addEventListener("input", e => { f.titulo = e.target.value; saveFormulas(list); });
+    top.appendChild(titleInput);
+    const rm = document.createElement("button");
+    rm.className = "rm"; rm.textContent = "×"; rm.title = "Remover fórmula";
+    rm.addEventListener("click", () => {
+      saveFormulas(list.filter(x => x.id !== f.id));
+      render();
+    });
+    top.appendChild(rm);
+    card.appendChild(top);
+
+    const book = document.createElement("div");
+    book.className = "formula-book";
+
+    if (editingId === f.id) {
+      const ta = document.createElement("textarea");
+      ta.value = f.conteudo;
+      ta.placeholder = "Cole a fórmula aqui…";
+      ta.addEventListener("input", e => { f.conteudo = e.target.value; saveFormulas(list); });
+      ta.addEventListener("blur", () => { editingId = null; render(); });
+      book.appendChild(ta);
+      card.appendChild(book);
+      const hint = document.createElement("div");
+      hint.className = "formula-hint";
+      hint.textContent = "Clique fora para salvar e visualizar";
+      card.appendChild(hint);
+      grid.appendChild(card);
+      ta.focus();
+    } else {
+      book.addEventListener("click", () => { editingId = f.id; render(); });
+      if (f.conteudo) {
+        renderKatexPreview(book, f.conteudo);
+      } else {
+        book.textContent = "Clique para colar a fórmula…";
+        book.style.opacity = "0.4";
+      }
+      card.appendChild(book);
+      grid.appendChild(card);
+    }
+  });
+
+  const addCard = document.createElement("button");
+  addCard.className = "add-formula-card";
+  addCard.textContent = "+ nova fórmula";
+  addCard.addEventListener("click", () => {
+    const novo = { id: uid(), titulo: "", conteudo: "" };
+    list.push(novo);
+    saveFormulas(list);
+    editingId = novo.id;
+    render();
+  });
+  grid.appendChild(addCard);
+}
+
+document.getElementById("searchInput").addEventListener("input", e => { filtro = e.target.value; render(); });
+
+if (window.renderMathInElement) {
+  render();
+} else {
+  window.addEventListener("load", render);
+  setTimeout(render, 50);
+}
+</script>
+<script type="module" src="auth.js"></script>
+<script type="module">
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
+  authDomain: "tape-1717.firebaseapp.com",
+  projectId: "tape-1717",
+  storageBucket: "tape-1717.firebasestorage.app",
+  messagingSenderId: "244010846598",
+  appId: "1:244010846598:web:e704631b12d4137fdcc407"
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cloudUid = null;
+
+async function pullFormulasFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "guia_formulas");
+    const snap = await getDoc(ref);
+    if (snap.exists() && snap.data().formulas) {
+      localStorage.setItem("guia_formulas", JSON.stringify(snap.data().formulas));
+    } else {
+      const local = JSON.parse(localStorage.getItem("guia_formulas") || "null");
+      if (local) await setDoc(ref, { formulas: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar fórmulas", e);
+  }
+  if (typeof render === "function") render();
+}
+
+window.pushFormulasToCloud = async function (formulas) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "guia_formulas"), { formulas, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar fórmulas na nuvem", e);
+  }
+};
+
+let jaSincronizou = false;
+onAuthStateChanged(auth, (user) => {
+  cloudUid = user ? user.uid : null;
+  if (cloudUid && !jaSincronizou) {
+    jaSincronizou = true;
+    pullFormulasFromCloud(cloudUid);
+  }
+});
+</script>
+<script src="assistente.js" defer></script>
+</body>
+</html>
