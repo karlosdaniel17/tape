@@ -139,12 +139,51 @@
   }
 
   // ---------- Web Speech API ----------
+  // Prioriza vozes "de nuvem" (Google/Microsoft Natural/Online), que soam bem mais naturais
+  // que a voz robótica padrão (eSpeak) que o navegador usa quando não acha nada melhor.
   function escolherVozFeminina() {
     const vozes = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
     const ptVoices = vozes.filter(v => v.lang && v.lang.toLowerCase().startsWith("pt"));
-    const nomesFemininos = ["female", "feminin", "luciana", "joana", "maria", "google português"];
-    const feminina = ptVoices.find(v => nomesFemininos.some(n => v.name.toLowerCase().includes(n)));
-    return feminina || ptVoices[0] || vozes[0] || null;
+    if (!ptVoices.length) return vozes[0] || null;
+
+    const nomesFemininos = ["female", "feminin", "luciana", "joana", "maria", "francisca", "camila"];
+    const marcasNaturais = ["google", "natural", "online", "microsoft", "premium", "enhanced", "neural"];
+
+    function pontuar(v) {
+      const nome = v.name.toLowerCase();
+      let pontos = 0;
+      if (nomesFemininos.some(n => nome.includes(n))) pontos += 2;
+      if (marcasNaturais.some(n => nome.includes(n))) pontos += 3;
+      if (v.lang.toLowerCase() === "pt-br") pontos += 1;
+      return pontos;
+    }
+    return [...ptVoices].sort((a, b) => pontuar(b) - pontuar(a))[0];
+  }
+
+  // quebra o texto em frases curtas — falar frase por frase soa mais natural
+  // do que uma fala única e corrida, e evita o tom "robótico" de leitura contínua.
+  function dividirEmFrases(texto) {
+    return texto.split(/(?<=[.!?])\s+/).filter(Boolean);
+  }
+
+  function falarFrases(frases, voz) {
+    if (!frases.length) { btn.classList.remove("falando"); return; }
+    const [frase, ...resto] = frases;
+    const utter = new SpeechSynthesisUtterance(frase);
+    utter.lang = "pt-BR";
+    utter.pitch = 1.0;
+    utter.rate = 0.96;
+    utter.volume = 1;
+    if (voz) utter.voice = voz;
+
+    utter.onstart = () => btn.classList.add("falando");
+    utter.onend = () => {
+      if (resto.length) falarFrases(resto, voz);
+      else btn.classList.remove("falando");
+    };
+    utter.onerror = () => btn.classList.remove("falando");
+
+    window.speechSynthesis.speak(utter);
   }
 
   function falar(texto) {
@@ -154,18 +193,8 @@
       return;
     }
     window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(texto);
-    utter.lang = "pt-BR";
-    utter.pitch = 1.15;
-    utter.rate = 1;
     const voz = escolherVozFeminina();
-    if (voz) utter.voice = voz;
-
-    utter.onstart = () => btn.classList.add("falando");
-    utter.onend = () => btn.classList.remove("falando");
-    utter.onerror = () => btn.classList.remove("falando");
-
-    window.speechSynthesis.speak(utter);
+    falarFrases(dividirEmFrases(texto), voz);
   }
 
   btn.addEventListener("click", () => {

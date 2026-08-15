@@ -3,17 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Foco</title>
 <style>
 :root {
-  --paper: #F5F4F0;
-  --ink: #3B382F;
+  --paper: #FAFAF8;
+  --ink: #2E2B24;
+  --card: #FFFFFF;
   --line: #00000014;
+  --overlay: #00000008;
+  --overlay-2: #00000010;
   --accent: #4D96FF;
   --accent-2: #4CAF7D;
+  --accent-3: #B08130;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #17160F;
+    --ink: #EEEAE1;
+    --card: #221F18;
+    --line: #FFFFFF20;
+    --overlay: #FFFFFF0F;
+    --overlay-2: #FFFFFF1A;
+    --accent: #7CAEFF;
+    --accent-2: #6ED89B;
+    --accent-3: #E0A94E;
+  }
 }
 * { box-sizing: border-box; }
 body {
@@ -27,56 +45,126 @@ a { color: inherit; text-decoration: none; }
 .topbar { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
 .topbar-inner { max-width: 1100px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
-.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: uppercase; }
+.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize; }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a:hover { opacity: 0.85; background: var(--overlay); }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 .lang-switch { flex-shrink: 0; }
 
 main { max-width: 640px; margin: 0 auto; padding: 30px 16px 60px; }
 @media (max-width: 480px) { main { padding: 20px 12px 50px; } }
-.eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; }
+.eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.65; margin-bottom: 4px; }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
-.lead { opacity: 0.6; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
+.lead { opacity: 0.62; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
+.section-title { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.55; margin: 26px 0 10px; }
 
-.streak-row { display: flex; gap: 12px; margin-bottom: 20px; }
+.streak-row { display: flex; gap: 12px; margin-bottom: 8px; }
 .streak-card {
-  flex: 1; background: white; border: 1px solid var(--line); border-radius: 16px;
+  flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 16px;
   padding: 16px; text-align: center;
 }
 .streak-num { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; }
-.streak-label { font-size: 0.72rem; opacity: 0.5; margin-top: 2px; }
+.streak-label { font-size: 0.72rem; opacity: 0.55; margin-top: 2px; }
 
-.timer-card { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 30px 20px; text-align: center; }
-.timer-mode { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 10px; }
-.timer-display { font-size: 3.4rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-bottom: 20px; }
+/* ---------- progresso diário ---------- */
+.progress-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin-top: 12px;
+}
+.progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.progress-top .txt { font-size: 0.85rem; font-weight: 700; }
+.progress-top .meta-edit { font-size: 0.72rem; opacity: 0.5; display: flex; align-items: center; gap: 4px; }
+.progress-top .meta-edit input { width: 34px; text-align: center; border: none; background: var(--overlay); border-radius: 6px; padding: 3px; font-family: inherit; color: var(--ink); }
+.progress-bar-track { height: 10px; border-radius: 999px; background: var(--overlay); overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .4s ease; }
+.progress-minutos { font-size: 0.72rem; opacity: 0.5; margin-top: 8px; }
+
+/* ---------- meta da sessão ---------- */
+.meta-sessao {
+  display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; padding: 10px 14px; margin-top: 12px;
+}
+.meta-sessao label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; flex-shrink: 0; }
+.meta-sessao input {
+  flex: 1; border: none; background: transparent; font-family: inherit; font-size: 0.88rem; color: var(--ink); min-width: 0;
+}
+.meta-sessao input:focus { outline: none; }
+
+.timer-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px 20px; text-align: center; margin-top: 20px; }
+.timer-mode { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; margin-bottom: 10px; }
+.timer-display { font-size: 3.4rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-bottom: 20px; color: var(--ink); }
 .timer-ring { position: relative; width: 220px; height: 220px; margin: 0 auto 22px; }
 .timer-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-.timer-ring .bg { stroke: #00000010; }
+.timer-ring .bg { stroke: var(--overlay-2); }
 .timer-ring .fg { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
 .timer-ring .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.timer-live-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 999px; background: var(--accent-2);
+  margin-right: 5px; animation: tapePulse 1.4s ease-in-out infinite;
+}
+@keyframes tapePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
 .timer-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .timer-controls button {
   padding: 12px 22px; border-radius: 999px; border: none; font-weight: 700; font-size: 0.9rem; cursor: pointer;
 }
 .btn-start { background: var(--ink); color: var(--paper); }
-.btn-reset { background: #00000008; color: var(--ink); }
+.btn-reset { background: var(--overlay); color: var(--ink); }
 
 .config-row { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
 .config-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.config-item label { font-size: 0.72rem; opacity: 0.5; }
+.config-item label { font-size: 0.72rem; opacity: 0.55; }
 .config-item input {
   width: 64px; text-align: center; padding: 7px; border-radius: 8px; border: 1px solid var(--line);
-  font-size: 0.9rem; font-family: inherit;
+  font-size: 0.9rem; font-family: inherit; background: var(--card); color: var(--ink);
 }
 
-.cycles-today { text-align: center; margin-top: 18px; font-size: 0.85rem; opacity: 0.6; }
+.cycles-today { text-align: center; margin-top: 18px; font-size: 0.85rem; opacity: 0.65; }
 .week-strip { display: flex; gap: 6px; justify-content: center; margin-top: 20px; }
-.week-dot { width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; background: #00000008; opacity: 0.4; }
+.week-dot { width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; background: var(--overlay); opacity: 0.5; }
 .week-dot.done { background: var(--accent-2); color: white; opacity: 1; }
 .week-dot.today { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* ---------- água ---------- */
+.agua-card {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px;
+}
+.agua-info { display: flex; align-items: center; gap: 10px; }
+.agua-icone { font-size: 1.5rem; }
+.agua-texto .num { font-weight: 800; font-size: 1.1rem; }
+.agua-texto .label { font-size: 0.72rem; opacity: 0.55; }
+.agua-btns { display: flex; gap: 6px; }
+.agua-btns button {
+  width: 34px; height: 34px; border-radius: 999px; border: none; font-weight: 800; font-size: 1rem; cursor: pointer;
+  background: var(--overlay); color: var(--ink);
+}
+.agua-btns button.mais { background: var(--accent); color: white; }
+
+/* ---------- sons de fundo ---------- */
+.sons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.som-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px;
+  border-radius: 14px; border: 1px solid var(--line); background: var(--card); cursor: pointer;
+  font-family: inherit; color: var(--ink); font-size: 0.72rem; font-weight: 700;
+}
+.som-btn .ic { font-size: 1.3rem; }
+.som-btn.ativo { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.volume-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 0.72rem; opacity: 0.6; }
+.volume-row input { flex: 1; }
+
+/* ---------- lofi ---------- */
+.lofi-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+.lofi-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.lofi-toggle-row .txt { font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.lofi-toggle-row button {
+  border: none; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 0.78rem;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer;
+}
+.lofi-frame-wrap { margin-top: 12px; border-radius: 10px; overflow: hidden; display: none; }
+.lofi-frame-wrap.show { display: block; }
+.lofi-frame-wrap iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+.lofi-hint { font-size: 0.68rem; opacity: 0.45; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -108,6 +196,20 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
     </div>
   </div>
 
+  <div class="progress-card">
+    <div class="progress-top">
+      <div class="txt" id="progressTxt">0 de 4 ciclos hoje</div>
+      <div class="meta-edit">meta diária: <input type="number" id="metaCiclosInput" min="1" max="20" value="4"></div>
+    </div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBarFill" style="width:0%"></div></div>
+    <div class="progress-minutos" id="progressMinutos">0 minutos de foco hoje</div>
+  </div>
+
+  <div class="meta-sessao">
+    <label for="metaSessaoInput">Meta de agora</label>
+    <input type="text" id="metaSessaoInput" placeholder="Ex.: Resolver 5 exercícios de Cálculo">
+  </div>
+
   <div class="timer-card">
     <div class="timer-mode" id="timerMode">Foco</div>
     <div class="timer-ring">
@@ -137,6 +239,45 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
   </div>
 
   <div class="week-strip" id="weekStrip"></div>
+
+  <div class="section-title">Beber água</div>
+  <div class="agua-card">
+    <div class="agua-info">
+      <div class="agua-icone">💧</div>
+      <div class="agua-texto">
+        <div class="num" id="aguaNum">0 copos</div>
+        <div class="label">hoje</div>
+      </div>
+    </div>
+    <div class="agua-btns">
+      <button id="aguaMenos" title="Remover um copo">−</button>
+      <button class="mais" id="aguaMais" title="Adicionar um copo">+</button>
+    </div>
+  </div>
+
+  <div class="section-title">Sons de fundo</div>
+  <div class="sons-grid" id="sonsGrid">
+    <button class="som-btn" data-som="chuva"><span class="ic">🌧️</span>Chuva</button>
+    <button class="som-btn" data-som="ruido"><span class="ic">📻</span>Ruído branco</button>
+    <button class="som-btn" data-som="cafeteria"><span class="ic">☕</span>Cafeteria</button>
+  </div>
+  <div class="volume-row">
+    <span>🔈</span>
+    <input type="range" id="volumeSlider" min="0" max="100" value="35">
+    <span>🔊</span>
+  </div>
+
+  <div class="section-title">Música</div>
+  <div class="lofi-card">
+    <div class="lofi-toggle-row">
+      <div class="txt">🎧 Rádio Lofi — beats para estudar</div>
+      <button id="lofiToggleBtn">Tocar</button>
+    </div>
+    <div class="lofi-frame-wrap" id="lofiFrameWrap">
+      <iframe id="lofiIframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="lofi-hint">Rádio ao vivo embutida do YouTube — pausa sozinha quando você sai da página.</div>
+  </div>
 </main>
 
 <script>
@@ -166,9 +307,9 @@ const langs = [["pt","Português"],["en","English"],["es","Español"]];
 const currentLang = localStorage.getItem("idioma") || "pt";
 document.getElementById("langSwitch").innerHTML = `
   <div class="lang-dropdown" style="position:relative">
-    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:white;cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
-    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:150px;display:none;z-index:30">
-      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:white;font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
+    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
+    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.2);overflow:hidden;min-width:150px;display:none;z-index:30">
+      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:var(--card);font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
     </div>
   </div>`;
 document.getElementById("langToggleBtn").addEventListener("click", (e) => { e.stopPropagation(); document.getElementById("langMenu").style.display = document.getElementById("langMenu").style.display === "block" ? "none" : "block"; });
@@ -194,6 +335,180 @@ function diaISO(offset) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
 
+// ---------- áudio compartilhado (efeitos + sons de fundo + sino) ----------
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  return audioCtx;
+}
+
+// clique discreto nos botões
+function tocarClique() {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 820;
+    osc.connect(gain); gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.06, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.07);
+    osc.start(); osc.stop(ctx.currentTime + 0.08);
+  } catch (e) {}
+}
+
+// sino suave (várias parciais) pra avisar o fim do ciclo
+function tocarSino() {
+  try {
+    const ctx = getAudioCtx();
+    const agora = ctx.currentTime;
+    [660, 990, 1320].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      osc.connect(gain); gain.connect(ctx.destination);
+      const vol = 0.16 / (i + 1);
+      gain.gain.setValueAtTime(0, agora);
+      gain.gain.linearRampToValueAtTime(vol, agora + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, agora + 1.6);
+      osc.start(agora); osc.stop(agora + 1.6);
+    });
+  } catch (e) {}
+}
+
+document.querySelectorAll("button").forEach(b => b.addEventListener("click", tocarClique));
+
+// ---------- sons de fundo (sintetizados, sem depender de arquivos externos) ----------
+let somAtual = null;
+let somNode = null;
+let somGain = null;
+
+function pararSom() {
+  if (somNode) { try { somNode.stop(); } catch (e) {} somNode.disconnect(); somNode = null; }
+  if (somGain) { somGain.disconnect(); somGain = null; }
+  somAtual = null;
+  document.querySelectorAll(".som-btn").forEach(b => b.classList.remove("ativo"));
+}
+
+function criarBufferRuido(ctx, segundos) {
+  const buffer = ctx.createBuffer(1, ctx.sampleRate * segundos, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  return buffer;
+}
+
+function tocarSomAmbiente(tipo) {
+  if (somAtual === tipo) { pararSom(); return; }
+  pararSom();
+  const ctx = getAudioCtx();
+  const buffer = criarBufferRuido(ctx, 4);
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+
+  const filtro = ctx.createBiquadFilter();
+  if (tipo === "chuva") { filtro.type = "highpass"; filtro.frequency.value = 1200; }
+  else if (tipo === "ruido") { filtro.type = "allpass"; filtro.frequency.value = 1000; }
+  else { filtro.type = "lowpass"; filtro.frequency.value = 500; } // cafeteria: rumor grave e abafado
+
+  const gain = ctx.createGain();
+  const volume = parseInt(document.getElementById("volumeSlider").value, 10) / 100;
+  gain.gain.value = volume * 0.5;
+
+  source.connect(filtro); filtro.connect(gain); gain.connect(ctx.destination);
+  source.start();
+
+  somNode = source; somGain = gain; somAtual = tipo;
+  document.querySelectorAll(".som-btn").forEach(b => b.classList.toggle("ativo", b.dataset.som === tipo));
+}
+
+document.querySelectorAll(".som-btn").forEach(btn => {
+  btn.addEventListener("click", () => tocarSomAmbiente(btn.dataset.som));
+});
+document.getElementById("volumeSlider").addEventListener("input", (e) => {
+  if (somGain) somGain.gain.value = (parseInt(e.target.value, 10) / 100) * 0.5;
+});
+
+// ---------- player lofi (rádio ao vivo via YouTube) ----------
+let lofiTocando = false;
+document.getElementById("lofiToggleBtn").addEventListener("click", () => {
+  const wrap = document.getElementById("lofiFrameWrap");
+  const iframe = document.getElementById("lofiIframe");
+  const btn = document.getElementById("lofiToggleBtn");
+  lofiTocando = !lofiTocando;
+  if (lofiTocando) {
+    iframe.src = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1";
+    wrap.classList.add("show");
+    btn.textContent = "Parar";
+  } else {
+    iframe.src = "";
+    wrap.classList.remove("show");
+    btn.textContent = "Tocar";
+  }
+});
+
+// para os sons/vídeo quando a pessoa sai da página
+window.addEventListener("pagehide", () => {
+  pararSom();
+  const iframe = document.getElementById("lofiIframe");
+  if (iframe) iframe.src = "";
+});
+
+// ---------- água ----------
+function getAguaHoje() {
+  const dados = loadJSON("foco_agua", {});
+  return dados[hojeISO()] || 0;
+}
+function setAguaHoje(valor) {
+  const dados = loadJSON("foco_agua", {});
+  dados[hojeISO()] = Math.max(0, valor);
+  saveJSON("foco_agua", dados);
+  renderAgua();
+}
+function renderAgua() {
+  const n = getAguaHoje();
+  document.getElementById("aguaNum").textContent = `${n} copo${n === 1 ? "" : "s"}`;
+}
+document.getElementById("aguaMais").addEventListener("click", () => setAguaHoje(getAguaHoje() + 1));
+document.getElementById("aguaMenos").addEventListener("click", () => setAguaHoje(getAguaHoje() - 1));
+renderAgua();
+
+// ---------- meta da sessão (texto livre, por dia) ----------
+const metaSessaoInput = document.getElementById("metaSessaoInput");
+metaSessaoInput.value = loadJSON("foco_meta_sessao", {})[hojeISO()] || "";
+metaSessaoInput.addEventListener("input", () => {
+  const dados = loadJSON("foco_meta_sessao", {});
+  dados[hojeISO()] = metaSessaoInput.value;
+  saveJSON("foco_meta_sessao", dados);
+});
+
+// ---------- meta diária de ciclos + minutos focados ----------
+let metaCiclos = loadJSON("foco_meta_ciclos", 4);
+document.getElementById("metaCiclosInput").value = metaCiclos;
+document.getElementById("metaCiclosInput").addEventListener("change", (e) => {
+  metaCiclos = Math.max(1, parseInt(e.target.value, 10) || 4);
+  saveJSON("foco_meta_ciclos", metaCiclos);
+  renderProgresso();
+});
+function getMinutosHoje() {
+  const dados = loadJSON("foco_minutos", {});
+  return dados[hojeISO()] || 0;
+}
+function somarMinutosHoje(min) {
+  const dados = loadJSON("foco_minutos", {});
+  dados[hojeISO()] = (dados[hojeISO()] || 0) + min;
+  saveJSON("foco_minutos", dados);
+}
+function renderProgresso() {
+  const ciclosHoje = registro[hojeISO()] || 0;
+  document.getElementById("progressTxt").textContent = `${ciclosHoje} de ${metaCiclos} ciclos hoje`;
+  const pct = Math.min(100, (ciclosHoje / metaCiclos) * 100);
+  document.getElementById("progressBarFill").style.width = pct + "%";
+  document.getElementById("progressMinutos").textContent = `${getMinutosHoje()} minutos de foco hoje`;
+}
+
 // ---------- estado do timer (persistido, baseado em horário real) ----------
 let registro = loadJSON("foco_registro", {}); // { "2026-08-13": 3, ... }
 let focoMin = loadJSON("foco_config_foco", 25);
@@ -216,7 +531,6 @@ function salvarTimerState() {
 if (rodando && fimTimestamp) {
   const restante = Math.round((fimTimestamp - Date.now()) / 1000);
   if (restante <= 0) {
-    // o ciclo já teria terminado enquanto a página estava fechada
     segundosRestantes = 0;
     rodando = false;
     fimTimestamp = null;
@@ -238,37 +552,27 @@ function fmt(s) {
 }
 
 function atualizarDisplay() {
-  document.getElementById("timerDisplay").textContent = fmt(segundosRestantes);
+  document.getElementById("timerDisplay").innerHTML = (rodando ? '<span class="timer-live-dot"></span>' : "") + fmt(segundosRestantes);
   document.getElementById("timerMode").textContent = modo === "foco" ? "Foco" : "Pausa";
   const total = (modo === "foco" ? focoMin : pausaMin) * 60;
   const fracao = total > 0 ? segundosRestantes / total : 0;
   document.getElementById("ringFg").style.strokeDashoffset = (CIRCUNF * (1 - fracao)).toFixed(0);
-  document.getElementById("ringFg").style.stroke = modo === "foco" ? "#4D96FF" : "#4CAF7D";
-}
-
-function tocarSom() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.frequency.value = 660;
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
-    osc.start(); osc.stop(ctx.currentTime + 0.8);
-  } catch (e) {}
+  document.getElementById("ringFg").style.stroke = modo === "foco" ? "var(--accent)" : "var(--accent-2)";
+  document.title = rodando ? `${fmt(segundosRestantes)} · ${SITE_NAME}` : SITE_NAME + " · Foco";
 }
 
 function registrarCiclo() {
   const hoje = hojeISO();
   registro[hoje] = (registro[hoje] || 0) + 1;
   saveJSON("foco_registro", registro);
+  somarMinutosHoje(focoMin);
   if (window.pushFocoToCloud) window.pushFocoToCloud(registro);
   renderStreak();
+  renderProgresso();
 }
 
 function proximoModo() {
-  tocarSom();
+  tocarSino();
   if (modo === "foco") {
     registrarCiclo();
     modo = "pausa";
@@ -311,6 +615,7 @@ document.getElementById("btnStartPause").addEventListener("click", () => {
     fimTimestamp = null;
     salvarTimerState();
   }
+  atualizarDisplay();
 });
 
 document.getElementById("btnReset").addEventListener("click", () => {
@@ -352,6 +657,7 @@ function renderStreak() {
   document.getElementById("cyclesTodayText").textContent =
     `${registro[hojeISO()] || 0} ciclo(s) de foco completos hoje`;
   renderSemana();
+  renderProgresso();
 }
 function renderSemana() {
   const dias = ["D","S","T","Q","Q","S","S"];

@@ -9,8 +9,8 @@
 <title>Sugestões</title>
 <style>
 :root {
-  --paper: #F5F4F0;
-  --ink: #3B382F;
+  --paper: #FAFAF8;
+  --ink: #2E2B24;
   --line: #00000014;
   --seg: #FF6B6B;
   --ter: #FF9F43;
@@ -54,9 +54,16 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
+.brand-text-group { display: flex; flex-direction: column; gap: 2px; line-height: 1.1; }
 .brand span { opacity: 0.4; font-weight: 500; }
-.brand span.brand-text { opacity: 1; font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: uppercase; }
+.brand span.brand-text {
+  opacity: 1; font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize; color: var(--ink);
+}
+.brand span.brand-tagline { opacity: 0.55; font-weight: 600; font-size: 0.62em; letter-spacing: 0.02em; }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a {
   font-size: 0.85rem;
@@ -75,7 +82,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  opacity: 0.5;
+  opacity: 0.65;
   margin-bottom: 4px;
 }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
@@ -154,7 +161,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 .sched-item .rm:hover { opacity: 0.8; }
 
 .day-body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--line); }
-.field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45; margin-bottom: 5px; }
+.field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 textarea, .textinput {
   width: 100%; border: none; background: #00000006; border-radius: 10px;
   padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
@@ -434,7 +441,7 @@ function renderNav(activePage) {
     )
     .join("");
   const brand = document.getElementById("brand");
-  if (brand) brand.innerHTML = `<svg width="30" height="30" viewBox="0 0 200 200" style="flex-shrink:0">  <rect width="200" height="200" rx="40" fill="#F1E6CF"/>  <circle cx="100" cy="46" r="7" fill="#8C3B2E"/>  <polyline points="38,146 100,92 162,146" fill="none" stroke="#B65C38" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text">${SITE_NAME}</span><span>· ${t("tagline")}</span>`;
+  if (brand) brand.innerHTML = `<svg width="30" height="30" viewBox="0 0 200 200" style="flex-shrink:0">  <rect width="200" height="200" rx="40" fill="#F1E6CF"/>  <circle cx="100" cy="46" r="7" fill="#8C3B2E"/>  <polyline points="38,146 100,92 162,146" fill="none" stroke="#B65C38" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="55,119 100,77 145,119" fill="none" stroke="#D89B4A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>  <polyline points="72,92 100,64 128,92" fill="none" stroke="#56705A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="brand-text-group"><span class="brand-text">${SITE_NAME}</span><span class="brand-tagline">${t("tagline")}</span></span>`;
   document.title = SITE_NAME;
   renderLangSwitch();
 }
