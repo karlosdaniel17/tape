@@ -1,24 +1,38 @@
-const CACHE_NAME = "tape-cache-v1.1";
+const CACHE_NAME = "tape-cache-v1.2";
 const CORE_FILES = [
   "index.html",
   "disciplinas.html",
   "anotacoes.html",
   "calculadora.html",
   "estudos.html",
+  "aulas.html",
+  "foco.html",
+  "formulas.html",
+  "perfil.html",
   "ajuda.html",
   "sugestoes.html",
   "creditos.html",
   "apoie.html",
   "login.html",
   "auth.js",
+  "assistente.js",
   "manifest.json",
+  "apple-touch-icon.png",
+  "favicon-32.png",
   "icon-192.png",
   "icon-512.png"
 ];
 
+// Antes: cache.addAll(CORE_FILES) — addAll é "tudo ou nada": se UM arquivo
+// da lista falhar (ex.: icon-192.png/icon-512.png que não existiam), a
+// promise inteira rejeita e NENHUM arquivo fica em cache, mesmo com o
+// .catch(() => {}) escondendo o erro. Trocado por cache.add() individual
+// com Promise.allSettled, então um arquivo faltando não derruba os outros.
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_FILES).catch(() => {}))
+    caches.open(CACHE_NAME).then((cache) =>
+      Promise.allSettled(CORE_FILES.map((file) => cache.add(file)))
+    )
   );
   self.skipWaiting();
 });
