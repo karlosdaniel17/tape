@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Perfil</title>
 <style>
 :root {
-  --paper: #FAFAF8;
-  --ink: #2E2B24;
+  --paper: #FBF3E6;
+  --ink: #1A1712;
   --line: #00000014;
+  --card: #FFFCF5;
+  --overlay: #00000008;
+  --overlay-2: #00000010;
+}
 }
 * { box-sizing: border-box; }
 body {
@@ -25,7 +30,16 @@ a { color: inherit; text-decoration: none; }
 .topbar { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
 .topbar-inner { max-width: 1100px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 .brand { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
-.brand span.brand-text { font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize; }
+.brand span.brand-text {
+  font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize;
+  color: var(--ink);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .brand span.brand-text {
+    background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63);
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  }
+}
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
 nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
@@ -35,12 +49,13 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 main { max-width: 640px; margin: 0 auto; padding: 30px 16px 60px; }
 .eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.65; margin-bottom: 4px; }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63); }
 .lead { opacity: 0.6; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
 
-.profile-card { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+.profile-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
 .avatar-row { display: flex; align-items: center; gap: 14px; }
 .avatar-circle {
-  width: 62px; height: 62px; border-radius: 999px; background: var(--ink); color: white;
+  width: 62px; height: 62px; border-radius: 999px; background: var(--ink); color: var(--paper);
   display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; flex-shrink: 0;
   position: relative; overflow: hidden; cursor: pointer; border: none; padding: 0;
 }
@@ -173,9 +188,9 @@ const langs = [["pt","Português"],["en","English"],["es","Español"]];
 const currentLang = localStorage.getItem("idioma") || "pt";
 document.getElementById("langSwitch").innerHTML = `
   <div class="lang-dropdown" style="position:relative">
-    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:white;cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
-    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:150px;display:none;z-index:30">
-      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:white;font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
+    <button id="langToggleBtn" style="display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;color:var(--ink)">🌐 ${currentLang.toUpperCase()} <span style="font-size:9px;opacity:.5">▾</span></button>
+    <div id="langMenu" style="position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden;min-width:150px;display:none;z-index:30">
+      ${langs.map(([code, name]) => `<button data-lang="${code}" style="width:100%;text-align:left;padding:10px 14px;border:none;background:var(--card);font-size:.85rem;cursor:pointer;display:block;color:var(--ink)">${name}</button>`).join("")}
     </div>
   </div>`;
 document.getElementById("langToggleBtn").addEventListener("click", (e) => { e.stopPropagation(); document.getElementById("langMenu").style.display = document.getElementById("langMenu").style.display === "block" ? "none" : "block"; });

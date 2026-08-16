@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,16 +14,20 @@
 <style>
 html { font-size: 100%; }
 :root {
-  --paper: #FAFAF8;
-  --ink: #2E2B24;
+  --paper: #FBF3E6;
+  --ink: #1A1712;
   --line: #00000014;
-  --seg: #FF6B6B;
-  --ter: #FF9F43;
-  --qua: #F4C430;
-  --qui: #4CAF7D;
-  --sex: #4D96FF;
-  --sab: #A78BFA;
-  --dom: #FF6FB5;
+  --card: #FFFCF5;
+  --overlay: #00000008;
+  --overlay-2: #00000010;
+  --seg: #C1502B;
+  --ter: #D9A441;
+  --qua: #C1922B;
+  --qui: #5B7A4F;
+  --sex: #3E7C8A;
+  --sab: #7A4B5E;
+  --dom: #C97B63;
+}
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +69,14 @@ a { color: inherit; text-decoration: none; }
 }
 .brand-text-group { display: flex; flex-direction: column; gap: 2px; line-height: 1.1; }
 .brand span.brand-text {
-  opacity: 1; font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize; color: var(--ink);
+  opacity: 1; font-weight: 800; font-size: 1.05em; letter-spacing: 0.03em; text-transform: capitalize;
+  color: var(--ink);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .brand span.brand-text {
+    background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63);
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  }
 }
 .brand span.brand-tagline { opacity: 0.55; font-weight: 600; font-size: 0.62em; letter-spacing: 0.02em; }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -83,19 +95,19 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 .lang-toggle {
   display: flex; align-items: center; gap: 6px;
   font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
-  border: 1px solid var(--line); background: white; cursor: pointer; color: var(--ink);
+  border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; color: var(--ink);
 }
 .lang-toggle:hover { background: #00000008; }
 .lang-toggle .caret { font-size: 9px; opacity: 0.5; }
 .lang-menu {
   position: absolute; top: calc(100% + 8px); right: 0;
-  background: white; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden;
   min-width: 150px; display: none; z-index: 30;
 }
 .lang-menu.open { display: block; }
 .lang-menu button {
-  width: 100%; text-align: left; padding: 10px 14px; border: none; background: white;
+  width: 100%; text-align: left; padding: 10px 14px; border: none; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
   font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
 }
 .lang-menu button:hover { background: #00000008; }
@@ -105,7 +117,7 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 .zoom-wrap { display: flex; justify-content: center; margin: 4px 0 10px; }
 .zoom-controls {
   display: flex; align-items: center; gap: 2px; padding: 3px;
-  border-radius: 999px; border: 1px solid var(--line); background: white;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
 }
 .zoom-btn {
   width: 22px; height: 22px; border-radius: 999px; border: none; cursor: pointer;
@@ -134,6 +146,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
   margin-bottom: 4px;
 }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63); }
 
 /* ---------- Week nav ---------- */
 .weeknav {
@@ -147,7 +160,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
   width: 34px; height: 34px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: white;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
   cursor: pointer;
   font-size: 1rem;
 }
@@ -176,7 +189,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 .chip { position: relative; }
 .day-popover {
   position: absolute; top: calc(100% + 6px); left: 0; z-index: 25;
-  background: white; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 6px; min-width: 130px;
   display: flex; flex-direction: column; gap: 2px;
 }
@@ -192,7 +205,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 }
 .add-disc button {
   width: 32px; height: 32px; border-radius: 999px; border: none;
-  background: var(--ink); color: white; cursor: pointer; font-size: 1rem;
+  background: var(--ink); color: var(--paper); cursor: pointer; font-size: 1rem;
 }
 
 /* ---------- Day track (navegação horizontal) ---------- */
@@ -202,7 +215,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 }
 .day-pill {
   flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: 9px 16px; border-radius: 14px; border: 1px solid var(--line); background: white;
+  padding: 9px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
   cursor: pointer; opacity: 0.55; transition: all .15s ease; font-family: inherit;
 }
 .day-pill:hover { opacity: 0.85; }
@@ -215,7 +228,7 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 }
 
 /* ---------- Day card (dia ativo) ---------- */
-.day-card { background: white; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s ease; }
+.day-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s ease; }
 .day-card.drag-over { box-shadow: 0 0 0 3px var(--drop-color, #00000033) inset; }
 .day-card.minimized .day-schedule, .day-card.minimized .day-body, .day-card.minimized .day-addlist { display: none; }
 .day-head {
@@ -231,13 +244,13 @@ h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 }
 .day-head .min-btn { font-size: 0.9rem; }
 .day-addlist { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px; }
-.day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: white; cursor: pointer; }
+.day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; }
 
 .day-schedule { padding: 12px 16px 6px; display: flex; flex-direction: column; gap: 6px; min-height: 30px; }
 .sched-empty { font-size: 0.8rem; opacity: 0.4; padding: 4px 0; }
 .sched-item {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  background: white; border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px;
   cursor: grab; transition: box-shadow .12s ease, transform .12s ease;
 }
 .sched-item.drag-over-item { box-shadow: 0 0 0 2px var(--ink) inset; transform: scale(1.015); }
@@ -269,7 +282,7 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 }
 .field-toggle:hover { background: #0000000f; }
 .field-toggle .ft-plus {
-  width: 20px; height: 20px; border-radius: 999px; background: var(--ink); color: white;
+  width: 20px; height: 20px; border-radius: 999px; background: var(--ink); color: var(--paper);
   flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;
 }
 .field-toggle.filled .ft-plus { background: #00000022; }
@@ -298,12 +311,12 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .modal-box textarea { min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
 .modal-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
 .modal-tabbtn { border: none; background: #00000008; padding: 6px 13px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; opacity: 0.6; cursor: pointer; }
-.modal-tabbtn.active { opacity: 1; background: var(--ink); color: white; }
-.katex-preview { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
+.modal-tabbtn.active { opacity: 1; background: var(--ink); color: var(--paper); }
+.katex-preview { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
 .modal-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 8px; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
 .modal-actions button { padding: 9px 18px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
-.modal-actions .btn-save { background: var(--ink); color: white; }
+.modal-actions .btn-save { background: var(--ink); color: var(--paper); }
 .modal-actions .btn-save:hover { filter: brightness(1.15); }
 .modal-actions .btn-cancel { background: #00000010; color: var(--ink); }
 .modal-actions .btn-cancel:hover { background: #0000001a; }
@@ -325,14 +338,14 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .task-add-form input[type="date"], .task-add-form input[type="time"] {
   font-size: 0.75rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 8px; color: var(--ink);
 }
-.task-add-form button { font-size: 0.78rem; font-weight: 700; border: none; border-radius: 8px; padding: 6px 12px; background: var(--ink); color: white; cursor: pointer; }
+.task-add-form button { font-size: 0.78rem; font-weight: 700; border: none; border-radius: 8px; padding: 6px 12px; background: var(--ink); color: var(--paper); cursor: pointer; }
 
 /* ---------- Múltiplos cards por dia ---------- */
 .day-cards-row { display: flex; flex-direction: column; gap: 10px; }
 .day-card-tab-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
 .day-card-tab {
   font-size: 0.72rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line);
-  background: white; cursor: pointer; opacity: 0.55;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; opacity: 0.55;
 }
 .day-card-tab.active { opacity: 1; color: white; border-color: transparent; }
 .day-card-tab-add {
@@ -342,7 +355,7 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .day-card-tab-add:hover { opacity: 1; }
 
 /* ---------- Disciplinas page ---------- */
-.disc-card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.disc-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
 .disc-card .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .disc-card input.small { flex: 1; min-width: 140px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.9rem; }
 .disc-card textarea { min-height: 60px; }
@@ -351,7 +364,7 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .del-btn { border: none; background: none; color: #B33; cursor: pointer; font-size: 0.8rem; opacity: 0.6; }
 .del-btn:hover { opacity: 1; }
 .new-disc-btn {
-  padding: 10px 18px; border-radius: 999px; border: none; background: var(--ink); color: white;
+  padding: 10px 18px; border-radius: 999px; border: none; background: var(--ink); color: var(--paper);
   font-size: 0.85rem; font-weight: 700; cursor: pointer;
 }
 
@@ -359,19 +372,19 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .notes-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
 .notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
-.calc-box { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
+.calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
 .calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .calc-grid button {
   padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
 }
-.calc-grid button.op { background: var(--ink); color: white; }
+.calc-grid button.op { background: var(--ink); color: var(--paper); }
 .calc-grid button:hover { filter: brightness(0.95); }
 .calc-hist { margin-top: 12px; font-size: 0.75rem; opacity: 0.5; max-height: 90px; overflow-y: auto; }
 
 /* ---------- Estudos extras page ---------- */
 .study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.study-card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.study-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .study-card .top { display: flex; justify-content: space-between; align-items: center; }
 .study-card input.title {
   font-size: 1.05rem; font-weight: 800; border: none; background: transparent; flex: 1; padding: 2px 0;
@@ -409,7 +422,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     <div class="weekrange" id="weekRange"></div>
     <button id="nextWeek" aria-label="Próxima semana">→</button>
     <button class="today-link" id="todayBtn">hoje</button>
-    <input type="date" id="pickDate" style="font-size:.8rem;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:white;color:var(--ink);cursor:pointer;">
+    <input type="date" id="pickDate" style="font-size:.8rem;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;">
     <span style="font-size:11px;opacity:.4" id="saveHint"></span>
   </div>
 
@@ -446,7 +459,7 @@ const DAY_DEFS = [
   { key: "dom", label: "Domingo", css: "--dom" },
 ];
 
-const DISC_COLORS = ["#FF6B6B", "#FF9F43", "#F4C430", "#4CAF7D", "#4D96FF", "#A78BFA", "#FF6FB5", "#2BB4B4"];
+const DISC_COLORS = ["#C1502B", "#D9A441", "#5B7A4F", "#3E7C8A", "#7A4B5E", "#C97B63", "#8C6A3F", "#4F6B52"];
 
 // ---------- localStorage helpers ----------
 function loadJSON(key, fallback) {
@@ -833,7 +846,7 @@ function renderDayTrack() {
 }
 
 // ---------- Card do dia ativo ----------
-const EXTRA_CARD_COLORS = ["#8C5B3E", "#3E6B8C", "#6B8C3E", "#8C3E6B", "#B08130", "#3E8C7C"];
+const EXTRA_CARD_COLORS = ["#8C6A3F", "#4F6B52", "#8C4A3E", "#5E4A6B", "#A8752E", "#3E6B6B"];
 
 function renderDayCard() {
   const wrap = document.getElementById("dayCardWrap");

@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <title>tape · Acesso</title>
   <style>
     :root {
-      --paper: #FAFAF8;
-      --ink: #2E2B24;
+      --paper: #FBF3E6;
+      --ink: #1A1712;
       --line: #00000014;
-      --accent: #B65C38;
+      --card: #FFFCF5;
+      --overlay: #00000008;
+      --overlay-2: #00000010;
+      --accent: #B5502E;
       --accent-2: #D89B4A;
+    }
     }
     * { box-sizing: border-box; }
     body {
@@ -31,13 +36,14 @@
     }
     #tapeCopyright { width: 100%; }
     .card {
-      background: #ffffff;
+      background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
       padding: 36px 32px;
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 32px -10px rgba(30,25,18,0.18);
       width: 100%;
       max-width: 380px;
       border: 1px solid var(--line);
+      overflow: hidden;
     }
     .brand-row {
       display: flex;
@@ -51,6 +57,16 @@
       font-size: 1.4rem;
       letter-spacing: 0.03em;
       text-transform: capitalize;
+      color: var(--ink);
+    }
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+      .brand-row span.brand-text {
+        background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+      }
     }
     .tagline {
       text-align: center;
@@ -85,7 +101,7 @@
       font-family: inherit;
       color: var(--ink);
     }
-    input:focus { outline: 2px solid var(--accent-2); background: white; }
+    input:focus { outline: 2px solid var(--accent-2); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); }
     .btn-container {
       margin-top: 24px;
       display: flex;
@@ -125,7 +141,7 @@
 <body>
 
   <div class="card">
-    <div class="brand-row">
+        <div class="brand-row">
       <svg width="34" height="34" viewBox="0 0 200 200" style="flex-shrink:0">
         <rect width="200" height="200" rx="40" fill="#F1E6CF"/>
         <circle cx="100" cy="46" r="7" fill="#8C3B2E"/>
