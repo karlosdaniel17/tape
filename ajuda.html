@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Ajuda</title>
 <style>
 :root {
-  color-scheme: only light;
+  color-scheme: light dark;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --line: #00000014;
@@ -25,6 +25,22 @@
   --sab: #7A4B5E;
   --dom: #C97B63;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1C1A15;
+    --ink: #F0ECE2;
+    --card: #272319;
+    --line: #FFFFFF22;
+    --overlay: #FFFFFF12;
+    --overlay-2: #FFFFFF1C;
+  --seg: #E0703F;
+    --ter: #E8B860;
+    --qua: #D9A83E;
+    --qui: #7A9A6E;
+    --sex: #5CA0B0;
+    --sab: #9A6B82;
+    --dom: #DB9880;
+  }
 }
 
 * { box-sizing: border-box; }

@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Foco</title>
 <style>
 :root {
-  color-scheme: only light;
+  color-scheme: light dark;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --card: #FFFCF5;
@@ -21,6 +21,18 @@
   --accent-2: #5B7A4F;
   --accent-3: #B08130;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1C1A15;
+    --ink: #F0ECE2;
+    --card: #272319;
+    --line: #FFFFFF22;
+    --overlay: #FFFFFF12;
+    --overlay-2: #FFFFFF1C;
+    --accent: #E0703F;
+    --accent-2: #8FAE86;
+    --accent-3: #E0B860;
+  }
 }
 * { box-sizing: border-box; }
 body {
@@ -65,6 +77,11 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 }
 .streak-num { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; }
 .streak-label { font-size: 0.72rem; opacity: 0.55; margin-top: 2px; }
+.streak-reset-btn {
+  margin-top: 8px; font-size: 0.66rem; border: none; background: none; opacity: 0.4; cursor: pointer;
+  text-decoration: underline; color: var(--ink);
+}
+.streak-reset-btn:hover { opacity: 0.85; }
 
 /* ---------- progresso diário ---------- */
 .progress-card {
@@ -207,6 +224,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
     <div class="streak-card">
       <div class="streak-num" id="cyclesTotalNum">0</div>
       <div class="streak-label">ciclos no total</div>
+      <button class="streak-reset-btn" id="resetCyclesBtn" title="Zerar o histórico de ciclos">reiniciar</button>
     </div>
   </div>
 
@@ -681,6 +699,14 @@ function renderStreak() {
   renderSemana();
   renderProgresso();
 }
+document.getElementById("resetCyclesBtn").addEventListener("click", () => {
+  const ok = confirm("Isso vai zerar todo o histórico de ciclos e dias seguidos. Não dá pra desfazer. Quer continuar?");
+  if (!ok) return;
+  registro = {};
+  saveJSON("foco_registro", registro);
+  if (window.pushFocoToCloud) window.pushFocoToCloud(registro);
+  renderStreak();
+});
 function renderSemana() {
   const dias = ["D","S","T","Q","Q","S","S"];
   const strip = document.getElementById("weekStrip");

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <style>
 :root {
-  color-scheme: only light;
+  color-scheme: light dark;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --line: #00000014;
@@ -22,6 +22,16 @@
   --overlay-2: #00000010;
   --accent: #B5502E;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1C1A15;
+    --ink: #F0ECE2;
+    --card: #272319;
+    --line: #FFFFFF22;
+    --overlay: #FFFFFF12;
+    --overlay-2: #FFFFFF1C;
+    --accent: #E0703F;
+  }
 }
 * { box-sizing: border-box; }
 body {
@@ -72,13 +82,13 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .formula-card .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.95rem; flex-shrink: 0; }
 .formula-card .rm:hover { opacity: 0.9; }
 .formula-book {
-  background: #FCFBF8; color: #1A1712; border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+  background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 16px;
   font-family: "Times New Roman", Times, Georgia, serif; font-size: 1.05rem; text-align: center;
   min-height: 70px; display: flex; align-items: center; justify-content: center; word-break: break-word;
 }
 .formula-book textarea {
   width: 100%; border: none; background: transparent; text-align: center; resize: vertical;
-  font-family: "Times New Roman", Times, Georgia, serif; font-size: 1.05rem; color: #1A1712; min-height: 60px;
+  font-family: "Times New Roman", Times, Georgia, serif; font-size: 1.05rem; color: var(--ink); min-height: 60px;
 }
 .formula-book textarea:focus { outline: none; }
 .formula-hint { font-size: 0.7rem; opacity: 0.4; text-align: center; }
