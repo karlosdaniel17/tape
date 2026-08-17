@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light only">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Disciplinas</title>
 <style>
 :root {
+  color-scheme: only light;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --line: #00000014;
@@ -254,9 +255,11 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .disc-card.minimized .row, .disc-card.minimized .field-label, .disc-card.minimized .avaliacoes-list,
 .disc-card.minimized .add-aval-btn, .disc-card.minimized textarea { display: none; }
 .min-disc-btn {
-  border: none; background: none; opacity: 0.4; cursor: pointer; font-size: 0.9rem; padding: 2px 6px; flex-shrink: 0;
+  border: 1px solid var(--line); background: var(--card); opacity: 1; cursor: pointer;
+  font-size: 1rem; font-weight: 700; width: 30px; height: 30px; border-radius: 999px;
+  flex-shrink: 0; color: var(--ink); display: flex; align-items: center; justify-content: center;
 }
-.min-disc-btn:hover { opacity: 0.9; }
+.min-disc-btn:hover { background: var(--overlay); }
 .avaliacoes-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
 .avaliacao-row { display: flex; gap: 8px; align-items: center; }
 .avaliacao-row select {

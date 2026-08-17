@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light only">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
 <style>
 html { font-size: 100%; }
 :root {
+  color-scheme: only light;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --line: #00000014;
@@ -1236,9 +1237,10 @@ function refreshAll() {
 
 document.getElementById("prevWeek").addEventListener("click", () => { monday = addDays(monday, -7); refreshAll(); });
 document.getElementById("nextWeek").addEventListener("click", () => { monday = addDays(monday, 7); refreshAll(); });
-document.getElementById("todayBtn").addEventListener("click", () => { monday = startOfWeekMonday(new Date()); activeDayKey = todayKey(); refreshAll(); });
+document.getElementById("todayBtn").addEventListener("click", () => { monday = startOfWeekMonday(new Date()); activeDayKey = todayKey(); document.getElementById("pickDate").value = isoDate(new Date()); refreshAll(); });
 
 // Calendário manual: escolher qualquer data pula para a semana correspondente
+document.getElementById("pickDate").value = isoDate(new Date());
 document.getElementById("pickDate").addEventListener("change", (e) => {
   if (!e.target.value) return;
   const [y, m, d] = e.target.value.split("-").map(Number);

@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light only">
+<meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <title>Foco</title>
 <style>
 :root {
+  color-scheme: only light;
   --paper: #FBF3E6;
   --ink: #1A1712;
   --card: #FFFCF5;
@@ -119,17 +120,32 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 
 .cycles-today { text-align: center; margin-top: 18px; font-size: 0.85rem; opacity: 0.65; }
 .week-strip { display: flex; gap: 6px; justify-content: center; margin-top: 20px; }
-.week-dot { width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; background: var(--overlay); opacity: 0.5; }
+.week-dot { width: 30px; height: 30px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; background: #5B7A4F1A; color: #5B7A4F; opacity: 0.85; }
 .week-dot.done { background: var(--accent-2); color: white; opacity: 1; }
 .week-dot.today { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* ---------- água ---------- */
 .agua-card {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px;
+  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px;
 }
-.agua-info { display: flex; align-items: center; gap: 10px; }
-.agua-icone { font-size: 1.5rem; }
+.agua-info { display: flex; align-items: center; gap: 14px; }
+.bottle-icon { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.bottle-cap { width: 16px; height: 5px; background: var(--ink); border-radius: 2px 2px 0 0; }
+.bottle-neck { width: 12px; height: 8px; border: 2px solid var(--ink); border-bottom: none; }
+.bottle-body {
+  position: relative; width: 30px; height: 48px; border: 2px solid var(--ink);
+  border-radius: 5px 5px 12px 12px; overflow: hidden; background: var(--overlay);
+}
+.bottle-fill {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 0%;
+  background: linear-gradient(180deg, #7A9A85, #4E6B58);
+  transition: height .5s ease;
+}
+.bottle-fill::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: rgba(255,255,255,0.35);
+}
 .agua-texto .num { font-weight: 800; font-size: 1.1rem; }
 .agua-texto .label { font-size: 0.72rem; opacity: 0.55; }
 .agua-btns { display: flex; gap: 6px; }
@@ -161,7 +177,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 }
 .lofi-frame-wrap { margin-top: 12px; border-radius: 10px; overflow: hidden; display: none; }
 .lofi-frame-wrap.show { display: block; }
-.lofi-frame-wrap iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+.lofi-frame-wrap iframe { width: 100%; height: 352px; border: none; display: block; border-radius: 10px; }
 .lofi-hint { font-size: 0.68rem; opacity: 0.45; margin-top: 8px; }
 </style>
 </head>
@@ -241,10 +257,14 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   <div class="section-title">Beber água</div>
   <div class="agua-card">
     <div class="agua-info">
-      <div class="agua-icone">💧</div>
+      <div class="bottle-icon">
+        <div class="bottle-cap"></div>
+        <div class="bottle-neck"></div>
+        <div class="bottle-body"><div class="bottle-fill" id="bottleFill"></div></div>
+      </div>
       <div class="agua-texto">
-        <div class="num" id="aguaNum">0 copos</div>
-        <div class="label">hoje</div>
+        <div class="num" id="aguaNum">0 de 8 copos</div>
+        <div class="label" id="aguaLabel">hoje · 0 ml</div>
       </div>
     </div>
     <div class="agua-btns">
@@ -268,13 +288,13 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   <div class="section-title">Música</div>
   <div class="lofi-card">
     <div class="lofi-toggle-row">
-      <div class="txt">🎧 Rádio Lofi — beats para estudar</div>
+      <div class="txt">🎧 Lofi — playlist no Spotify</div>
       <button id="lofiToggleBtn">Tocar</button>
     </div>
     <div class="lofi-frame-wrap" id="lofiFrameWrap">
-      <iframe id="lofiIframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="lofiIframe" allow="autoplay; encrypted-media; clipboard-write; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
-    <div class="lofi-hint">Toca a live atual do canal Lofi Girl, direto do YouTube — pausa sozinha quando você sai da página. Se o canal estiver fora do ar, o player mostra um aviso do próprio YouTube.</div>
+    <div class="lofi-hint">Playlist oficial de lofi do Spotify. Toca prévia de 30s sem login, ou completa se você estiver logado no Spotify nesse navegador. Pausa sozinha quando você sai da página.</div>
   </div>
 </main>
 
@@ -429,7 +449,7 @@ document.getElementById("volumeSlider").addEventListener("input", (e) => {
   if (somGain) somGain.gain.value = (parseInt(e.target.value, 10) / 100) * 0.5;
 });
 
-// ---------- player lofi (rádio ao vivo via YouTube) ----------
+// ---------- player lofi (playlist do Spotify) ----------
 let lofiTocando = false;
 document.getElementById("lofiToggleBtn").addEventListener("click", () => {
   const wrap = document.getElementById("lofiFrameWrap");
@@ -437,9 +457,9 @@ document.getElementById("lofiToggleBtn").addEventListener("click", () => {
   const btn = document.getElementById("lofiToggleBtn");
   lofiTocando = !lofiTocando;
   if (lofiTocando) {
-    iframe.src = "https://www.youtube.com/embed/live_stream?channel=UCSJ4gkVC6NrvII8umztf0Ow&autoplay=1";
+    iframe.src = "https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn?utm_source=generator&theme=0";
     wrap.classList.add("show");
-    btn.textContent = "Parar";
+    btn.textContent = "Fechar";
   } else {
     iframe.src = "";
     wrap.classList.remove("show");
@@ -455,6 +475,7 @@ window.addEventListener("pagehide", () => {
 });
 
 // ---------- água ----------
+const AGUA_META = 8; // copos por dia (~2 litros, considerando 250ml por copo)
 function getAguaHoje() {
   const dados = loadJSON("foco_agua", {});
   return dados[hojeISO()] || 0;
@@ -467,7 +488,10 @@ function setAguaHoje(valor) {
 }
 function renderAgua() {
   const n = getAguaHoje();
-  document.getElementById("aguaNum").textContent = `${n} copo${n === 1 ? "" : "s"}`;
+  document.getElementById("aguaNum").textContent = `${n} de ${AGUA_META} copo${AGUA_META === 1 ? "" : "s"}`;
+  document.getElementById("aguaLabel").textContent = `hoje · ${n * 250} ml`;
+  const pct = Math.min(100, (n / AGUA_META) * 100);
+  document.getElementById("bottleFill").style.height = pct + "%";
 }
 document.getElementById("aguaMais").addEventListener("click", () => setAguaHoje(getAguaHoje() + 1));
 document.getElementById("aguaMenos").addEventListener("click", () => setAguaHoje(getAguaHoje() - 1));

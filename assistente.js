@@ -8,22 +8,22 @@
   const style = document.createElement("style");
   style.textContent = `
     #tapeAssistBtn {
-      position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
-      width: 56px; height: 56px; border-radius: 999px; border: none;
-      background: var(--ink, #3B382F); color: white; cursor: pointer;
+      position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%);
+      width: 60px; height: 60px; border-radius: 999px; border: 2px solid var(--paper, #FBF3E6);
+      background: var(--ink, #1A1712); color: white; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.22); z-index: 50; font-size: 1.5rem;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.28); z-index: 50; font-size: 1.6rem;
       transition: transform .15s ease, box-shadow .15s ease;
     }
     #tapeAssistBtn:hover { transform: translateX(-50%) scale(1.06); }
     #tapeAssistBtn.falando { animation: tapeAssistPulse 1s ease-in-out infinite; }
     @keyframes tapeAssistPulse {
-      0%, 100% { box-shadow: 0 10px 26px rgba(0,0,0,0.22); }
-      50% { box-shadow: 0 10px 34px rgba(0,0,0,0.35), 0 0 0 10px rgba(59,56,47,0.12); }
+      0%, 100% { box-shadow: 0 10px 28px rgba(0,0,0,0.28); }
+      50% { box-shadow: 0 10px 36px rgba(0,0,0,0.4), 0 0 0 10px rgba(26,23,18,0.14); }
     }
     #tapeAssistBubble {
-      position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%);
-      max-width: min(360px, calc(100vw - 32px)); background: white; color: var(--ink, #3B382F);
+      position: fixed; left: 50%; bottom: 156px; transform: translateX(-50%);
+      max-width: min(360px, calc(100vw - 32px)); background: white; color: var(--ink, #1A1712);
       border: 1px solid #00000014; border-radius: 14px; padding: 12px 16px;
       font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.85rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(0,0,0,0.12);
