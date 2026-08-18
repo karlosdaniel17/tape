@@ -23,15 +23,52 @@
     }
     #tapeAssistBubble {
       position: fixed; left: 50%; bottom: 156px; transform: translateX(-50%);
-      max-width: min(360px, calc(100vw - 32px)); background: white; color: var(--ink, #1A1712);
-      border: 1px solid #00000014; border-radius: 14px; padding: 12px 16px;
+      max-width: min(360px, calc(100vw - 32px)); background: var(--card, white); color: var(--ink, #1A1712);
+      border: 1px solid var(--line, #00000014); border-radius: 14px; padding: 12px 16px;
       font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       font-size: 0.85rem; line-height: 1.5; box-shadow: 0 10px 30px rgba(0,0,0,0.12);
       z-index: 50; display: none;
     }
     #tapeAssistBubble.show { display: block; }
+    #tapeThemeBtn {
+      width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line, #00000014);
+      background: var(--overlay, #00000008); color: var(--ink, #1A1712); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      flex-shrink: 0;
+    }
+    #tapeThemeBtn:hover { filter: brightness(0.95); }
   `;
   document.head.appendChild(style);
+
+  // ---------- botão de alternar tema claro/escuro ----------
+  function temaEfetivo() {
+    const explicito = document.documentElement.getAttribute("data-theme");
+    if (explicito === "light" || explicito === "dark") return explicito;
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+  const themeBtn = document.createElement("button");
+  themeBtn.id = "tapeThemeBtn";
+  function atualizarIconeTema() {
+    const eff = temaEfetivo();
+    themeBtn.textContent = eff === "dark" ? "☀️" : "🌙";
+    themeBtn.title = eff === "dark" ? "Mudar para o tema claro" : "Mudar para o tema escuro";
+    themeBtn.setAttribute("aria-label", themeBtn.title);
+  }
+  themeBtn.addEventListener("click", () => {
+    const proximo = temaEfetivo() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", proximo);
+    try { localStorage.setItem("tema_pref", proximo); } catch (e) {}
+    atualizarIconeTema();
+  });
+  atualizarIconeTema();
+  document.addEventListener("DOMContentLoaded", () => {
+    const alvo = document.querySelector(".topbar-inner");
+    if (alvo) alvo.appendChild(themeBtn);
+  });
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    const alvo = document.querySelector(".topbar-inner");
+    if (alvo) alvo.appendChild(themeBtn);
+  }
 
   // ---------- botão + balão de fala ----------
   const btn = document.createElement("button");
