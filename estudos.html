@@ -86,6 +86,11 @@
 
 * { box-sizing: border-box; }
 
+/* Corrige texto invisível em botões, inputs e textareas: sem isso, o navegador
+   usa a cor de texto padrao do sistema (buttontext/fieldtext), que muda com o
+   modo claro/escuro do celular e ignora o tema escolhido no site. */
+button, input, textarea, select { color: inherit; }
+
 body {
   margin: 0;
   background: var(--paper);
