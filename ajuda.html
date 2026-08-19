@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<script>(function(){try{var t=localStorage.getItem("tema_pref");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem("tape_tema");if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
     --dom: #DB9880;
   }
 }
-:root[data-theme="dark"] {
+:root[data-theme="escuro"] {
     --paper: #1C1A15;
     --ink: #F0ECE2;
     --card: #272319;
@@ -58,7 +58,7 @@
     --sab: #9A6B82;
     --dom: #DB9880;
 }
-:root[data-theme="light"] {
+:root[data-theme="claro"] {
     --paper: #FBF3E6;
     --ink: #1A1712;
     --card: #FFFCF5;
@@ -133,7 +133,7 @@ nav.mainnav a {
   opacity: 0.55;
   transition: all .15s ease;
 }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a:hover { opacity: 0.85; background: var(--overlay); }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 
 main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
@@ -163,8 +163,8 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   cursor: pointer;
   font-size: 1rem;
 }
-.weeknav button:hover { background: #00000008; }
-.weekrange { font-size: 0.9rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: #00000008; }
+.weeknav button:hover { background: var(--overlay); }
+.weekrange { font-size: 0.9rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: var(--overlay); }
 .today-link { font-size: 0.8rem; opacity: 0.55; text-decoration: underline; cursor: pointer; background: none; border: none; }
 
 /* ---------- Disciplinas chips ---------- */
@@ -224,10 +224,10 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .day-body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--line); }
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 textarea, .textinput {
-  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  width: 100%; border: none; background: var(--overlay); border-radius: 10px;
   padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
 }
-textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
+textarea:focus, .textinput:focus { outline: 2px solid var(--overlay-2); }
 
 .task-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
 .task-row span.done { opacity: 0.4; text-decoration: line-through; }
@@ -235,7 +235,7 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .task-row:hover .rm { opacity: 0.4; }
 .task-row .rm:hover { opacity: 1; }
 .task-add { display: flex; gap: 6px; margin-top: 2px; }
-.task-add input { flex: 1; font-size: 0.85rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 10px; }
+.task-add input { flex: 1; font-size: 0.85rem; border: none; background: var(--overlay); border-radius: 8px; padding: 6px 10px; }
 
 /* ---------- Disciplinas page ---------- */
 .disc-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
@@ -256,10 +256,10 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
 .notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
 .calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
-.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
+.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: var(--overlay); border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .calc-grid button {
-  padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
+  padding: 12px 0; border-radius: 10px; border: none; background: var(--overlay); font-size: 1rem; cursor: pointer;
 }
 .calc-grid button.op { background: var(--ink); color: var(--paper); }
 .calc-grid button:hover { filter: brightness(0.95); }
@@ -293,7 +293,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; color: var(--ink);
 }
-.lang-toggle:hover { background: #00000008; }
+.lang-toggle:hover { background: var(--overlay); }
 .lang-toggle .caret { font-size: 9px; opacity: 0.5; }
 .lang-menu {
   position: absolute; top: calc(100% + 8px); right: 0;
@@ -306,8 +306,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   width: 100%; text-align: left; padding: 10px 14px; border: none; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
   font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
 }
-.lang-menu button:hover { background: #00000008; }
-.lang-menu button.active { font-weight: 800; background: #00000006; }
+.lang-menu button:hover { background: var(--overlay); }
+.lang-menu button.active { font-weight: 800; background: var(--overlay); }
 
 </style>
 </head>

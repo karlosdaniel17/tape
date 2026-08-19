@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<script>(function(){try{var t=localStorage.getItem("tema_pref");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem("tape_tema");if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     --overlay-2: #FFFFFF1C;
   }
 }
-:root[data-theme="dark"] {
+:root[data-theme="escuro"] {
     --paper: #1C1A15;
     --ink: #F0ECE2;
     --card: #272319;
@@ -37,7 +37,7 @@
     --overlay: #FFFFFF12;
     --overlay-2: #FFFFFF1C;
 }
-:root[data-theme="light"] {
+:root[data-theme="claro"] {
     --paper: #FBF3E6;
     --ink: #1A1712;
     --card: #FFFCF5;
@@ -69,7 +69,7 @@ a { color: inherit; text-decoration: none; }
 }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a:hover { opacity: 0.85; background: var(--overlay); }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 .lang-switch { flex-shrink: 0; }
 
@@ -104,10 +104,10 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 .field-group { display: flex; flex-direction: column; }
 .field-group input, .field-group select {
-  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  width: 100%; border: none; background: var(--overlay); border-radius: 10px;
   padding: 10px 12px; font-size: 0.92rem; font-family: inherit; color: var(--ink);
 }
-.field-group input:focus, .field-group select:focus { outline: 2px solid #00000022; }
+.field-group input:focus, .field-group select:focus { outline: 2px solid var(--overlay-2); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
 

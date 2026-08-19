@@ -30,45 +30,8 @@
       z-index: 50; display: none;
     }
     #tapeAssistBubble.show { display: block; }
-    #tapeThemeBtn {
-      width: 34px; height: 34px; border-radius: 999px; border: 1px solid var(--line, #00000014);
-      background: var(--overlay, #00000008); color: var(--ink, #1A1712); cursor: pointer;
-      display: flex; align-items: center; justify-content: center; font-size: 1rem;
-      flex-shrink: 0;
-    }
-    #tapeThemeBtn:hover { filter: brightness(0.95); }
   `;
   document.head.appendChild(style);
-
-  // ---------- botão de alternar tema claro/escuro ----------
-  function temaEfetivo() {
-    const explicito = document.documentElement.getAttribute("data-theme");
-    if (explicito === "light" || explicito === "dark") return explicito;
-    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
-  }
-  const themeBtn = document.createElement("button");
-  themeBtn.id = "tapeThemeBtn";
-  function atualizarIconeTema() {
-    const eff = temaEfetivo();
-    themeBtn.textContent = eff === "dark" ? "☀️" : "🌙";
-    themeBtn.title = eff === "dark" ? "Mudar para o tema claro" : "Mudar para o tema escuro";
-    themeBtn.setAttribute("aria-label", themeBtn.title);
-  }
-  themeBtn.addEventListener("click", () => {
-    const proximo = temaEfetivo() === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", proximo);
-    try { localStorage.setItem("tema_pref", proximo); } catch (e) {}
-    atualizarIconeTema();
-  });
-  atualizarIconeTema();
-  document.addEventListener("DOMContentLoaded", () => {
-    const alvo = document.querySelector(".topbar-inner");
-    if (alvo) alvo.appendChild(themeBtn);
-  });
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    const alvo = document.querySelector(".topbar-inner");
-    if (alvo) alvo.appendChild(themeBtn);
-  }
 
   // ---------- botão + balão de fala ----------
   const btn = document.createElement("button");

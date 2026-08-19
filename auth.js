@@ -33,19 +33,6 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
   const style = document.createElement("style");
   style.id = "tapeThemeStyles";
   style.textContent = `
-    :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; }
-    [data-theme="escuro"] body { background: var(--paper); color: var(--ink); }
-    [data-theme="escuro"] .topbar { background: var(--paper); border-color: var(--line); }
-    [data-theme="escuro"] .day-card,
-    [data-theme="escuro"] .disc-card,
-    [data-theme="escuro"] .credits-card,
-    [data-theme="escuro"] .upload-card,
-    [data-theme="escuro"] .book-card,
-    [data-theme="escuro"] .sci-display,
-    [data-theme="escuro"] .calc-box,
-    [data-theme="escuro"] .study-card,
-    [data-theme="escuro"] .card,
-    [data-theme="escuro"] .lang-menu { background: #26241F !important; }
     [data-theme="escuro"] input,
     [data-theme="escuro"] textarea,
     [data-theme="escuro"] select { background: #ffffff14 !important; color: var(--ink) !important; border-color: var(--line) !important; }
@@ -54,7 +41,8 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
     [data-theme="escuro"] .upload-btn,
     [data-theme="escuro"] .calc-grid button.op,
     [data-theme="escuro"] .sci-grid button.op { color: var(--paper) !important; }
-    [data-theme="escuro"] .lang-toggle { background: #26241F !important; color: var(--ink) !important; border-color: var(--line) !important; }
+    [data-theme="escuro"] .lang-toggle { background: var(--card) !important; color: var(--ink) !important; border-color: var(--line) !important; }
+    [data-theme="escuro"] .lang-menu { background: var(--card) !important; }
     [data-theme="escuro"] .lang-menu button { background: transparent !important; color: var(--ink) !important; }
     [data-theme="escuro"] .lang-menu button:hover,
     [data-theme="escuro"] nav.mainnav a:hover { background: #ffffff14 !important; }
@@ -63,71 +51,11 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
     #tapeThemeToggle {
       display: inline-flex; align-items: center; justify-content: center;
       width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line, #00000014);
-      background: white; cursor: pointer; flex-shrink: 0; padding: 0;
+      background: var(--card, white); cursor: pointer; flex-shrink: 0; padding: 0;
       transition: background .15s ease, border-color .15s ease;
     }
-    #tapeThemeToggle:hover { background: #00000008; }
+    #tapeThemeToggle:hover { background: var(--overlay, #00000008); }
     #tapeThemeToggle svg { width: 18px; height: 18px; display: block; }
-    [data-theme="escuro"] #tapeThemeToggle { background: #26241F; border-color: #FFFFFF26; }
-    [data-theme="escuro"] #tapeThemeToggle:hover { background: #ffffff10; }
-
-    /* ---- Contraste de textos secundários no tema escuro ----
-       Em quase todas as páginas, textos de apoio (menu, legendas, dicas,
-       rótulos) usam opacity baixa (0.3–0.6) pensada pro tema claro, onde
-       tinta escura sobre papel claro ainda fica legível. No tema escuro,
-       a mesma opacity aplicada sobre tinta quase branca em fundo escuro
-       fica cinza-lavado e difícil de ler. Aqui a gente reforça esses
-       textos só no tema escuro, sem mudar nada no tema claro. */
-    [data-theme="escuro"] .eyebrow,
-    [data-theme="escuro"] .lead,
-    [data-theme="escuro"] .tagline,
-    [data-theme="escuro"] .legal,
-    [data-theme="escuro"] .back-link,
-    [data-theme="escuro"] .brand span.brand-tagline,
-    [data-theme="escuro"] nav.mainnav a,
-    [data-theme="escuro"] .lang-toggle .caret,
-    [data-theme="escuro"] .zoom-btn,
-    [data-theme="escuro"] .zoom-reset,
-    [data-theme="escuro"] .field-label,
-    [data-theme="escuro"] .field-toggle .ft-label,
-    [data-theme="escuro"] .section-title,
-    [data-theme="escuro"] .streak-label,
-    [data-theme="escuro"] .credits-section-title,
-    [data-theme="escuro"] .credits-foot,
-    [data-theme="escuro"] .sched-empty,
-    [data-theme="escuro"] .aula-empty,
-    [data-theme="escuro"] .today-link,
-    [data-theme="escuro"] .modal-hint,
-    [data-theme="escuro"] .modal-box .modal-sub,
-    [data-theme="escuro"] .compose-hint,
-    [data-theme="escuro"] .compose-body label,
-    [data-theme="escuro"] .formula-hint,
-    [data-theme="escuro"] .lofi-hint,
-    [data-theme="escuro"] .save-hint,
-    [data-theme="escuro"] .data-item .label,
-    [data-theme="escuro"] .config-item label,
-    [data-theme="escuro"] .meta-sessao label,
-    [data-theme="escuro"] .sci-modebar .mem-hint,
-    [data-theme="escuro"] .progress-minutos,
-    [data-theme="escuro"] .cycles-today,
-    [data-theme="escuro"] .timer-mode,
-    [data-theme="escuro"] .aula-item .aula-meta,
-    [data-theme="escuro"] .task-row .task-when,
-    [data-theme="escuro"] footer.foot,
-    [data-theme="escuro"] #tapeCopyright,
-    [data-theme="escuro"] #txtFooter,
-    [data-theme="escuro"] .thanks { opacity: 0.8 !important; }
-
-    [data-theme="escuro"] .del-btn,
-    [data-theme="escuro"] .rm,
-    [data-theme="escuro"] .formula-card .rm,
-    [data-theme="escuro"] .sched-item .rm,
-    [data-theme="escuro"] .aula-item .rm,
-    [data-theme="escuro"] .study-link-row .rm,
-    [data-theme="escuro"] .avaliacao-row .rm-aval,
-    [data-theme="escuro"] .calc-hist .hist-rm,
-    [data-theme="escuro"] .sci-hist .hist-rm,
-    [data-theme="escuro"] .task-row:hover .rm { opacity: 0.65 !important; }
   `;
   document.head.appendChild(style);
 })();

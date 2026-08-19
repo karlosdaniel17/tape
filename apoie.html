@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
+<script>(function(){try{var t=localStorage.getItem("tape_tema");if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -31,6 +32,26 @@
     --accent: #E0703F;
     --accent-2: #E8B860;
   }
+}
+:root[data-theme="escuro"] {
+    --paper: #1C1A15;
+    --ink: #F0ECE2;
+    --card: #272319;
+    --line: #FFFFFF22;
+    --overlay: #FFFFFF12;
+    --overlay-2: #FFFFFF1C;
+    --accent: #E0703F;
+    --accent-2: #E8B860;
+}
+:root[data-theme="claro"] {
+    --paper: #FBF3E6;
+    --ink: #1A1712;
+    --card: #FFFCF5;
+    --line: #00000014;
+    --overlay: #00000008;
+    --overlay-2: #00000010;
+    --accent: #B5502E;
+    --accent-2: #D89B4A;
 }
 * { box-sizing: border-box; }
 body {
@@ -113,7 +134,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #00000006;
+  background: var(--overlay);
   border-radius: 12px;
   padding: 12px 14px;
 }

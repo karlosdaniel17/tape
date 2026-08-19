@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<script>(function(){try{var t=localStorage.getItem("tema_pref");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem("tape_tema");if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@ html { font-size: 100%; }
     --dom: #DB9880;
   }
 }
-:root[data-theme="dark"] {
+:root[data-theme="escuro"] {
     --paper: #1C1A15;
     --ink: #F0ECE2;
     --card: #272319;
@@ -62,7 +62,7 @@ html { font-size: 100%; }
     --sab: #9A6B82;
     --dom: #DB9880;
 }
-:root[data-theme="light"] {
+:root[data-theme="claro"] {
     --paper: #FBF3E6;
     --ink: #1A1712;
     --card: #FFFCF5;
@@ -136,7 +136,7 @@ nav.mainnav a {
   opacity: 0.55;
   transition: all .15s ease;
 }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a:hover { opacity: 0.85; background: var(--overlay); }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 
 .lang-dropdown { position: relative; }
@@ -145,7 +145,7 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
   font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; color: var(--ink);
 }
-.lang-toggle:hover { background: #00000008; }
+.lang-toggle:hover { background: var(--overlay); }
 .lang-toggle .caret { font-size: 9px; opacity: 0.5; }
 .lang-menu {
   position: absolute; top: calc(100% + 8px); right: 0;
@@ -158,8 +158,8 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
   width: 100%; text-align: left; padding: 10px 14px; border: none; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
   font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
 }
-.lang-menu button:hover { background: #00000008; }
-.lang-menu button.active { font-weight: 800; background: #00000006; }
+.lang-menu button:hover { background: var(--overlay); }
+.lang-menu button.active { font-weight: 800; background: var(--overlay); }
 
 /* ---------- Zoom controls ---------- */
 .zoom-wrap { display: flex; justify-content: center; margin: 4px 0 10px; }
@@ -172,7 +172,7 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
   font-weight: 700; font-size: 0.78rem; color: var(--ink); display: flex; align-items: center; justify-content: center;
   background: transparent; opacity: 0.6; transition: background .12s ease, opacity .12s ease;
 }
-.zoom-btn:hover { background: #00000008; opacity: 1; }
+.zoom-btn:hover { background: var(--overlay); opacity: 1; }
 .zoom-reset {
   font-size: 0.62rem; font-weight: 700; opacity: 0.4; padding: 0 6px; cursor: pointer;
   border: none; background: none; color: var(--ink); min-width: 28px;
@@ -212,8 +212,8 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   cursor: pointer;
   font-size: 1rem;
 }
-.weeknav button:hover { background: #00000008; }
-.weekrange { font-size: 0.9rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: #00000008; }
+.weeknav button:hover { background: var(--overlay); }
+.weekrange { font-size: 0.9rem; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: var(--overlay); }
 .today-link { font-size: 0.8rem; opacity: 0.55; text-decoration: underline; cursor: pointer; background: none; border: none; }
 
 /* ---------- Disciplinas chips ---------- */
@@ -245,7 +245,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   border: none; background: none; text-align: left; padding: 7px 10px; border-radius: 8px;
   font-size: 0.82rem; cursor: pointer; color: var(--ink); opacity: 0.85;
 }
-.day-popover button:hover { background: #00000008; opacity: 1; }
+.day-popover button:hover { background: var(--overlay); opacity: 1; }
 .add-disc { display: inline-flex; gap: 6px; }
 .add-disc input {
   font-size: 0.85rem; padding: 7px 12px; border-radius: 999px;
@@ -277,7 +277,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 
 /* ---------- Day card (dia ativo) ---------- */
 .day-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .15s ease; }
-.day-card.drag-over { box-shadow: 0 0 0 3px var(--drop-color, #00000033) inset; }
+.day-card.drag-over { box-shadow: 0 0 0 3px var(--drop-color, var(--overlay-2)) inset; }
 .day-card.minimized .day-schedule, .day-card.minimized .day-body, .day-card.minimized .day-addlist { display: none; }
 .day-head {
   padding: 16px 18px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 8px;
@@ -307,9 +307,9 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .sched-item .nm:hover { text-decoration: underline; }
 .sched-item .topic-badge {
   font-size: 0.72rem; opacity: 0.55; cursor: pointer; padding: 2px 8px; border-radius: 999px;
-  background: #00000008; margin-right: auto;
+  background: var(--overlay); margin-right: auto;
 }
-.sched-item .topic-badge:hover { opacity: 0.9; background: #0000000f; }
+.sched-item .topic-badge:hover { opacity: 0.9; background: var(--overlay); }
 .sched-item input { width: 52px; font-size: 0.75rem; text-align: right; border: none; background: transparent; opacity: 0.7; }
 .sched-item .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.8rem; }
 .sched-item .rm:hover { opacity: 0.8; }
@@ -317,23 +317,23 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .day-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); }
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 textarea, .textinput {
-  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  width: 100%; border: none; background: var(--overlay); border-radius: 10px;
   padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
 }
-textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
+textarea:focus, .textinput:focus { outline: 2px solid var(--overlay-2); }
 
 /* botão que abre o campo de resumo/aprendizado só quando clicado */
 .field-toggle {
   display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
-  border: none; background: #00000006; border-radius: 10px; padding: 9px 12px;
+  border: none; background: var(--overlay); border-radius: 10px; padding: 9px 12px;
   font-family: inherit; cursor: pointer; transition: background .12s ease;
 }
-.field-toggle:hover { background: #0000000f; }
+.field-toggle:hover { background: var(--overlay); }
 .field-toggle .ft-plus {
   width: 20px; height: 20px; border-radius: 999px; background: var(--ink); color: var(--paper);
   flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700;
 }
-.field-toggle.filled .ft-plus { background: #00000022; }
+.field-toggle.filled .ft-plus { background: var(--overlay-2); }
 .field-toggle .ft-text { flex: 1; min-width: 0; }
 .field-toggle .ft-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; }
 .field-toggle .ft-preview { font-size: 0.82rem; opacity: 0.75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -350,15 +350,15 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .modal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
 .modal-box h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
 .modal-box .modal-sub { font-size: 0.78rem; opacity: 0.55; margin-top: 2px; }
-.modal-close { flex-shrink: 0; border: none; background: #00000010; width: 32px; height: 32px; border-radius: 999px; cursor: pointer; font-size: 1rem; }
-.modal-close:hover { background: #0000001a; }
+.modal-close { flex-shrink: 0; border: none; background: var(--overlay-2); width: 32px; height: 32px; border-radius: 999px; cursor: pointer; font-size: 1rem; }
+.modal-close:hover { background: var(--overlay-2); }
 .modal-box input.topic-input {
-  width: 100%; border: none; background: #00000008; border-radius: 10px; padding: 9px 12px;
+  width: 100%; border: none; background: var(--overlay); border-radius: 10px; padding: 9px 12px;
   font-size: 0.95rem; font-weight: 700; font-family: inherit; margin-bottom: 10px;
 }
 .modal-box textarea { min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
 .modal-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
-.modal-tabbtn { border: none; background: #00000008; padding: 6px 13px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; opacity: 0.6; cursor: pointer; }
+.modal-tabbtn { border: none; background: var(--overlay); padding: 6px 13px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; opacity: 0.6; cursor: pointer; }
 .modal-tabbtn.active { opacity: 1; background: var(--ink); color: var(--paper); }
 .katex-preview { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 220px; font-size: 0.95rem; line-height: 1.6; }
 .modal-hint { font-size: 0.72rem; opacity: 0.45; margin-top: 8px; }
@@ -366,12 +366,12 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .modal-actions button { padding: 9px 18px; border-radius: 999px; border: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; }
 .modal-actions .btn-save { background: var(--ink); color: var(--paper); }
 .modal-actions .btn-save:hover { filter: brightness(1.15); }
-.modal-actions .btn-cancel { background: #00000010; color: var(--ink); }
-.modal-actions .btn-cancel:hover { background: #0000001a; }
+.modal-actions .btn-cancel { background: var(--overlay-2); color: var(--ink); }
+.modal-actions .btn-cancel:hover { background: var(--overlay-2); }
 
 .task-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
 .task-row span.done { opacity: 0.4; text-decoration: line-through; }
-.task-row .task-when { font-size: 0.68rem; opacity: 0.5; background: #00000008; border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
+.task-row .task-when { font-size: 0.68rem; opacity: 0.5; background: var(--overlay); border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
 .task-row .rm { margin-left: auto; border: none; background: none; opacity: 0; cursor: pointer; }
 .task-row:hover .rm { opacity: 0.4; }
 .task-row .rm:hover { opacity: 1; }
@@ -380,11 +380,11 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
   border: 1px dashed var(--line); background: none; border-radius: 999px; padding: 6px 12px; cursor: pointer;
   margin-top: 2px; width: fit-content;
 }
-.task-add-btn:hover { opacity: 1; background: #00000006; }
+.task-add-btn:hover { opacity: 1; background: var(--overlay); }
 .task-add-form { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; align-items: center; }
-.task-add-form input[type="text"] { flex: 1; min-width: 100px; font-size: 0.85rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 10px; }
+.task-add-form input[type="text"] { flex: 1; min-width: 100px; font-size: 0.85rem; border: none; background: var(--overlay); border-radius: 8px; padding: 6px 10px; }
 .task-add-form input[type="date"], .task-add-form input[type="time"] {
-  font-size: 0.75rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 8px; color: var(--ink);
+  font-size: 0.75rem; border: none; background: var(--overlay); border-radius: 8px; padding: 6px 8px; color: var(--ink);
 }
 .task-add-form button { font-size: 0.78rem; font-weight: 700; border: none; border-radius: 8px; padding: 6px 12px; background: var(--ink); color: var(--paper); cursor: pointer; }
 
@@ -421,10 +421,10 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
 .notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
 .calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
-.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
+.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: var(--overlay); border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .calc-grid button {
-  padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
+  padding: 12px 0; border-radius: 10px; border: none; background: var(--overlay); font-size: 1rem; cursor: pointer;
 }
 .calc-grid button.op { background: var(--ink); color: var(--paper); }
 .calc-grid button:hover { filter: brightness(0.95); }
@@ -832,9 +832,10 @@ function renderDiscBar() {
   list.forEach(d => {
     const chip = document.createElement("span");
     chip.className = "chip";
-    chip.style.background = d.color + "22";
-    chip.style.color = d.color;
-    chip.style.border = `1px solid ${d.color}55`;
+    chip.style.background = d.color;
+    chip.style.color = "white";
+    chip.style.border = "none";
+    chip.style.fontWeight = "700";
     chip.draggable = true;
     chip.textContent = d.name;
     chip.title = t("clique_para_escolher_dia");

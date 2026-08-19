@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<script>(function(){try{var t=localStorage.getItem("tema_pref");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem("tape_tema");if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
     --dom: #DB9880;
   }
 }
-:root[data-theme="dark"] {
+:root[data-theme="escuro"] {
     --paper: #1C1A15;
     --ink: #F0ECE2;
     --card: #272319;
@@ -58,7 +58,7 @@
     --sab: #9A6B82;
     --dom: #DB9880;
 }
-:root[data-theme="light"] {
+:root[data-theme="claro"] {
     --paper: #FBF3E6;
     --ink: #1A1712;
     --card: #FFFCF5;
@@ -97,7 +97,7 @@ a { color: inherit; text-decoration: none; }
 }
 nav.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
 nav.mainnav a { font-size: 0.85rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; opacity: 0.55; transition: all .15s ease; }
-nav.mainnav a:hover { opacity: 0.85; background: #00000008; }
+nav.mainnav a:hover { opacity: 0.85; background: var(--overlay); }
 nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); }
 .lang-switch { flex-shrink: 0; }
 
@@ -117,19 +117,19 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 }
 .day-col-body { padding: 10px 12px 14px; display: flex; flex-direction: column; gap: 8px; min-height: 40px; }
 .aula-empty { font-size: 0.78rem; opacity: 0.4; padding: 6px 0; }
-.aula-item { background: #00000006; border-radius: 10px; padding: 9px 11px; border-left: 3px solid; }
+.aula-item { background: var(--overlay); border-radius: 10px; padding: 9px 11px; border-left: 3px solid; }
 .aula-item .aula-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
 .aula-item .aula-nome { font-weight: 700; font-size: 0.88rem; }
 .aula-item .aula-tipo-badge {
   font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  padding: 2px 7px; border-radius: 999px; background: #00000010; opacity: 0.65; flex-shrink: 0;
+  padding: 2px 7px; border-radius: 999px; background: var(--overlay-2); opacity: 0.65; flex-shrink: 0;
 }
 .aula-item .rm { border: none; background: none; opacity: 0.3; cursor: pointer; font-size: 0.8rem; flex-shrink: 0; }
 .aula-item .rm:hover { opacity: 0.9; }
 .aula-item .aula-meta { font-size: 0.72rem; opacity: 0.55; margin-top: 3px; display: flex; gap: 8px; flex-wrap: wrap; }
 .aula-form select.tipo-select { font-weight: 700; }
 
-.aula-form { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: #00000006; border-radius: 10px; }
+.aula-form { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: var(--overlay); border-radius: 10px; }
 .aula-form input, .aula-form select {
   font-size: 0.82rem; border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color: var(--ink);
   width: 100%; font-family: inherit;
@@ -146,7 +146,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   border: 1px dashed var(--line); background: none; border-radius: 10px; padding: 8px; font-size: 0.8rem;
   font-weight: 700; opacity: 0.55; cursor: pointer;
 }
-.aula-add-btn:hover { opacity: 1; background: #00000006; }
+.aula-add-btn:hover { opacity: 1; background: var(--overlay); }
 </style>
 </head>
 <body>
