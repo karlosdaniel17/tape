@@ -93,6 +93,13 @@
    usa a cor de texto padrao do sistema (buttontext/fieldtext), que muda com o
    modo claro/escuro do celular e ignora o tema escolhido no site. */
 button, input, textarea, select { color: inherit; }
+/* Sem isso, o Android/Chrome desenha por baixo o "controle nativo" do sistema
+   (a caixinha em si) seguindo o modo claro/escuro do celular, ignorando o
+   fundo que o CSS do site define para o campo -> caixas pretas no tema claro. */
+input, textarea, select {
+  -webkit-appearance: none;
+  appearance: none;
+}
 
 body {
   margin: 0;
