@@ -76,6 +76,18 @@
 
 * { box-sizing: border-box; }
 
+/* Corrige texto invisivel em botoes, inputs e textareas: sem isso, o navegador
+   usa a cor de texto padrao do sistema (buttontext/fieldtext), que muda com o
+   modo claro/escuro do celular e ignora o tema escolhido no site. */
+button, input, textarea, select { color: inherit; }
+/* Sem appearance:none, o Android/Chrome desenha por baixo o controle nativo
+   do sistema (a caixinha em si) seguindo o modo claro/escuro do celular,
+   ignorando o fundo que o CSS do site define -> caixas pretas no tema claro. */
+input, textarea, select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 body {
   margin: 0;
   background: var(--paper);
