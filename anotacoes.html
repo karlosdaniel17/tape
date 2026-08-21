@@ -310,7 +310,35 @@ textarea:focus, .textinput:focus { outline: 2px solid var(--overlay-2); }
 /* ---------- Anotacoes page ---------- */
 .notes-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
-.notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
+.notes-app { display: flex; flex-direction: column; gap: 10px; }
+.notes-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.note-tab { flex-shrink: 0; padding: 7px 14px 7px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--overlay); font-size: 0.82rem; font-weight: 600; cursor: pointer; color: var(--ink); white-space: nowrap; max-width: 160px; overflow: hidden; text-overflow: ellipsis; display: inline-flex; align-items: center; gap: 6px; }
+.note-tab .dot { width: 9px; height: 9px; border-radius: 999px; flex-shrink: 0; }
+.note-tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.note-tab-add { opacity: 0.6; }
+.note-tab-add:hover { opacity: 1; }
+.notes-colors { display: flex; gap: 6px; align-items: center; }
+.notes-colors .swatch { width: 18px; height: 18px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; padding: 0; flex-shrink: 0; }
+.notes-colors .swatch.active { border-color: var(--ink); }
+.notes-toolbar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.notes-toolbar .sep { width: 1px; height: 22px; background: var(--line); margin: 0 2px; }
+.notes-toolbar button { border: 1px solid var(--line); background: var(--overlay); border-radius: 8px; width: 32px; height: 32px; font-size: 0.85rem; cursor: pointer; color: var(--ink); }
+.notes-toolbar button:hover { filter: brightness(0.95); }
+.notes-editor {
+  min-height: 460px; font-size: 0.95rem; line-height: 1.6; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--card); padding: 14px 16px 14px 18px; outline: none; overflow-y: auto; color: var(--ink);
+  border-left: 4px solid var(--overlay-2);
+}
+.notes-editor.is-empty::before { content: attr(data-placeholder); opacity: 0.45; pointer-events: none; }
+.notes-editor h3 { font-size: 1.05rem; margin: 8px 0 4px; }
+.notes-editor ul { padding-left: 20px; margin: 6px 0; }
+.notes-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; opacity: 0.6; flex-wrap: wrap; gap: 6px; }
+.notes-meta-left { display: flex; gap: 8px; align-items: center; }
+.notes-meta-left #notesCounter::after { content: "·"; margin-left: 8px; opacity: 0.6; }
+.notes-meta-left #notesCounter:empty::after { content: ""; }
+.notes-meta-actions { display: flex; gap: 12px; }
+.note-rm { border: none; background: none; opacity: 0.85; cursor: pointer; text-decoration: underline; font-size: 0.72rem; color: var(--ink); }
+.note-rm:hover { opacity: 1; }
 .calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
 .calc-prev { text-align: right; font-size: 0.78rem; opacity: 0.45; min-height: 16px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .calc-display { font-size: 1.6rem; font-weight: 600; text-align: right; padding: 10px; background: var(--overlay); border-radius: 10px; margin-bottom: 6px; min-height: 34px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; }
@@ -372,7 +400,29 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Um espaço livre para anotar o que quiser, e uma calculadora rápida ao lado.</p>
 
   <div class="notes-wrap" style="margin-top:18px">
-    <textarea id="notesArea" placeholder=""></textarea>
+    <div class="notes-app">
+      <div class="notes-tabs" id="notesTabs"></div>
+      <div class="notes-toolbar" id="notesToolbar">
+        <button type="button" data-cmd="bold" title="Negrito"><b>B</b></button>
+        <button type="button" data-cmd="italic" title="Itálico"><i>I</i></button>
+        <button type="button" data-cmd="insertUnorderedList" title="Lista">☰</button>
+        <button type="button" data-cmd="formatBlock" data-value="H3" title="Título">H</button>
+        <button type="button" data-cmd="removeFormat" title="Limpar formatação">✕</button>
+        <div class="sep"></div>
+        <div class="notes-colors" id="notesColors"></div>
+      </div>
+      <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
+      <div class="notes-meta">
+        <span class="notes-meta-left">
+          <span id="notesCounter"></span>
+          <span id="notesMetaInfo"></span>
+        </span>
+        <span class="notes-meta-actions">
+          <button type="button" class="note-rm" id="renameNoteBtn">renomear</button>
+          <button type="button" class="note-rm" id="deleteNoteBtn">excluir nota</button>
+        </span>
+      </div>
+    </div>
 
     <div class="calc-box">
       <div class="field-label" id="txtCalc">Calculadora</div>
@@ -535,18 +585,189 @@ document.getElementById("txtSub").textContent = t("subtitulo_anotacoes");
 document.getElementById("txtCalc").textContent = t("calculadora_label");
 document.getElementById("txtFooter").textContent = t("footer_anotacoes");
 
-// ---- Notas ----
-const notesArea = document.getElementById("notesArea");
-notesArea.placeholder = t("notas_placeholder");
-notesArea.value = loadJSON("anotacoes_texto", "");
-let notesTimer = null;
-notesArea.addEventListener("input", () => {
-  clearTimeout(notesTimer);
-  notesTimer = setTimeout(() => {
-    saveJSON("anotacoes_texto", notesArea.value);
-    if (window.pushNotasToCloud) window.pushNotasToCloud(notesArea.value);
+// ---- Notas (várias notas, com formatação básica) ----
+function migrarNotaAntiga() {
+  const antigo = loadJSON("anotacoes_texto", null);
+  if (antigo && antigo.trim()) {
+    return [{ id: uid(), titulo: t("titulo_anotacoes"), conteudo: antigo.replace(/\n/g, "<br>"), cor: DISC_COLORS[0], atualizadoEm: Date.now() }];
+  }
+  return null;
+}
+function getNotas() {
+  let list = loadJSON("anotacoes_notas", null);
+  if (!list || !list.length) {
+    list = migrarNotaAntiga() || [{ id: uid(), titulo: "Nota 1", conteudo: "", cor: DISC_COLORS[0], atualizadoEm: Date.now() }];
+    saveJSON("anotacoes_notas", list);
+  }
+  return list;
+}
+function salvarNotas() {
+  saveJSON("anotacoes_notas", notas);
+  if (window.pushNotasToCloud) window.pushNotasToCloud(notas);
+}
+
+let notas = getNotas();
+let notaAtivaId = notas[0].id;
+let notesSaveTimer = null;
+
+const notesTabs = document.getElementById("notesTabs");
+const notesEditor = document.getElementById("notesEditor");
+const notesMetaInfo = document.getElementById("notesMetaInfo");
+const notesCounter = document.getElementById("notesCounter");
+const notesColors = document.getElementById("notesColors");
+const renameNoteBtn = document.getElementById("renameNoteBtn");
+const deleteNoteBtn = document.getElementById("deleteNoteBtn");
+
+const NOTE_COLORS = DISC_COLORS;
+
+notesEditor.dataset.placeholder = t("notas_placeholder");
+
+function formatarDataNota(ts) {
+  if (!ts) return "";
+  const locale = currentLang === "pt" ? "pt-BR" : currentLang === "es" ? "es-ES" : "en-US";
+  return new Date(ts).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+}
+
+function notaAtiva() { return notas.find(n => n.id === notaAtivaId) || notas[0]; }
+
+function atualizarContador() {
+  const texto = (notesEditor.textContent || "").trim();
+  const palavras = texto ? texto.split(/\s+/).length : 0;
+  const caracteres = texto.length;
+  notesCounter.textContent = palavras + (palavras === 1 ? " palavra" : " palavras") + " · " + caracteres + (caracteres === 1 ? " caractere" : " caracteres");
+}
+
+function atualizarEstadoVazio() {
+  const vazio = notesEditor.innerHTML.trim() === "" || notesEditor.innerHTML.trim() === "<br>";
+  notesEditor.classList.toggle("is-empty", vazio);
+}
+
+function renderTabs() {
+  notesTabs.innerHTML = "";
+  notas.forEach(n => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "note-tab" + (n.id === notaAtivaId ? " active" : "");
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    dot.style.background = n.cor || NOTE_COLORS[0];
+    tab.appendChild(dot);
+    tab.appendChild(document.createTextNode(n.titulo || "(sem título)"));
+    tab.addEventListener("click", () => { notaAtivaId = n.id; renderTabs(); renderEditor(); });
+    notesTabs.appendChild(tab);
+  });
+  const addTab = document.createElement("button");
+  addTab.type = "button";
+  addTab.className = "note-tab note-tab-add";
+  addTab.textContent = "+ nova nota";
+  addTab.addEventListener("click", () => {
+    const nova = { id: uid(), titulo: "Nota " + (notas.length + 1), conteudo: "", cor: NOTE_COLORS[notas.length % NOTE_COLORS.length], atualizadoEm: Date.now() };
+    notas.push(nova);
+    notaAtivaId = nova.id;
+    salvarNotas();
+    renderTabs();
+    renderEditor();
+    notesEditor.focus();
+  });
+  notesTabs.appendChild(addTab);
+}
+
+function renderCores() {
+  notesColors.innerHTML = "";
+  const nota = notaAtiva();
+  if (!nota) return;
+  const corAtual = nota.cor || NOTE_COLORS[0];
+  NOTE_COLORS.forEach(cor => {
+    const sw = document.createElement("button");
+    sw.type = "button";
+    sw.className = "swatch" + (cor === corAtual ? " active" : "");
+    sw.style.background = cor;
+    sw.title = "Cor da nota";
+    sw.addEventListener("click", () => {
+      nota.cor = cor;
+      nota.atualizadoEm = Date.now();
+      salvarNotas();
+      renderTabs();
+      renderEditor();
+    });
+    notesColors.appendChild(sw);
+  });
+}
+
+function renderEditor() {
+  const nota = notaAtiva();
+  if (!nota) return;
+  notaAtivaId = nota.id;
+  notesEditor.innerHTML = nota.conteudo || "";
+  notesEditor.style.borderLeftColor = nota.cor || NOTE_COLORS[0];
+  atualizarEstadoVazio();
+  atualizarContador();
+  notesMetaInfo.textContent = nota.atualizadoEm ? "Editado " + formatarDataNota(nota.atualizadoEm) : "";
+  deleteNoteBtn.style.display = notas.length > 1 ? "" : "none";
+  renderCores();
+}
+
+notesEditor.addEventListener("input", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  nota.conteudo = notesEditor.innerHTML;
+  nota.atualizadoEm = Date.now();
+  atualizarEstadoVazio();
+  atualizarContador();
+  clearTimeout(notesSaveTimer);
+  notesSaveTimer = setTimeout(() => {
+    salvarNotas();
+    notesMetaInfo.textContent = "Editado " + formatarDataNota(nota.atualizadoEm);
   }, 400);
 });
+
+document.querySelectorAll("#notesToolbar button[data-cmd]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    notesEditor.focus();
+    document.execCommand(btn.dataset.cmd, false, btn.dataset.value || undefined);
+    const nota = notaAtiva();
+    if (nota) {
+      nota.conteudo = notesEditor.innerHTML;
+      nota.atualizadoEm = Date.now();
+      salvarNotas();
+      atualizarEstadoVazio();
+    }
+  });
+});
+
+renameNoteBtn.addEventListener("click", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  const novoTitulo = prompt("Nome da nota:", nota.titulo || "");
+  if (novoTitulo !== null && novoTitulo.trim()) {
+    nota.titulo = novoTitulo.trim();
+    salvarNotas();
+    renderTabs();
+  }
+});
+
+deleteNoteBtn.addEventListener("click", () => {
+  if (notas.length <= 1) return;
+  if (!confirm("Excluir esta nota?")) return;
+  notas = notas.filter(n => n.id !== notaAtivaId);
+  notaAtivaId = notas[0].id;
+  salvarNotas();
+  renderTabs();
+  renderEditor();
+});
+
+renderTabs();
+renderEditor();
+
+// Ponte para o script de nuvem (que roda em outro <script type="module">
+// e não enxerga as variáveis "let" deste bloco): permite recarregar a
+// lista de notas na tela depois de puxar da nuvem.
+window.recarregarNotasNaTela = function (novaLista) {
+  notas = novaLista.length ? novaLista : notas;
+  notaAtivaId = notas[0] ? notas[0].id : notaAtivaId;
+  renderTabs();
+  renderEditor();
+};
 
 // ---- Calculadora científica ----
 const calcDisplay = document.getElementById("calcDisplay");
@@ -726,23 +947,33 @@ async function pullNotasFromCloud(uid) {
   try {
     const ref = doc(db, "usuarios", uid, "dados", "anotacoes");
     const snap = await getDoc(ref);
-    const notesArea = document.getElementById("notesArea");
-    if (snap.exists() && typeof snap.data().texto === "string") {
-      saveJSON("anotacoes_texto", snap.data().texto);
-      if (notesArea) notesArea.value = snap.data().texto;
+    if (snap.exists() && Array.isArray(snap.data().notas)) {
+      let notasNuvem = snap.data().notas;
+      if (!notasNuvem.length) notasNuvem = [{ id: Date.now().toString(36), titulo: "Nota 1", conteudo: "", cor: "#C1502B", atualizadoEm: Date.now() }];
+      saveJSON("anotacoes_notas", notasNuvem);
+      if (window.recarregarNotasNaTela) window.recarregarNotasNaTela(notasNuvem);
+    } else if (snap.exists() && typeof snap.data().texto === "string") {
+      // dado antigo (formato de texto único) ainda na nuvem: migra
+      const antigo = snap.data().texto;
+      if (antigo && antigo.trim()) {
+        const notasMigradas = [{ id: Date.now().toString(36), titulo: "Minhas anotações", conteudo: antigo.replace(/\n/g, "<br>"), atualizadoEm: Date.now() }];
+        saveJSON("anotacoes_notas", notasMigradas);
+        if (window.recarregarNotasNaTela) window.recarregarNotasNaTela(notasMigradas);
+        await setDoc(ref, { notas: notasMigradas, atualizadoEm: Date.now() });
+      }
     } else {
-      const local = loadJSON("anotacoes_texto", "");
-      if (local) await setDoc(ref, { texto: local, atualizadoEm: Date.now() });
+      const local = loadJSON("anotacoes_notas", []);
+      if (local.length) await setDoc(ref, { notas: local, atualizadoEm: Date.now() });
     }
   } catch (e) {
     console.error("tape: erro ao sincronizar anotações", e);
   }
 }
 
-window.pushNotasToCloud = async function (texto) {
+window.pushNotasToCloud = async function (listaNotas) {
   if (!cloudUid) return;
   try {
-    await setDoc(doc(db, "usuarios", cloudUid, "dados", "anotacoes"), { texto, atualizadoEm: Date.now() });
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "anotacoes"), { notas: listaNotas, atualizadoEm: Date.now() });
   } catch (e) {
     console.error("tape: erro ao salvar anotações na nuvem", e);
   }
