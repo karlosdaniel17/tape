@@ -337,9 +337,47 @@ textarea:focus, .textinput:focus { outline: 2px solid var(--overlay-2); }
 .notes-meta-left #notesCounter::after { content: "·"; margin-left: 8px; opacity: 0.6; }
 .notes-meta-left #notesCounter:empty::after { content: ""; }
 .notes-meta-actions { display: flex; gap: 12px; }
+.notes-search {
+  width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--overlay); color: var(--ink); font-size: 0.88rem; font-family: inherit;
+}
+.notes-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.notes-tags .tag-chip { padding: 4px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--overlay); color: var(--ink); font-size: 0.72rem; font-weight: 600; cursor: pointer; }
+.notes-tags .tag-chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+#pinNoteBtn { opacity: 0.4; }
+#pinNoteBtn.active { opacity: 1; }
+.note-tab .pin-mark { font-size: 0.65rem; margin-right: -2px; }
+.notes-export { display: flex; gap: 8px; align-items: center; }
+.notes-export-label { font-size: 0.72rem; opacity: 0.6; }
+.notes-export button { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--overlay); color: var(--ink); font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+.notes-export button:hover { filter: brightness(0.95); }
 .note-rm { border: none; background: none; opacity: 0.85; cursor: pointer; text-decoration: underline; font-size: 0.72rem; color: var(--ink); }
 .note-rm:hover { opacity: 1; }
+.sidebar-app { display: flex; flex-direction: column; gap: 10px; }
+.page-tabs { display: flex; gap: 6px; }
+.page-tabs button { flex: 1; padding: 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--overlay); color: var(--ink); font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+.page-tabs button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
+.todo-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; display: flex; flex-direction: column; gap: 12px; }
+.todo-progress-wrap { display: flex; align-items: center; gap: 8px; }
+.todo-progress-bar { flex: 1; height: 8px; border-radius: 999px; background: var(--overlay); overflow: hidden; }
+.todo-progress-fill { height: 100%; background: #5B7A4F; border-radius: 999px; width: 0%; transition: width 0.2s; }
+.todo-progress-text { font-size: 0.72rem; opacity: 0.6; flex-shrink: 0; }
+.todo-add-form { display: flex; gap: 6px; }
+.todo-add-form input {
+  flex: 1; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--overlay);
+  color: var(--ink); font-size: 0.85rem; font-family: inherit;
+}
+.todo-add-form button { width: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--ink); color: var(--paper); font-size: 1rem; cursor: pointer; }
+.todo-list { display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto; }
+.todo-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--overlay); }
+.todo-item.done .todo-item-text { text-decoration: line-through; opacity: 0.5; }
+.todo-item input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; accent-color: #5B7A4F; }
+.todo-item-text { flex: 1; font-size: 0.85rem; color: var(--ink); word-break: break-word; }
+.todo-item-rm { border: none; background: none; opacity: 0.4; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; color: var(--ink); }
+.todo-item-rm:hover { opacity: 0.9; }
+.todo-clear-done { border: none; background: none; opacity: 0.55; cursor: pointer; font-size: 0.72rem; text-decoration: underline; align-self: flex-start; color: var(--ink); }
+.todo-clear-done:hover { opacity: 1; }
 .calc-prev { text-align: right; font-size: 0.78rem; opacity: 0.45; min-height: 16px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .calc-display { font-size: 1.6rem; font-weight: 600; text-align: right; padding: 10px; background: var(--overlay); border-radius: 10px; margin-bottom: 6px; min-height: 34px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; }
 .calc-sub { text-align: right; font-size: 0.72rem; opacity: 0.4; min-height: 14px; margin-bottom: 8px; }
@@ -401,6 +439,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
   <div class="notes-wrap" style="margin-top:18px">
     <div class="notes-app">
+      <input type="text" id="notesSearch" class="notes-search" placeholder="Buscar por título, texto ou #tag…">
+      <div class="notes-tags" id="notesTags"></div>
       <div class="notes-tabs" id="notesTabs"></div>
       <div class="notes-toolbar" id="notesToolbar">
         <button type="button" data-cmd="bold" title="Negrito"><b>B</b></button>
@@ -410,6 +450,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
         <button type="button" data-cmd="removeFormat" title="Limpar formatação">✕</button>
         <div class="sep"></div>
         <div class="notes-colors" id="notesColors"></div>
+        <div class="sep"></div>
+        <button type="button" id="pinNoteBtn" title="Fixar nota">📌</button>
       </div>
       <div class="notes-editor" id="notesEditor" contenteditable="true"></div>
       <div class="notes-meta">
@@ -422,23 +464,50 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
           <button type="button" class="note-rm" id="deleteNoteBtn">excluir nota</button>
         </span>
       </div>
+      <div class="notes-export">
+        <span class="notes-export-label">Exportar:</span>
+        <button type="button" id="exportMdBtn">.md</button>
+        <button type="button" id="exportTxtBtn">.txt</button>
+        <button type="button" id="exportPdfBtn">PDF</button>
+      </div>
     </div>
 
-    <div class="calc-box">
-      <div class="field-label" id="txtCalc">Calculadora</div>
-      <div class="calc-prev" id="calcPrev"></div>
-      <div class="calc-display" id="calcDisplay">0</div>
-      <div class="calc-sub" id="calcMemInd"></div>
-      <div class="calc-modes">
-        <button id="modeDeg" class="active">DEG</button>
-        <button id="modeRad">RAD</button>
+    <div class="sidebar-app">
+      <div class="page-tabs" id="sidebarTabs">
+        <button type="button" id="tabCalc" class="active">Calculadora</button>
+        <button type="button" id="tabTarefas">Tarefas</button>
       </div>
-      <div class="calc-grid" id="calcGrid"></div>
-      <div class="calc-hist-head">
-        <div class="field-label" id="txtHistLabel">Histórico</div>
-        <button class="calc-hist-clear" id="clearHistBtn">limpar tudo</button>
+
+      <div class="calc-box" id="painelCalc">
+        <div class="field-label" id="txtCalc">Calculadora</div>
+        <div class="calc-prev" id="calcPrev"></div>
+        <div class="calc-display" id="calcDisplay">0</div>
+        <div class="calc-sub" id="calcMemInd"></div>
+        <div class="calc-modes">
+          <button id="modeDeg" class="active">DEG</button>
+          <button id="modeRad">RAD</button>
+        </div>
+        <div class="calc-grid" id="calcGrid"></div>
+        <div class="calc-hist-head">
+          <div class="field-label" id="txtHistLabel">Histórico</div>
+          <button class="calc-hist-clear" id="clearHistBtn">limpar tudo</button>
+        </div>
+        <div class="calc-hist" id="calcHist"></div>
       </div>
-      <div class="calc-hist" id="calcHist"></div>
+
+      <div class="todo-box" id="painelTarefas" style="display:none">
+        <div class="field-label">Tarefas da semana</div>
+        <div class="todo-progress-wrap">
+          <div class="todo-progress-bar"><div class="todo-progress-fill" id="todoProgressFill"></div></div>
+          <span class="todo-progress-text" id="todoProgressText">0/0</span>
+        </div>
+        <form id="todoAddForm" class="todo-add-form">
+          <input type="text" id="todoNovoTexto" placeholder="Nova tarefa…" autocomplete="off">
+          <button type="submit">+</button>
+        </form>
+        <div class="todo-list" id="todoList"></div>
+        <button type="button" class="todo-clear-done" id="todoClearDone">limpar concluídas</button>
+      </div>
     </div>
   </div>
 </main>
@@ -617,6 +686,12 @@ const notesCounter = document.getElementById("notesCounter");
 const notesColors = document.getElementById("notesColors");
 const renameNoteBtn = document.getElementById("renameNoteBtn");
 const deleteNoteBtn = document.getElementById("deleteNoteBtn");
+const notesSearch = document.getElementById("notesSearch");
+const notesTags = document.getElementById("notesTags");
+const pinNoteBtn = document.getElementById("pinNoteBtn");
+const exportMdBtn = document.getElementById("exportMdBtn");
+const exportTxtBtn = document.getElementById("exportTxtBtn");
+const exportPdfBtn = document.getElementById("exportPdfBtn");
 
 const NOTE_COLORS = DISC_COLORS;
 
@@ -642,9 +717,52 @@ function atualizarEstadoVazio() {
   notesEditor.classList.toggle("is-empty", vazio);
 }
 
+function extrairTags(nota) {
+  const texto = nota.titulo + " " + (nota.conteudo || "").replace(/<[^>]+>/g, " ");
+  const encontradas = texto.match(/#[\wÀ-ÿ]+/g) || [];
+  return [...new Set(encontradas.map(t => t.toLowerCase()))];
+}
+
+function todasAsTags() {
+  const set = new Set();
+  notas.forEach(n => extrairTags(n).forEach(t => set.add(t)));
+  return [...set].sort();
+}
+
+let buscaAtual = "";
+let tagAtiva = null;
+
+function notaCombinaComFiltro(n) {
+  const buscaOk = !buscaAtual || (n.titulo + " " + (n.conteudo || "").replace(/<[^>]+>/g, " ")).toLowerCase().includes(buscaAtual.toLowerCase());
+  const tagOk = !tagAtiva || extrairTags(n).includes(tagAtiva);
+  return buscaOk && tagOk;
+}
+
+function renderTags() {
+  const tags = todasAsTags();
+  notesTags.innerHTML = "";
+  if (!tags.length) return;
+  tags.forEach(tag => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "tag-chip" + (tag === tagAtiva ? " active" : "");
+    chip.textContent = tag;
+    chip.addEventListener("click", () => {
+      tagAtiva = tagAtiva === tag ? null : tag;
+      renderTabs();
+      renderTags();
+    });
+    notesTags.appendChild(chip);
+  });
+}
+
 function renderTabs() {
   notesTabs.innerHTML = "";
-  notas.forEach(n => {
+  const visiveis = notas.filter(notaCombinaComFiltro).sort((a, b) => (b.fixada ? 1 : 0) - (a.fixada ? 1 : 0));
+  if ((buscaAtual || tagAtiva) && visiveis.length && !visiveis.some(n => n.id === notaAtivaId)) {
+    notaAtivaId = visiveis[0].id;
+  }
+  visiveis.forEach(n => {
     const tab = document.createElement("button");
     tab.type = "button";
     tab.className = "note-tab" + (n.id === notaAtivaId ? " active" : "");
@@ -652,24 +770,38 @@ function renderTabs() {
     dot.className = "dot";
     dot.style.background = n.cor || NOTE_COLORS[0];
     tab.appendChild(dot);
+    if (n.fixada) {
+      const pin = document.createElement("span");
+      pin.className = "pin-mark";
+      pin.textContent = "📌";
+      tab.appendChild(pin);
+    }
     tab.appendChild(document.createTextNode(n.titulo || "(sem título)"));
     tab.addEventListener("click", () => { notaAtivaId = n.id; renderTabs(); renderEditor(); });
     notesTabs.appendChild(tab);
   });
-  const addTab = document.createElement("button");
-  addTab.type = "button";
-  addTab.className = "note-tab note-tab-add";
-  addTab.textContent = "+ nova nota";
-  addTab.addEventListener("click", () => {
-    const nova = { id: uid(), titulo: "Nota " + (notas.length + 1), conteudo: "", cor: NOTE_COLORS[notas.length % NOTE_COLORS.length], atualizadoEm: Date.now() };
-    notas.push(nova);
-    notaAtivaId = nova.id;
-    salvarNotas();
-    renderTabs();
-    renderEditor();
-    notesEditor.focus();
-  });
-  notesTabs.appendChild(addTab);
+  if (!buscaAtual && !tagAtiva) {
+    const addTab = document.createElement("button");
+    addTab.type = "button";
+    addTab.className = "note-tab note-tab-add";
+    addTab.textContent = "+ nova nota";
+    addTab.addEventListener("click", () => {
+      const nova = { id: uid(), titulo: "Nota " + (notas.length + 1), conteudo: "", cor: NOTE_COLORS[notas.length % NOTE_COLORS.length], fixada: false, atualizadoEm: Date.now() };
+      notas.push(nova);
+      notaAtivaId = nova.id;
+      salvarNotas();
+      renderTabs();
+      renderEditor();
+      notesEditor.focus();
+    });
+    notesTabs.appendChild(addTab);
+  }
+  if (!visiveis.length) {
+    const vazio = document.createElement("div");
+    vazio.style.cssText = "font-size:0.8rem;opacity:0.55;padding:6px 2px";
+    vazio.textContent = "Nenhuma nota encontrada.";
+    notesTabs.appendChild(vazio);
+  }
 }
 
 function renderCores() {
@@ -704,6 +836,8 @@ function renderEditor() {
   atualizarContador();
   notesMetaInfo.textContent = nota.atualizadoEm ? "Editado " + formatarDataNota(nota.atualizadoEm) : "";
   deleteNoteBtn.style.display = notas.length > 1 ? "" : "none";
+  pinNoteBtn.classList.toggle("active", !!nota.fixada);
+
   renderCores();
 }
 
@@ -718,6 +852,7 @@ notesEditor.addEventListener("input", () => {
   notesSaveTimer = setTimeout(() => {
     salvarNotas();
     notesMetaInfo.textContent = "Editado " + formatarDataNota(nota.atualizadoEm);
+    renderTags();
   }, 400);
 });
 
@@ -743,6 +878,7 @@ renameNoteBtn.addEventListener("click", () => {
     nota.titulo = novoTitulo.trim();
     salvarNotas();
     renderTabs();
+    renderTags();
   }
 });
 
@@ -754,10 +890,103 @@ deleteNoteBtn.addEventListener("click", () => {
   salvarNotas();
   renderTabs();
   renderEditor();
+  renderTags();
+});
+
+notesSearch.addEventListener("input", () => {
+  buscaAtual = notesSearch.value.trim();
+  renderTabs();
+});
+
+pinNoteBtn.addEventListener("click", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  nota.fixada = !nota.fixada;
+  salvarNotas();
+  renderTabs();
+  renderEditor();
+});
+
+// ---- Exportação ----
+function htmlParaTextoPuro(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || "";
+}
+
+function htmlParaMarkdown(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  let md = "";
+  div.childNodes.forEach(node => {
+    md += nodeParaMarkdown(node);
+  });
+  return md.trim() + "\n";
+}
+
+function nodeParaMarkdown(node) {
+  if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+  const tag = node.tagName ? node.tagName.toLowerCase() : "";
+  const filhos = [...node.childNodes].map(nodeParaMarkdown).join("");
+  if (tag === "b" || tag === "strong") return "**" + filhos + "**";
+  if (tag === "i" || tag === "em") return "_" + filhos + "_";
+  if (tag === "h3") return "\n### " + filhos + "\n";
+  if (tag === "li") return "- " + filhos + "\n";
+  if (tag === "ul" || tag === "div") return filhos + "\n";
+  if (tag === "br") return "\n";
+  return filhos;
+}
+
+function baixarArquivo(nomeArquivo, conteudo, tipo) {
+  const blob = new Blob([conteudo], { type: tipo });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nomeArquivo;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function nomeArquivoSeguro(titulo) {
+  return (titulo || "nota").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase() || "nota";
+}
+
+exportMdBtn.addEventListener("click", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  const md = "# " + (nota.titulo || "Nota") + "\n\n" + htmlParaMarkdown(nota.conteudo || "");
+  baixarArquivo(nomeArquivoSeguro(nota.titulo) + ".md", md, "text/markdown");
+});
+
+exportTxtBtn.addEventListener("click", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  const txt = (nota.titulo || "Nota") + "\n\n" + htmlParaTextoPuro(nota.conteudo || "");
+  baixarArquivo(nomeArquivoSeguro(nota.titulo) + ".txt", txt, "text/plain");
+});
+
+exportPdfBtn.addEventListener("click", () => {
+  const nota = notaAtiva();
+  if (!nota) return;
+  if (typeof html2pdf === "undefined") {
+    alert("Não consegui carregar o gerador de PDF agora — verifique sua internet e tente de novo.");
+    return;
+  }
+  const wrapper = document.createElement("div");
+  wrapper.style.cssText = "padding:24px; font-family: Georgia, serif; color:#1A1712;";
+  wrapper.innerHTML = "<h1 style='font-size:1.4rem;margin-bottom:14px'>" + (nota.titulo || "Nota") + "</h1>" + (nota.conteudo || "");
+  html2pdf().from(wrapper).set({
+    margin: 10,
+    filename: nomeArquivoSeguro(nota.titulo) + ".pdf",
+    html2canvas: { scale: 2 }
+  }).save();
 });
 
 renderTabs();
 renderEditor();
+renderTags();
 
 // Ponte para o script de nuvem (que roda em outro <script type="module">
 // e não enxerga as variáveis "let" deste bloco): permite recarregar a
@@ -923,6 +1152,95 @@ document.getElementById("clearHistBtn").addEventListener("click", () => {
   renderHist();
 });
 renderHist();
+
+// ---- Abas da barra lateral: Calculadora / Tarefas ----
+const tabCalc = document.getElementById("tabCalc");
+const tabTarefas = document.getElementById("tabTarefas");
+const painelCalc = document.getElementById("painelCalc");
+const painelTarefas = document.getElementById("painelTarefas");
+tabCalc.addEventListener("click", () => {
+  tabCalc.classList.add("active"); tabTarefas.classList.remove("active");
+  painelCalc.style.display = ""; painelTarefas.style.display = "none";
+});
+tabTarefas.addEventListener("click", () => {
+  tabTarefas.classList.add("active"); tabCalc.classList.remove("active");
+  painelTarefas.style.display = ""; painelCalc.style.display = "none";
+});
+
+// ---- Tarefas (to-do / kanban simples com barra de progresso) ----
+function getTarefas() { return loadJSON("anotacoes_tarefas", []); }
+function salvarTarefas(lista) {
+  saveJSON("anotacoes_tarefas", lista);
+  if (window.pushTarefasToCloud) window.pushTarefasToCloud(lista);
+}
+let tarefas = getTarefas();
+
+const todoList = document.getElementById("todoList");
+const todoAddForm = document.getElementById("todoAddForm");
+const todoNovoTexto = document.getElementById("todoNovoTexto");
+const todoProgressFill = document.getElementById("todoProgressFill");
+const todoProgressText = document.getElementById("todoProgressText");
+const todoClearDone = document.getElementById("todoClearDone");
+
+function renderTarefas() {
+  todoList.innerHTML = "";
+  tarefas.forEach(tarefa => {
+    const item = document.createElement("div");
+    item.className = "todo-item" + (tarefa.feita ? " done" : "");
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = !!tarefa.feita;
+    check.addEventListener("change", () => {
+      tarefa.feita = check.checked;
+      salvarTarefas(tarefas);
+      renderTarefas();
+    });
+    const texto = document.createElement("span");
+    texto.className = "todo-item-text";
+    texto.textContent = tarefa.texto;
+    const rm = document.createElement("button");
+    rm.className = "todo-item-rm";
+    rm.type = "button";
+    rm.textContent = "×";
+    rm.title = "Remover";
+    rm.addEventListener("click", () => {
+      tarefas = tarefas.filter(x => x.id !== tarefa.id);
+      salvarTarefas(tarefas);
+      renderTarefas();
+    });
+    item.appendChild(check);
+    item.appendChild(texto);
+    item.appendChild(rm);
+    todoList.appendChild(item);
+  });
+  const total = tarefas.length;
+  const feitas = tarefas.filter(x => x.feita).length;
+  todoProgressFill.style.width = (total ? (feitas / total * 100) : 0) + "%";
+  todoProgressText.textContent = feitas + "/" + total;
+}
+
+todoAddForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const texto = todoNovoTexto.value.trim();
+  if (!texto) return;
+  tarefas.push({ id: uid(), texto, feita: false, criadaEm: Date.now() });
+  salvarTarefas(tarefas);
+  todoNovoTexto.value = "";
+  renderTarefas();
+});
+
+todoClearDone.addEventListener("click", () => {
+  tarefas = tarefas.filter(x => !x.feita);
+  salvarTarefas(tarefas);
+  renderTarefas();
+});
+
+renderTarefas();
+
+window.recarregarTarefasNaTela = function (novaLista) {
+  tarefas = novaLista;
+  renderTarefas();
+};
 </script>
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -979,11 +1297,38 @@ window.pushNotasToCloud = async function (listaNotas) {
   }
 };
 
+async function pullTarefasFromCloud(uid) {
+  try {
+    const ref = doc(db, "usuarios", uid, "dados", "anotacoes_tarefas");
+    const snap = await getDoc(ref);
+    if (snap.exists() && Array.isArray(snap.data().tarefas)) {
+      const tarefasNuvem = snap.data().tarefas;
+      saveJSON("anotacoes_tarefas", tarefasNuvem);
+      if (window.recarregarTarefasNaTela) window.recarregarTarefasNaTela(tarefasNuvem);
+    } else {
+      const local = loadJSON("anotacoes_tarefas", []);
+      if (local.length) await setDoc(ref, { tarefas: local, atualizadoEm: Date.now() });
+    }
+  } catch (e) {
+    console.error("tape: erro ao sincronizar tarefas", e);
+  }
+}
+
+window.pushTarefasToCloud = async function (listaTarefas) {
+  if (!cloudUid) return;
+  try {
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "anotacoes_tarefas"), { tarefas: listaTarefas, atualizadoEm: Date.now() });
+  } catch (e) {
+    console.error("tape: erro ao salvar tarefas na nuvem", e);
+  }
+};
+
 onAuthStateChanged(auth, (user) => {
   cloudUid = user ? user.uid : null;
-  if (cloudUid) pullNotasFromCloud(cloudUid);
+  if (cloudUid) { pullNotasFromCloud(cloudUid); pullTarefasFromCloud(cloudUid); }
 });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="assistente.js" defer></script>
 </body>
 </html>

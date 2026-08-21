@@ -326,6 +326,25 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
 /* ---------- Calculadora científica ---------- */
 .sci-wrap { max-width: 420px; }
+.page-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.page-tabs button { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--overlay); color: var(--ink); font-size: 0.85rem; font-weight: 700; cursor: pointer; }
+.page-tabs button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.conv-wrap { max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
+.conv-cats { display: flex; gap: 6px; flex-wrap: wrap; }
+.conv-cats button { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--overlay); color: var(--ink); font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+.conv-cats button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.conv-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.conv-row { display: flex; gap: 8px; align-items: center; }
+.conv-row input[type="text"], .conv-row input[type="number"] {
+  flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--overlay);
+  color: var(--ink); font-size: 1rem; font-family: inherit;
+}
+.conv-row select {
+  padding: 10px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--overlay);
+  color: var(--ink); font-size: 0.85rem; font-family: inherit; min-width: 92px;
+}
+.conv-swap { border: 1px solid var(--line); background: var(--overlay); color: var(--ink); border-radius: 999px; width: 34px; height: 34px; flex-shrink: 0; cursor: pointer; font-size: 0.95rem; }
+.conv-hint { font-size: 0.72rem; opacity: 0.55; }
 .sci-display { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; margin-bottom: 14px; }
 .sci-expr { font-size: 0.85rem; opacity: 0.45; min-height: 18px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sci-result { font-weight: 800; font-size: 2rem; text-align: right; letter-spacing: -0.02em; white-space: nowrap; overflow-x: auto; overflow-y: hidden; }
@@ -377,7 +396,12 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   <h1 id="txtTitulo">Calculadora científica</h1>
   <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Operações básicas, raiz quadrada, potência, seno, cosseno, tangente, log, ln e mais.</p>
 
-  <div class="sci-wrap" style="margin-top:20px">
+  <div class="page-tabs" id="pageTabs">
+    <button type="button" id="tabCientifica" class="active">Científica</button>
+    <button type="button" id="tabConversor">Conversor</button>
+  </div>
+
+  <div class="sci-wrap" id="painelCientifica" style="margin-top:20px">
     <div class="sci-display">
       <div class="sci-expr" id="sciExpr">&nbsp;</div>
       <div class="sci-result" id="sciResult">0</div>
@@ -398,6 +422,30 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
       <button class="sci-hist-clear" id="clearHistBtn">limpar tudo</button>
     </div>
     <div class="sci-hist" id="sciHist"></div>
+  </div>
+
+  <div class="conv-wrap" id="painelConversor" style="margin-top:20px; display:none">
+    <div class="conv-cats" id="convCats">
+      <button type="button" data-cat="comprimento" class="active">Comprimento</button>
+      <button type="button" data-cat="peso">Peso</button>
+      <button type="button" data-cat="temperatura">Temperatura</button>
+      <button type="button" data-cat="base">Base numérica</button>
+      <button type="button" data-cat="moeda">Moeda</button>
+    </div>
+    <div class="conv-card">
+      <div class="conv-row">
+        <input type="text" id="convDe" inputmode="decimal" placeholder="0">
+        <select id="convDeUnidade"></select>
+      </div>
+      <div style="display:flex; justify-content:center">
+        <button type="button" class="conv-swap" id="convSwap" title="Inverter">⇅</button>
+      </div>
+      <div class="conv-row">
+        <input type="text" id="convPara" readonly>
+        <select id="convParaUnidade"></select>
+      </div>
+      <div class="conv-hint" id="convHint"></div>
+    </div>
   </div>
 </main>
 
@@ -707,6 +755,163 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "Backspace") { handleKey("back"); }
   else if (e.key === "Escape") { handleKey("C"); }
 });
+
+// ---- Abas: Científica / Conversor ----
+const tabCientifica = document.getElementById("tabCientifica");
+const tabConversor = document.getElementById("tabConversor");
+const painelCientifica = document.getElementById("painelCientifica");
+const painelConversor = document.getElementById("painelConversor");
+tabCientifica.addEventListener("click", () => {
+  tabCientifica.classList.add("active"); tabConversor.classList.remove("active");
+  painelCientifica.style.display = ""; painelConversor.style.display = "none";
+});
+tabConversor.addEventListener("click", () => {
+  tabConversor.classList.add("active"); tabCientifica.classList.remove("active");
+  painelConversor.style.display = ""; painelCientifica.style.display = "none";
+});
+
+// ---- Conversor de unidades ----
+const CONV_UNIDADES = {
+  comprimento: {
+    unidade: "m",
+    fatores: { mm: 0.001, cm: 0.01, m: 1, km: 1000, pol: 0.0254, pe: 0.3048, jarda: 0.9144, milha: 1609.344 },
+    nomes: { mm: "Milímetro", cm: "Centímetro", m: "Metro", km: "Quilômetro", pol: "Polegada", pe: "Pé", jarda: "Jarda", milha: "Milha" }
+  },
+  peso: {
+    fatores: { mg: 0.001, g: 1, kg: 1000, ton: 1000000, oz: 28.3495, lb: 453.592 },
+    nomes: { mg: "Miligrama", g: "Grama", kg: "Quilograma", ton: "Tonelada", oz: "Onça", lb: "Libra" }
+  }
+};
+
+function popularSelects(cat) {
+  const de = document.getElementById("convDeUnidade");
+  const para = document.getElementById("convParaUnidade");
+  de.innerHTML = ""; para.innerHTML = "";
+  if (cat === "comprimento" || cat === "peso") {
+    const nomes = CONV_UNIDADES[cat].nomes;
+    Object.keys(nomes).forEach(k => {
+      de.appendChild(new Option(nomes[k], k));
+      para.appendChild(new Option(nomes[k], k));
+    });
+    para.selectedIndex = 1;
+  } else if (cat === "temperatura") {
+    ["Celsius", "Fahrenheit", "Kelvin"].forEach((n, i) => {
+      de.appendChild(new Option(n, n));
+      para.appendChild(new Option(n, n));
+    });
+    para.selectedIndex = 1;
+  } else if (cat === "base") {
+    ["Decimal", "Binário", "Hexadecimal", "Octal"].forEach(n => {
+      de.appendChild(new Option(n, n));
+      para.appendChild(new Option(n, n));
+    });
+    para.selectedIndex = 1;
+  } else if (cat === "moeda") {
+    ["BRL", "USD", "EUR", "GBP", "ARS"].forEach(n => {
+      de.appendChild(new Option(n, n));
+      para.appendChild(new Option(n, n));
+    });
+    de.value = "USD"; para.value = "BRL";
+  }
+}
+
+let convCatAtual = "comprimento";
+let taxasMoeda = null;
+let taxasMoedaCarregando = false;
+
+async function garantirTaxas() {
+  if (taxasMoeda || taxasMoedaCarregando) return;
+  taxasMoedaCarregando = true;
+  const hint = document.getElementById("convHint");
+  hint.textContent = "Buscando cotação atual…";
+  try {
+    const resp = await fetch("https://api.frankfurter.app/latest?from=USD");
+    const data = await resp.json();
+    taxasMoeda = { USD: 1, ...data.rates };
+    hint.textContent = "Cotação de " + (data.date || "hoje") + " via frankfurter.app";
+  } catch (e) {
+    hint.textContent = "Sem internet pra buscar a cotação agora — tente de novo mais tarde.";
+  }
+  taxasMoedaCarregando = false;
+  executarConversao();
+}
+
+function celsiusPara(valor, destino) {
+  if (destino === "Celsius") return valor;
+  if (destino === "Fahrenheit") return valor * 9 / 5 + 32;
+  if (destino === "Kelvin") return valor + 273.15;
+}
+function paraCelsius(valor, origem) {
+  if (origem === "Celsius") return valor;
+  if (origem === "Fahrenheit") return (valor - 32) * 5 / 9;
+  if (origem === "Kelvin") return valor - 273.15;
+}
+
+function executarConversao() {
+  const deVal = document.getElementById("convDe").value.replace(",", ".").trim();
+  const deUnidade = document.getElementById("convDeUnidade").value;
+  const paraUnidade = document.getElementById("convParaUnidade").value;
+  const paraInput = document.getElementById("convPara");
+  const hint = document.getElementById("convHint");
+
+  if (convCatAtual === "base") {
+    if (deVal === "") { paraInput.value = ""; return; }
+    const baseOrigem = { Decimal: 10, Binário: 2, Hexadecimal: 16, Octal: 8 }[deUnidade];
+    const baseDestino = { Decimal: 10, Binário: 2, Hexadecimal: 16, Octal: 8 }[paraUnidade];
+    const n = parseInt(deVal, baseOrigem);
+    paraInput.value = isNaN(n) ? "valor inválido para " + deUnidade : n.toString(baseDestino).toUpperCase();
+    hint.textContent = "";
+    return;
+  }
+
+  const n = parseFloat(deVal);
+  if (deVal === "" || isNaN(n)) { paraInput.value = ""; return; }
+
+  if (convCatAtual === "comprimento" || convCatAtual === "peso") {
+    const fatores = CONV_UNIDADES[convCatAtual].fatores;
+    const emBase = n * fatores[deUnidade];
+    const resultado = emBase / fatores[paraUnidade];
+    paraInput.value = Number(resultado.toPrecision(8)).toString();
+    hint.textContent = "";
+  } else if (convCatAtual === "temperatura") {
+    const emC = paraCelsius(n, deUnidade);
+    const resultado = celsiusPara(emC, paraUnidade);
+    paraInput.value = Number(resultado.toFixed(2)).toString();
+    hint.textContent = "";
+  } else if (convCatAtual === "moeda") {
+    if (!taxasMoeda) { garantirTaxas(); return; }
+    const emUsd = n / taxasMoeda[deUnidade];
+    const resultado = emUsd * taxasMoeda[paraUnidade];
+    paraInput.value = resultado.toFixed(2);
+  }
+}
+
+document.querySelectorAll("#convCats button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#convCats button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    convCatAtual = btn.dataset.cat;
+    popularSelects(convCatAtual);
+    document.getElementById("convDe").value = "";
+    document.getElementById("convPara").value = "";
+    document.getElementById("convHint").textContent = "";
+    document.getElementById("convDe").inputMode = convCatAtual === "base" ? "text" : "decimal";
+    if (convCatAtual === "moeda") garantirTaxas();
+  });
+});
+
+document.getElementById("convDe").addEventListener("input", executarConversao);
+document.getElementById("convDeUnidade").addEventListener("change", executarConversao);
+document.getElementById("convParaUnidade").addEventListener("change", executarConversao);
+document.getElementById("convSwap").addEventListener("click", () => {
+  const de = document.getElementById("convDeUnidade");
+  const para = document.getElementById("convParaUnidade");
+  const tmp = de.value; de.value = para.value; para.value = tmp;
+  document.getElementById("convDe").value = document.getElementById("convPara").value;
+  executarConversao();
+});
+
+popularSelects(convCatAtual);
 </script>
 <script src="assistente.js" defer></script>
 </body>
