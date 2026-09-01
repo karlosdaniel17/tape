@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<title>Disciplinas</title>
+<title>Exercícios</title>
 <style>
 :root {
   color-scheme: only light;
@@ -24,7 +24,6 @@
   --sex: #3E7C8A;
   --sab: #7A4B5E;
   --dom: #C97B63;
-}
 }
 
 * { box-sizing: border-box; }
@@ -308,6 +307,65 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 
 footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
 
+/* ---------- Trilhas / árvore de habilidades ---------- */
+.trilha-select-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin: 4px 0 22px; }
+.trilha-select-row select { font-size:0.9rem; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color:var(--ink); }
+.trilha-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 6px 0 8px; max-width:420px; }
+.trilha-progresso-fill { height:100%; background:linear-gradient(120deg,#B5502E,#D9A441 55%,#C97B63); border-radius:999px; transition:width .3s ease; }
+.trilha-progresso-texto { font-size:0.8rem; opacity:.6; margin-bottom:22px; }
+.modulos-grid { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+.modulo-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display:flex; flex-direction:column; gap:8px; }
+.modulo-card.bloqueado { opacity:.5; }
+.modulo-top { display:flex; align-items:center; gap:10px; }
+.modulo-status { font-size:1.2rem; flex-shrink:0; }
+.modulo-nome { font-weight:800; font-size:1rem; flex:1; }
+.modulo-pre { font-size:0.75rem; opacity:.55; }
+.modulo-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.modulo-actions button { font-size:0.78rem; padding:6px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); cursor:pointer; }
+.modulo-actions button.concluir { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.modulo-actions button.concluir:disabled { opacity:.35; cursor:not-allowed; }
+.modulo-actions button.excluir { color:#B33; opacity:.7; }
+.modulo-actions button.excluir:hover { opacity:1; }
+.novo-modulo-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px dashed var(--line); border-radius: 14px; padding: 16px; margin-top:6px; }
+.novo-modulo-box input[type="text"] { width:100%; box-sizing:border-box; font-size:0.9rem; padding:9px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:10px; font-family:inherit; }
+.pre-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.pre-chip { font-size:0.78rem; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--overlay); cursor:pointer; user-select:none; }
+.pre-chip.selecionado { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.sem-disciplinas { opacity:.6; font-size:.9rem; }
+
+/* ---------- Exercícios ---------- */
+.ex-subject-tabs { display:flex; flex-wrap:wrap; gap:8px; margin: 4px 0 12px; }
+.ex-subject-tabs button {
+  font-size:0.85rem; font-weight:700; padding:9px 16px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
+  cursor:pointer; opacity:.6; color:var(--ink);
+}
+.ex-subject-tabs button.active { opacity:1; background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.ex-level-tabs { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+.ex-level-tabs button {
+  font-size:0.8rem; font-weight:700; padding:7px 15px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); cursor:pointer; opacity:.55; color:var(--ink);
+}
+.ex-level-tabs button.facil.active { opacity:1; background:#5B7A4F; color:#fff; border-color:#5B7A4F; }
+.ex-level-tabs button.intermediario.active { opacity:1; background:#D9A441; color:#fff; border-color:#D9A441; }
+.ex-level-tabs button.dificil.active { opacity:1; background:#C1502B; color:#fff; border-color:#C1502B; }
+.ex-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 10px 0 6px; max-width:420px; }
+.ex-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#B5502E,#D9A441 55%,#C97B63); }
+.ex-progresso-texto { font-size:0.8rem; opacity:.55; margin-bottom:18px; }
+.ex-list { display:flex; flex-direction:column; gap:10px; }
+.ex-item { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; overflow:hidden; }
+.ex-item-head { padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer; }
+.ex-item-check { flex-shrink:0; }
+.ex-item-check input { width:18px; height:18px; cursor:pointer; accent-color: var(--qui); }
+.ex-item-num { width:24px; height:24px; border-radius:999px; background:var(--overlay); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:800; flex-shrink:0; }
+.ex-item-enunciado { flex:1; font-size:0.92rem; line-height:1.45; }
+.ex-item.feito .ex-item-enunciado { opacity:.5; text-decoration: line-through; }
+.ex-item-caret { opacity:.4; font-size:.75rem; transition: transform .15s ease; flex-shrink:0; }
+.ex-item.open .ex-item-caret { transform: rotate(90deg); }
+.ex-item-resposta { display:none; padding: 0 16px 16px 62px; font-size:0.88rem; opacity:.85; border-top:1px solid var(--line); margin-top:0; }
+.ex-item-resposta strong { opacity:.6; font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; display:block; margin: 12px 0 4px; }
+.ex-item.open .ex-item-resposta { display:block; }
+
 </style>
 </head>
 <body>
@@ -324,20 +382,17 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow" id="txtEyebrow">Cadastro</div>
-  <h1 id="txtTitulo">Disciplinas</h1>
-  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Sala, professor e ementa de cada disciplina. As disciplinas cadastradas aqui aparecem na página Semana.</p>
+  <div class="eyebrow">Prática</div>
+  <h1>Exercícios</h1>
+  <p style="opacity:.55;font-size:.9rem;margin-top:0">Escolha a matéria e o nível. Clique em um exercício pra ver a resposta, e marque a caixinha quando resolver certo.</p>
 
-  <div id="discList" style="margin-top:20px"></div>
+  <div class="ex-subject-tabs" id="exSubjectTabs"></div>
+  <div class="ex-level-tabs" id="exLevelTabs"></div>
 
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <button class="new-disc-btn" id="addBtn">+ Nova disciplina</button>
-    <div class="size-toggle" id="sizeToggle">
-      <button data-size="compact">A−</button>
-      <button data-size="padrao" class="active">A</button>
-      <button data-size="grande">A+</button>
-    </div>
-  </div>
+  <div class="ex-progresso-track"><div class="ex-progresso-fill" id="exProgressoFill" style="width:0%"></div></div>
+  <div class="ex-progresso-texto" id="exProgressoTexto"></div>
+
+  <div class="ex-list" id="exList"></div>
 </main>
 
 <footer class="foot" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
@@ -478,237 +533,288 @@ function renderNav(activePage) {
 
 </script>
 <script>
-renderNav("disciplinas.html");
-document.getElementById("txtEyebrow").textContent = t("eyebrow_cadastro");
-document.getElementById("txtTitulo").textContent = t("titulo_disciplinas");
-document.getElementById("txtSub").textContent = t("subtitulo_disciplinas");
-document.getElementById("txtFooter").textContent = t("footer_rodape");
-document.getElementById("addBtn").textContent = t("btn_nova_disciplina");
+renderNav("exercicios.html");
 
-let cardSize = localStorage.getItem("disc_tamanho") || "padrao";
+// ---------- Banco de exercícios ----------
+const MATERIAS = [
+  {
+    id: "calculo",
+    nome: "Cálculo",
+    niveis: {
+      facil: [
+        { enunciado: "Calcule lim(x→3) (2x + 5).", resposta: "11" },
+        { enunciado: "Calcule lim(x→0) (x² + 3x) / x.", resposta: "Simplificando (x²+3x)/x = x+3, logo o limite é 3." },
+        { enunciado: "Derive f(x) = x³ − 4x + 7.", resposta: "f'(x) = 3x² − 4" },
+        { enunciado: "Derive f(x) = 5x² + 2x − 1.", resposta: "f'(x) = 10x + 2" },
+        { enunciado: "Calcule a derivada de f(x) = 7 (função constante).", resposta: "f'(x) = 0" },
+        { enunciado: "Calcule ∫ 3x² dx.", resposta: "x³ + C" },
+        { enunciado: "Calcule ∫ (4x + 1) dx.", resposta: "2x² + x + C" },
+        { enunciado: "Encontre a inclinação da reta tangente a f(x) = x² em x = 2.", resposta: "f'(x) = 2x → f'(2) = 4" },
+        { enunciado: "Calcule lim(x→∞) (5 / x).", resposta: "0" },
+        { enunciado: "Derive f(x) = x⁵.", resposta: "f'(x) = 5x⁴" },
+      ],
+      intermediario: [
+        { enunciado: "Calcule lim(x→2) (x² − 4) / (x − 2).", resposta: "Fatorando: (x−2)(x+2)/(x−2) = x+2 → limite = 4" },
+        { enunciado: "Derive f(x) = (x² + 1)(x − 3) usando a regra do produto.", resposta: "f'(x) = 3x² − 6x + 1" },
+        { enunciado: "Derive f(x) = x² / (x + 1) usando a regra do quociente.", resposta: "f'(x) = (x² + 2x) / (x + 1)²" },
+        { enunciado: "Derive f(x) = sen(3x).", resposta: "f'(x) = 3·cos(3x)" },
+        { enunciado: "Derive f(x) = e^(2x).", resposta: "f'(x) = 2·e^(2x)" },
+        { enunciado: "Calcule ∫ (3x² − 2x + 5) dx.", resposta: "x³ − x² + 5x + C" },
+        { enunciado: "Calcule a derivada de f(x) = ln(x² + 1).", resposta: "f'(x) = 2x / (x² + 1)" },
+        { enunciado: "Encontre os pontos críticos de f(x) = x³ − 3x.", resposta: "f'(x) = 3x² − 3 = 0 → x = 1 ou x = −1" },
+        { enunciado: "Calcule lim(x→0) sen(x) / x.", resposta: "1 (limite fundamental trigonométrico)" },
+        { enunciado: "Calcule ∫₀¹ x² dx.", resposta: "[x³/3] de 0 a 1 = 1/3" },
+      ],
+      dificil: [
+        { enunciado: "Derive f(x) = xˣ (derivação logarítmica).", resposta: "ln f = x·ln x → f'/f = ln x + 1 → f'(x) = xˣ(ln x + 1)" },
+        { enunciado: "Calcule lim(x→∞) (1 + 1/x)ˣ.", resposta: "e (número de Euler, ≈ 2,718)" },
+        { enunciado: "Encontre a derivada de f(x) = arctan(x²).", resposta: "f'(x) = 2x / (1 + x⁴)" },
+        { enunciado: "Calcule ∫ x·eˣ dx por partes.", resposta: "(x − 1)eˣ + C" },
+        { enunciado: "Encontre os pontos de inflexão de f(x) = x⁴ − 6x² + 2.", resposta: "f''(x) = 12x² − 12 = 0 → x = 1 ou x = −1" },
+        { enunciado: "Calcule ∫ 1 / (x² + 1) dx.", resposta: "arctan(x) + C" },
+        { enunciado: "Use a Regra de L'Hôpital para calcular lim(x→0) (1 − cos x) / x².", resposta: "1/2" },
+        { enunciado: "Calcule a derivada implícita de x² + y² = 25 em relação a x.", resposta: "2x + 2y·y' = 0 → y' = −x/y" },
+        { enunciado: "Encontre a área entre f(x) = x² e g(x) = x no intervalo [0, 1].", resposta: "∫(x − x²)dx de 0 a 1 = 1/6" },
+        { enunciado: "Calcule ∫ x²·ln(x) dx por partes.", resposta: "(x³/3)ln x − x³/9 + C" },
+      ],
+    },
+  },
+  {
+    id: "geometria",
+    nome: "Geometria Analítica",
+    niveis: {
+      facil: [
+        { enunciado: "Calcule a distância entre os pontos A(1,2) e B(4,6).", resposta: "d = √((4−1)² + (6−2)²) = √(9+16) = 5" },
+        { enunciado: "Encontre o ponto médio entre A(2,3) e B(8,7).", resposta: "M = ((2+8)/2, (3+7)/2) = (5, 5)" },
+        { enunciado: "Determine a equação da reta que passa por (0,3) com coeficiente angular 2.", resposta: "y = 2x + 3" },
+        { enunciado: "Qual a inclinação da reta que passa por (1,1) e (3,7)?", resposta: "m = (7−1)/(3−1) = 3" },
+        { enunciado: "Escreva a equação da circunferência de centro (0,0) e raio 4.", resposta: "x² + y² = 16" },
+        { enunciado: "As retas y = 2x + 1 e y = 2x − 5 são paralelas?", resposta: "Sim, têm o mesmo coeficiente angular (m = 2)" },
+        { enunciado: "Encontre a interseção das retas y = x + 1 e y = −x + 3.", resposta: "(1, 2)" },
+        { enunciado: "Calcule a distância do ponto (3,4) até a origem.", resposta: "d = √(3²+4²) = 5" },
+        { enunciado: "Determine o centro e o raio de (x−2)² + (y+1)² = 9.", resposta: "Centro (2, −1), raio 3" },
+        { enunciado: "Escreva a equação da reta vertical que passa por (5,2).", resposta: "x = 5" },
+      ],
+      intermediario: [
+        { enunciado: "Encontre a reta perpendicular a y = 3x + 1 que passa por (2,5).", resposta: "m perpendicular = −1/3 → y − 5 = −1/3(x−2) → y = −x/3 + 17/3" },
+        { enunciado: "Calcule a distância do ponto (1,2) à reta 3x + 4y − 5 = 0.", resposta: "d = |3+8−5| / √(9+16) = 6/5 = 1,2" },
+        { enunciado: "Escreva a equação da elipse com centro na origem, a = 5 e b = 3.", resposta: "x²/25 + y²/9 = 1" },
+        { enunciado: "Encontre a equação da parábola com vértice (0,0) e foco (0,2).", resposta: "x² = 8y" },
+        { enunciado: "Os pontos (1,1), (2,3) e (4,7) são colineares?", resposta: "Sim — coeficiente angular igual a 2 entre quaisquer dois pontos" },
+        { enunciado: "Calcule a área do triângulo com vértices (0,0), (4,0), (0,3).", resposta: "Área = (base × altura)/2 = (4×3)/2 = 6" },
+        { enunciado: "Escreva a equação da hipérbole com a=4, b=3, centrada na origem, eixo x.", resposta: "x²/16 − y²/9 = 1" },
+        { enunciado: "Encontre o ângulo entre as retas y = x e y = 2x.", resposta: "tanθ = |(2−1)/(1+2)| = 1/3 → θ = arctan(1/3) ≈ 18,4°" },
+        { enunciado: "Determine a reta tangente à circunferência x²+y²=25 no ponto (3,4).", resposta: "3x + 4y = 25" },
+        { enunciado: "Calcule o ponto que divide AB, A(1,1) e B(7,13), na razão 1:2 a partir de A.", resposta: "P = A + (1/3)(B−A) = (3, 5)" },
+      ],
+      dificil: [
+        { enunciado: "Ache a reta pela interseção de 2x+y−3=0 e x−y+1=0, perpendicular à primeira.", resposta: "Interseção: (2/3, 5/3). Perpendicular a m=−2 tem m=1/2 → y − 5/3 = 1/2(x − 2/3)" },
+        { enunciado: "Calcule a distância entre as retas paralelas 2x+3y−6=0 e 2x+3y+9=0.", resposta: "d = |9−(−6)| / √(4+9) = 15/√13 ≈ 4,16" },
+        { enunciado: "Determine a excentricidade da elipse x²/25 + y²/16 = 1.", resposta: "c = √(25−16) = 3 → e = c/a = 3/5" },
+        { enunciado: "Encontre as assíntotas da hipérbole x²/9 − y²/4 = 1.", resposta: "y = ±(2/3)x" },
+        { enunciado: "Ache o lugar geométrico dos pontos equidistantes de (2,0) e (−2,0).", resposta: "A reta x = 0 (mediatriz do segmento)" },
+        { enunciado: "Calcule a área do quadrilátero (0,0), (4,0), (6,3), (2,3) pela fórmula do cadarço.", resposta: "Soma do cadarço = 24 → área = 24/2 = 12" },
+        { enunciado: "Determine centro e raio de x² + y² − 6x + 4y − 3 = 0 completando quadrados.", resposta: "(x−3)² + (y+2)² = 16 → centro (3,−2), raio 4" },
+        { enunciado: "Encontre a reta tangente à parábola y = x² no ponto (2,4).", resposta: "y' = 2x → m = 4 → y − 4 = 4(x−2) → y = 4x − 4" },
+        { enunciado: "As retas r: x=1+2t, y=3−t e s: x=2−4t, y=1+2t são paralelas, perpendiculares ou concorrentes?", resposta: "Vetores diretores (2,−1) e (−4,2) são proporcionais (−2×) → paralelas" },
+        { enunciado: "Calcule a distância do ponto (1,1,1) ao plano 2x+2y−z+3=0 no espaço R³.", resposta: "d = |2+2−1+3| / √(4+4+1) = 6/3 = 2" },
+      ],
+    },
+  },
+  {
+    id: "logica",
+    nome: "Circuitos Lógicos",
+    niveis: {
+      facil: [
+        { enunciado: "Construa a tabela-verdade de A AND B.", resposta: "00→0, 01→0, 10→0, 11→1" },
+        { enunciado: "Construa a tabela-verdade de A OR B.", resposta: "00→0, 01→1, 10→1, 11→1" },
+        { enunciado: "Qual o resultado de NOT(1)?", resposta: "0" },
+        { enunciado: "Simplifique A AND 1.", resposta: "A" },
+        { enunciado: "Simplifique A OR 0.", resposta: "A" },
+        { enunciado: "Simplifique A AND 0.", resposta: "0" },
+        { enunciado: "Simplifique A OR 1.", resposta: "1" },
+        { enunciado: "Quantas linhas tem a tabela-verdade de uma expressão com 3 variáveis?", resposta: "2³ = 8 linhas" },
+        { enunciado: "Qual porta lógica dá saída 1 apenas quando as entradas são diferentes?", resposta: "XOR (ou-exclusivo)" },
+        { enunciado: "Escreva a tabela-verdade da porta NAND para A e B.", resposta: "00→1, 01→1, 10→1, 11→0" },
+      ],
+      intermediario: [
+        { enunciado: "Simplifique A + A·B (lei da absorção).", resposta: "A" },
+        { enunciado: "Simplifique A·(A + B).", resposta: "A" },
+        { enunciado: "Aplique De Morgan em NOT(A AND B).", resposta: "NOT A OR NOT B" },
+        { enunciado: "Aplique De Morgan em NOT(A OR B).", resposta: "NOT A AND NOT B" },
+        { enunciado: "Simplifique A + A'·B.", resposta: "A + B" },
+        { enunciado: "Quantas linhas tem a tabela-verdade de (A AND B) OR C?", resposta: "2³ = 8 linhas — saída 1 sempre que (A e B) ou C forem verdadeiros" },
+        { enunciado: "A expressão A'B + AB' equivale a qual porta lógica conhecida?", resposta: "XOR(A, B)" },
+        { enunciado: "Simplifique A'B' + A'B + AB.", resposta: "Agrupando A'B'+A'B = A' → A' + AB = A' + B (absorção)" },
+        { enunciado: "Quantos mintermos existem numa função de 4 variáveis?", resposta: "2⁴ = 16" },
+        { enunciado: "Projete a expressão para 'lâmpada acende se ao menos 2 de 3 interruptores A,B,C estiverem ligados' (circuito de maioria).", resposta: "L = AB + AC + BC" },
+      ],
+      dificil: [
+        { enunciado: "Simplifique com mapa de Karnaugh: F(A,B,C) = Σm(1,3,5,7).", resposta: "Todos os mintermos têm C=1 → F = C" },
+        { enunciado: "Simplifique F(A,B,C) = Σm(0,1,2,3,4,5,6,7).", resposta: "Todos os mintermos presentes → F = 1" },
+        { enunciado: "Escreva as expressões de Soma e Carry-out de um somador completo (full adder).", resposta: "S = A⊕B⊕Cin; Cout = AB + ACin + BCin" },
+        { enunciado: "Converta o número binário 10110 para decimal.", resposta: "16+0+4+2+0 = 22" },
+        { enunciado: "Converta o número decimal 45 para binário.", resposta: "101101 (32+8+4+1=45)" },
+        { enunciado: "Simplifique F = AB + A'C + BC pelo teorema do consenso.", resposta: "BC é o termo de consenso, redundante → F = AB + A'C" },
+        { enunciado: "Escreva a expressão de um multiplexador 2:1 com entradas D0, D1 e seletor S.", resposta: "Y = S'·D0 + S·D1" },
+        { enunciado: "Quantos flip-flops são necessários para um contador binário de 0 a 15?", resposta: "4 flip-flops (2⁴ = 16 estados)" },
+        { enunciado: "Simplifique com Karnaugh: F(A,B,C,D) = Σm(0,2,8,10).", resposta: "Em todos, B=0 e D=0, enquanto A e C variam → F = B'D'" },
+        { enunciado: "Reescreva F = AB + CD usando apenas portas NAND.", resposta: "F = NAND(NAND(A,B), NAND(C,D))" },
+      ],
+    },
+  },
+  {
+    id: "fisica",
+    nome: "Física Geral",
+    niveis: {
+      facil: [
+        { enunciado: "Um carro parte do repouso e acelera a 2 m/s² por 5 s. Qual a velocidade final?", resposta: "v = a·t = 2×5 = 10 m/s" },
+        { enunciado: "Calcule a força resultante sobre um corpo de 4 kg com aceleração de 3 m/s².", resposta: "F = m·a = 4×3 = 12 N" },
+        { enunciado: "Um objeto cai em queda livre por 3 s (g=10 m/s²). Qual sua velocidade final?", resposta: "v = g·t = 30 m/s" },
+        { enunciado: "Calcule a energia cinética de um corpo de 2 kg a 5 m/s.", resposta: "Ec = ½mv² = ½×2×25 = 25 J" },
+        { enunciado: "Calcule o peso de um corpo de 10 kg (g=10 m/s²).", resposta: "P = m·g = 100 N" },
+        { enunciado: "Um corpo percorre 100 m em 20 s com velocidade constante. Qual a velocidade?", resposta: "v = d/t = 5 m/s" },
+        { enunciado: "Calcule a energia potencial gravitacional de um corpo de 5 kg a 10 m de altura (g=10).", resposta: "Ep = m·g·h = 500 J" },
+        { enunciado: "Dois corpos (2 kg a 6 m/s e 3 kg parado) colidem e ficam juntos. Qual a velocidade final?", resposta: "Conservação de momento: v = (2×6)/(2+3) = 2,4 m/s" },
+        { enunciado: "Um corpo parte do repouso e atinge 20 m/s em 4 s. Qual a aceleração?", resposta: "a = Δv/Δt = 20/4 = 5 m/s²" },
+        { enunciado: "Qual a distância percorrida por um corpo com a=2 m/s², partindo do repouso, em 4 s?", resposta: "d = ½at² = ½×2×16 = 16 m" },
+      ],
+      intermediario: [
+        { enunciado: "Um projétil é lançado horizontalmente a 20 m/s de 45 m de altura (g=10). Quanto tempo leva para cair?", resposta: "t = √(2h/g) = √9 = 3 s" },
+        { enunciado: "No exercício anterior, qual o alcance horizontal?", resposta: "x = v·t = 20×3 = 60 m" },
+        { enunciado: "Um bloco de 5 kg está sobre superfície com atrito μ=0,3. Qual a força de atrito máxima (g=10)?", resposta: "fat = μ·m·g = 0,3×5×10 = 15 N" },
+        { enunciado: "Calcule o trabalho de uma força de 20 N que desloca um corpo 5 m na mesma direção.", resposta: "W = F·d = 100 J" },
+        { enunciado: "Calcule a quantidade de movimento de um corpo de 3 kg a 4 m/s.", resposta: "p = m·v = 12 kg·m/s" },
+        { enunciado: "Um pêndulo simples tem 1 m de comprimento. Qual o período aproximado (g=10)?", resposta: "T = 2π√(L/g) ≈ 2 s" },
+        { enunciado: "Calcule a potência para realizar 500 J de trabalho em 10 s.", resposta: "P = W/t = 50 W" },
+        { enunciado: "Um corpo é lançado verticalmente a 20 m/s. Qual a altura máxima (g=10)?", resposta: "h = v²/2g = 400/20 = 20 m" },
+        { enunciado: "Duas forças perpendiculares de 3 N e 4 N atuam num corpo. Qual a resultante?", resposta: "R = √(3²+4²) = 5 N" },
+        { enunciado: "Um carro de 1000 kg freia de 20 m/s até parar em 4 s. Qual a força de frenagem?", resposta: "a = −5 m/s² → F = m·a = 5000 N" },
+      ],
+      dificil: [
+        { enunciado: "Um corpo desliza sem atrito num plano inclinado de 30° (g=10). Qual sua aceleração?", resposta: "a = g·sen30° = 5 m/s²" },
+        { enunciado: "No exercício anterior, com atrito μ=0,2, qual a aceleração?", resposta: "a = g(sen30° − μ·cos30°) ≈ 3,27 m/s²" },
+        { enunciado: "Corpos de 2 kg (a 5 m/s) e 4 kg (parado) colidem elasticamente. Calcule as velocidades finais.", resposta: "v1' = ((m1−m2)/(m1+m2))·v1 = −5/3 m/s; v2' = (2m1/(m1+m2))·v1 = 10/3 m/s" },
+        { enunciado: "Um satélite orbita onde g=8 m/s² e raio orbital 7000 km. Qual a velocidade orbital?", resposta: "v = √(g·r) = √(8×7.000.000) ≈ 7483 m/s" },
+        { enunciado: "Calcule o trabalho da gravidade sobre um corpo de 2 kg que cai 10 m.", resposta: "W = m·g·h = 200 J" },
+        { enunciado: "Um corpo de 1 kg preso a uma mola (k=200 N/m) oscila em MHS. Qual o período?", resposta: "T = 2π√(m/k) ≈ 0,44 s" },
+        { enunciado: "Um objeto de 5 kg gira num círculo de raio 2 m a 4 m/s. Qual a força centrípeta?", resposta: "Fc = mv²/r = 5×16/2 = 40 N" },
+        { enunciado: "Calcule o momento de inércia de um disco homogêneo de 4 kg e raio 0,5 m (I=½MR²).", resposta: "I = 0,5×4×0,25 = 0,5 kg·m²" },
+        { enunciado: "1 mol de gás ideal expande isotermicamente de 2L para 6L a 300K. Calcule ΔS ≈ nR·ln(V2/V1).", resposta: "ΔS = R·ln(3) ≈ 9,13 J/K" },
+        { enunciado: "Corpo de 10 kg sobe plano inclinado de 37° (sen≈0,6, cos≈0,8), atrito μ=0,25, puxado por F=80 N paralela ao plano (g=10). Calcule a aceleração.", resposta: "F − mg·sen37° − μmg·cos37° = 80 − 60 − 20 = 0 → a = 0 (velocidade constante)" },
+      ],
+    },
+  },
+];
 
-function render() {
-  const list = getDisciplinas();
-  const wrap = document.getElementById("discList");
-  wrap.innerHTML = "";
-  if (list.length === 0) {
-    wrap.innerHTML = `<p style="opacity:.45;font-size:.9rem">${t("nenhuma_disciplina")}</p>`;
-  }
-  list.forEach(d => {
-    const card = document.createElement("div");
-    card.className = "disc-card " + (cardSize === "padrao" ? "" : cardSize) + (d.minimizado ? " minimized" : "");
-    card.style.borderLeft = `4px solid ${d.color}`;
+const NIVEL_LABEL = { facil: "Fácil", intermediario: "Intermediário", dificil: "Difícil" };
 
-    const top = document.createElement("div");
-    top.className = "disc-top";
-    const nameRow = document.createElement("div");
-    nameRow.className = "disc-name-row";
-    const codeInput = document.createElement("input");
-    codeInput.className = "disc-code-input";
-    codeInput.placeholder = t("codigo_placeholder");
-    codeInput.value = d.codigo || "";
-    codeInput.addEventListener("input", e => { d.codigo = e.target.value; saveDisciplinas(list); });
-    const nameInput = document.createElement("input");
-    nameInput.className = "small";
-    nameInput.style.fontWeight = "800";
-    nameInput.style.fontSize = "1.05rem";
-    nameInput.value = d.name;
-    nameInput.addEventListener("input", e => { d.name = e.target.value; saveDisciplinas(list); });
-    nameRow.appendChild(codeInput);
-    nameRow.appendChild(nameInput);
-    top.appendChild(nameRow);
-    const minBtn = document.createElement("button");
-    minBtn.className = "min-disc-btn";
-    minBtn.textContent = d.minimizado ? "⌄" : "⌃";
-    minBtn.title = d.minimizado ? "Expandir" : "Minimizar";
-    minBtn.addEventListener("click", () => {
-      d.minimizado = !d.minimizado;
-      saveDisciplinas(list);
-      render();
+// ---------- Estado / progresso ----------
+let materiaSelId = localStorage.getItem("ex_materia_sel") || MATERIAS[0].id;
+let nivelSel = localStorage.getItem("ex_nivel_sel") || "facil";
+
+function getProgresso() {
+  return loadJSON("tape_exercicios_progresso", {});
+}
+function setFeito(chave, feito) {
+  const prog = getProgresso();
+  prog[chave] = feito;
+  saveJSON("tape_exercicios_progresso", prog);
+}
+
+function renderSubjectTabs() {
+  const el = document.getElementById("exSubjectTabs");
+  el.innerHTML = MATERIAS.map(
+    (m) => `<button data-id="${m.id}" class="${m.id === materiaSelId ? "active" : ""}">${m.nome}</button>`
+  ).join("");
+  el.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      materiaSelId = btn.dataset.id;
+      localStorage.setItem("ex_materia_sel", materiaSelId);
+      renderSubjectTabs();
+      renderLista();
     });
-    top.appendChild(minBtn);
-    const del = document.createElement("button");
-    del.className = "del-btn"; del.textContent = t("remover_btn");
-    del.addEventListener("click", () => {
-      const filtered = list.filter(x => x.id !== d.id);
-      saveDisciplinas(filtered);
-      render();
-    });
-    top.appendChild(del);
-    card.appendChild(top);
-
-    const row = document.createElement("div");
-    row.className = "row";
-    const salaInput = document.createElement("input");
-    salaInput.className = "small"; salaInput.placeholder = t("sala_placeholder");
-    salaInput.value = d.sala || "";
-    salaInput.addEventListener("input", e => { d.sala = e.target.value; saveDisciplinas(list); });
-    const profInput = document.createElement("input");
-    profInput.className = "small"; profInput.placeholder = t("professor_placeholder");
-    profInput.value = d.professor || "";
-    profInput.addEventListener("input", e => { d.professor = e.target.value; saveDisciplinas(list); });
-    row.appendChild(salaInput);
-    row.appendChild(profInput);
-    card.appendChild(row);
-
-    const row2 = document.createElement("div");
-    row2.className = "row";
-    const horarioInput = document.createElement("input");
-    horarioInput.className = "small"; horarioInput.placeholder = t("horario_placeholder");
-    horarioInput.value = d.horario || "";
-    horarioInput.addEventListener("input", e => { d.horario = e.target.value; saveDisciplinas(list); });
-    row2.appendChild(horarioInput);
-    card.appendChild(row2);
-
-    const provaLabel = document.createElement("div");
-    provaLabel.className = "field-label"; provaLabel.textContent = t("primeira_prova_label");
-    card.appendChild(provaLabel);
-
-    const AVAL_TIPOS = ["Prova 1", "Prova 2", "Prova 3", "Teste", "Exame Final", "Trabalho"];
-    const avalList = document.createElement("div");
-    avalList.className = "avaliacoes-list";
-    if (!Array.isArray(d.avaliacoes)) d.avaliacoes = [];
-
-    function renderAvaliacoes() {
-      avalList.innerHTML = "";
-      d.avaliacoes.forEach((av, idx) => {
-        const row = document.createElement("div");
-        row.className = "avaliacao-row";
-
-        const sel = document.createElement("select");
-        AVAL_TIPOS.forEach(tipo => {
-          const opt = document.createElement("option");
-          opt.value = tipo; opt.textContent = tipo;
-          if (av.tipo === tipo) opt.selected = true;
-          sel.appendChild(opt);
-        });
-        sel.addEventListener("change", e => { av.tipo = e.target.value; saveDisciplinas(list); });
-
-        const dateInput = document.createElement("input");
-        dateInput.type = "date";
-        dateInput.value = av.data || "";
-        dateInput.addEventListener("input", e => { av.data = e.target.value; saveDisciplinas(list); });
-
-        const rm = document.createElement("button");
-        rm.className = "rm-aval"; rm.textContent = "✕";
-        rm.addEventListener("click", () => {
-          d.avaliacoes.splice(idx, 1);
-          saveDisciplinas(list);
-          renderAvaliacoes();
-        });
-
-        row.appendChild(sel);
-        row.appendChild(dateInput);
-        row.appendChild(rm);
-        avalList.appendChild(row);
-      });
-    }
-    renderAvaliacoes();
-    card.appendChild(avalList);
-
-    const addAvalBtn = document.createElement("button");
-    addAvalBtn.className = "add-aval-btn"; addAvalBtn.textContent = t("add_avaliacao_btn");
-    addAvalBtn.addEventListener("click", () => {
-      d.avaliacoes.push({ tipo: "Prova 1", data: "" });
-      saveDisciplinas(list);
-      renderAvaliacoes();
-    });
-    card.appendChild(addAvalBtn);
-
-    const ementaLabel = document.createElement("div");
-    ementaLabel.className = "field-label"; ementaLabel.textContent = t("ementa_label");
-    card.appendChild(ementaLabel);
-    const ementaTa = document.createElement("textarea");
-    ementaTa.value = d.ementa || "";
-    ementaTa.placeholder = t("ementa_placeholder");
-    if (d.ementaAltura) ementaTa.style.height = d.ementaAltura + "px";
-    ementaTa.addEventListener("input", e => { d.ementa = e.target.value; saveDisciplinas(list); });
-    if (window.ResizeObserver) {
-      let resizeTimer = null;
-      new ResizeObserver(() => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          const h = Math.round(ementaTa.getBoundingClientRect().height);
-          if (h && d.ementaAltura !== h) { d.ementaAltura = h; saveDisciplinas(list); }
-        }, 300);
-      }).observe(ementaTa);
-    }
-    card.appendChild(ementaTa);
-
-    wrap.appendChild(card);
   });
 }
 
-document.getElementById("addBtn").addEventListener("click", () => {
-  const list = getDisciplinas();
-  const color = DISC_COLORS[list.length % DISC_COLORS.length];
-  list.push({ id: uid(), name: t("nome_padrao_disciplina"), codigo: "", sala: "", professor: "", horario: "", avaliacoes: [], ementa: "", color });
-  saveDisciplinas(list);
-  render();
-  if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("disciplina");
-});
-
-document.querySelectorAll("#sizeToggle button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    cardSize = btn.dataset.size;
-    localStorage.setItem("disc_tamanho", cardSize);
-    document.querySelectorAll("#sizeToggle button").forEach(b => b.classList.toggle("active", b === btn));
-    render();
+function renderLevelTabs() {
+  const el = document.getElementById("exLevelTabs");
+  el.innerHTML = Object.keys(NIVEL_LABEL)
+    .map(
+      (n) => `<button data-nivel="${n}" class="${n}${n === nivelSel ? " active" : ""}">${NIVEL_LABEL[n]}</button>`
+    )
+    .join("");
+  el.querySelectorAll("button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      nivelSel = btn.dataset.nivel;
+      localStorage.setItem("ex_nivel_sel", nivelSel);
+      renderLevelTabs();
+      renderLista();
+    });
   });
-});
-document.querySelectorAll("#sizeToggle button").forEach(b => b.classList.toggle("active", b.dataset.size === cardSize));
-
-render();
-</script>
-<script type="module">
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
-  authDomain: "tape-1717.firebaseapp.com",
-  projectId: "tape-1717",
-  storageBucket: "tape-1717.firebasestorage.app",
-  messagingSenderId: "244010846598",
-  appId: "1:244010846598:web:e704631b12d4137fdcc407"
-};
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let cloudUid = null;
-
-async function pullDisciplinasFromCloud(uid) {
-  try {
-    const ref = doc(db, "usuarios", uid, "dados", "disciplinas");
-    const snap = await getDoc(ref);
-    if (snap.exists() && Array.isArray(snap.data().lista)) {
-      saveJSON("disciplinas", snap.data().lista);
-    } else {
-      // primeira vez desta conta: se já existir algo salvo neste navegador, sobe pra nuvem
-      const local = getDisciplinas();
-      if (local.length) await setDoc(ref, { lista: local, atualizadoEm: Date.now() });
-    }
-  } catch (e) {
-    console.error("tape: erro ao sincronizar disciplinas", e);
-  }
-  if (typeof render === "function") render();
 }
 
-window.pushDisciplinasToCloud = async function (list) {
-  if (!cloudUid) return;
-  try {
-    await setDoc(doc(db, "usuarios", cloudUid, "dados", "disciplinas"), { lista: list, atualizadoEm: Date.now() });
-  } catch (e) {
-    console.error("tape: erro ao salvar disciplinas na nuvem", e);
-  }
-};
+function renderLista() {
+  const materia = MATERIAS.find((m) => m.id === materiaSelId) || MATERIAS[0];
+  const lista = materia.niveis[nivelSel] || [];
+  const prog = getProgresso();
+  const listEl = document.getElementById("exList");
 
-onAuthStateChanged(auth, (user) => {
-  cloudUid = user ? user.uid : null;
-  if (cloudUid) pullDisciplinasFromCloud(cloudUid);
-});
+  listEl.innerHTML = lista
+    .map((ex, i) => {
+      const chave = `${materia.id}_${nivelSel}_${i}`;
+      const feito = !!prog[chave];
+      return `
+      <div class="ex-item${feito ? " feito" : ""}" data-chave="${chave}">
+        <div class="ex-item-head">
+          <span class="ex-item-check"><input type="checkbox" ${feito ? "checked" : ""}></span>
+          <span class="ex-item-num">${i + 1}</span>
+          <span class="ex-item-enunciado">${ex.enunciado}</span>
+          <span class="ex-item-caret">▸</span>
+        </div>
+        <div class="ex-item-resposta"><strong>Resposta</strong>${ex.resposta}</div>
+      </div>`;
+    })
+    .join("");
+
+  listEl.querySelectorAll(".ex-item").forEach((item) => {
+    const head = item.querySelector(".ex-item-head");
+    const checkbox = item.querySelector(".ex-item-check input");
+    head.addEventListener("click", (e) => {
+      if (e.target === checkbox) return;
+      item.classList.toggle("open");
+    });
+    checkbox.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const chave = item.dataset.chave;
+      const feito = checkbox.checked;
+      setFeito(chave, feito);
+      item.classList.toggle("feito", feito);
+      if (feito && window.ganharXP) window.ganharXP(5);
+      if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("exercicio_feito");
+      renderProgresso();
+    });
+  });
+
+  renderProgresso();
+}
+
+function renderProgresso() {
+  const materia = MATERIAS.find((m) => m.id === materiaSelId) || MATERIAS[0];
+  const lista = materia.niveis[nivelSel] || [];
+  const prog = getProgresso();
+  const total = lista.length;
+  const feitos = lista.filter((_, i) => prog[`${materia.id}_${nivelSel}_${i}`]).length;
+  const pct = total ? Math.round((feitos / total) * 100) : 0;
+  document.getElementById("exProgressoFill").style.width = pct + "%";
+  document.getElementById("exProgressoTexto").textContent = total
+    ? `${feitos}/${total} exercícios resolvidos neste nível (${pct}%)`
+    : "";
+}
+
+renderSubjectTabs();
+renderLevelTabs();
+renderLista();
 </script>
   <script type="module" src="auth.js"></script>
 <script src="assistente.js" defer></script>
