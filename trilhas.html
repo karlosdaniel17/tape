@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<title>Disciplinas</title>
+<title>Trilhas</title>
 <style>
 :root {
   color-scheme: only light;
@@ -308,6 +308,32 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 
 footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 20px; }
 
+/* ---------- Trilhas / árvore de habilidades ---------- */
+.trilha-select-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin: 4px 0 22px; }
+.trilha-select-row select { font-size:0.9rem; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color:var(--ink); }
+.trilha-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 6px 0 8px; max-width:420px; }
+.trilha-progresso-fill { height:100%; background:linear-gradient(120deg,#B5502E,#D9A441 55%,#C97B63); border-radius:999px; transition:width .3s ease; }
+.trilha-progresso-texto { font-size:0.8rem; opacity:.6; margin-bottom:22px; }
+.modulos-grid { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+.modulo-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display:flex; flex-direction:column; gap:8px; }
+.modulo-card.bloqueado { opacity:.5; }
+.modulo-top { display:flex; align-items:center; gap:10px; }
+.modulo-status { font-size:1.2rem; flex-shrink:0; }
+.modulo-nome { font-weight:800; font-size:1rem; flex:1; }
+.modulo-pre { font-size:0.75rem; opacity:.55; }
+.modulo-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.modulo-actions button { font-size:0.78rem; padding:6px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); cursor:pointer; }
+.modulo-actions button.concluir { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.modulo-actions button.concluir:disabled { opacity:.35; cursor:not-allowed; }
+.modulo-actions button.excluir { color:#B33; opacity:.7; }
+.modulo-actions button.excluir:hover { opacity:1; }
+.novo-modulo-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px dashed var(--line); border-radius: 14px; padding: 16px; margin-top:6px; }
+.novo-modulo-box input[type="text"] { width:100%; box-sizing:border-box; font-size:0.9rem; padding:9px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:10px; font-family:inherit; }
+.pre-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.pre-chip { font-size:0.78rem; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--overlay); cursor:pointer; user-select:none; }
+.pre-chip.selecionado { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.sem-disciplinas { opacity:.6; font-size:.9rem; }
+
 </style>
 </head>
 <body>
@@ -324,18 +350,30 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow" id="txtEyebrow">Cadastro</div>
-  <h1 id="txtTitulo">Disciplinas</h1>
-  <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Sala, professor e ementa de cada disciplina. As disciplinas cadastradas aqui aparecem na página Semana.</p>
+  <div class="eyebrow">Gamificação</div>
+  <h1>Trilhas de aprendizado</h1>
+  <p style="opacity:.55;font-size:.9rem;margin-top:0">Divida cada disciplina em módulos organizados em ordem de dependência — um módulo só destrava depois que os módulos anteriores forem concluídos, como uma árvore de habilidades.</p>
 
-  <div id="discList" style="margin-top:20px"></div>
+  <div class="trilha-select-row">
+    <select id="trilhaDiscSelect"></select>
+  </div>
 
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <button class="new-disc-btn" id="addBtn">+ Nova disciplina</button>
-    <div class="size-toggle" id="sizeToggle">
-      <button data-size="compact">A−</button>
-      <button data-size="padrao" class="active">A</button>
-      <button data-size="grande">A+</button>
+  <p id="trilhaSemDisciplinas" class="sem-disciplinas" style="display:none">
+    Cadastre uma disciplina primeiro na página <a href="disciplinas.html" style="text-decoration:underline">Disciplinas</a> — depois volte aqui para montar a trilha dela.
+  </p>
+
+  <div id="trilhaConteudo" style="display:none">
+    <div class="trilha-progresso-track"><div class="trilha-progresso-fill" id="trilhaProgressoFill" style="width:0%"></div></div>
+    <div class="trilha-progresso-texto" id="trilhaProgressoTexto"></div>
+
+    <div class="modulos-grid" id="modulosGrid"></div>
+
+    <div class="novo-modulo-box">
+      <div class="field-label">Novo módulo</div>
+      <input type="text" id="novoModuloNome" placeholder="Nome do módulo (ex.: Lógica básica)">
+      <div class="field-label">Pré-requisitos (opcional) — clique para marcar quais módulos precisam ser concluídos antes</div>
+      <div class="pre-list" id="preList"></div>
+      <button class="new-disc-btn" id="addModuloBtn">+ Adicionar módulo</button>
     </div>
   </div>
 </main>
@@ -477,187 +515,162 @@ function renderNav(activePage) {
 
 </script>
 <script>
-renderNav("disciplinas.html");
-document.getElementById("txtEyebrow").textContent = t("eyebrow_cadastro");
-document.getElementById("txtTitulo").textContent = t("titulo_disciplinas");
-document.getElementById("txtSub").textContent = t("subtitulo_disciplinas");
-document.getElementById("txtFooter").textContent = t("footer_rodape");
-document.getElementById("addBtn").textContent = t("btn_nova_disciplina");
+renderNav("trilhas.html");
 
-let cardSize = localStorage.getItem("disc_tamanho") || "padrao";
-
-function render() {
-  const list = getDisciplinas();
-  const wrap = document.getElementById("discList");
-  wrap.innerHTML = "";
-  if (list.length === 0) {
-    wrap.innerHTML = `<p style="opacity:.45;font-size:.9rem">${t("nenhuma_disciplina")}</p>`;
-  }
-  list.forEach(d => {
-    const card = document.createElement("div");
-    card.className = "disc-card " + (cardSize === "padrao" ? "" : cardSize) + (d.minimizado ? " minimized" : "");
-    card.style.borderLeft = `4px solid ${d.color}`;
-
-    const top = document.createElement("div");
-    top.className = "disc-top";
-    const nameRow = document.createElement("div");
-    nameRow.className = "disc-name-row";
-    const codeInput = document.createElement("input");
-    codeInput.className = "disc-code-input";
-    codeInput.placeholder = t("codigo_placeholder");
-    codeInput.value = d.codigo || "";
-    codeInput.addEventListener("input", e => { d.codigo = e.target.value; saveDisciplinas(list); });
-    const nameInput = document.createElement("input");
-    nameInput.className = "small";
-    nameInput.style.fontWeight = "800";
-    nameInput.style.fontSize = "1.05rem";
-    nameInput.value = d.name;
-    nameInput.addEventListener("input", e => { d.name = e.target.value; saveDisciplinas(list); });
-    nameRow.appendChild(codeInput);
-    nameRow.appendChild(nameInput);
-    top.appendChild(nameRow);
-    const minBtn = document.createElement("button");
-    minBtn.className = "min-disc-btn";
-    minBtn.textContent = d.minimizado ? "⌄" : "⌃";
-    minBtn.title = d.minimizado ? "Expandir" : "Minimizar";
-    minBtn.addEventListener("click", () => {
-      d.minimizado = !d.minimizado;
-      saveDisciplinas(list);
-      render();
-    });
-    top.appendChild(minBtn);
-    const del = document.createElement("button");
-    del.className = "del-btn"; del.textContent = t("remover_btn");
-    del.addEventListener("click", () => {
-      const filtered = list.filter(x => x.id !== d.id);
-      saveDisciplinas(filtered);
-      render();
-    });
-    top.appendChild(del);
-    card.appendChild(top);
-
-    const row = document.createElement("div");
-    row.className = "row";
-    const salaInput = document.createElement("input");
-    salaInput.className = "small"; salaInput.placeholder = t("sala_placeholder");
-    salaInput.value = d.sala || "";
-    salaInput.addEventListener("input", e => { d.sala = e.target.value; saveDisciplinas(list); });
-    const profInput = document.createElement("input");
-    profInput.className = "small"; profInput.placeholder = t("professor_placeholder");
-    profInput.value = d.professor || "";
-    profInput.addEventListener("input", e => { d.professor = e.target.value; saveDisciplinas(list); });
-    row.appendChild(salaInput);
-    row.appendChild(profInput);
-    card.appendChild(row);
-
-    const row2 = document.createElement("div");
-    row2.className = "row";
-    const horarioInput = document.createElement("input");
-    horarioInput.className = "small"; horarioInput.placeholder = t("horario_placeholder");
-    horarioInput.value = d.horario || "";
-    horarioInput.addEventListener("input", e => { d.horario = e.target.value; saveDisciplinas(list); });
-    row2.appendChild(horarioInput);
-    card.appendChild(row2);
-
-    const provaLabel = document.createElement("div");
-    provaLabel.className = "field-label"; provaLabel.textContent = t("primeira_prova_label");
-    card.appendChild(provaLabel);
-
-    const AVAL_TIPOS = ["Prova 1", "Prova 2", "Prova 3", "Teste", "Exame Final", "Trabalho"];
-    const avalList = document.createElement("div");
-    avalList.className = "avaliacoes-list";
-    if (!Array.isArray(d.avaliacoes)) d.avaliacoes = [];
-
-    function renderAvaliacoes() {
-      avalList.innerHTML = "";
-      d.avaliacoes.forEach((av, idx) => {
-        const row = document.createElement("div");
-        row.className = "avaliacao-row";
-
-        const sel = document.createElement("select");
-        AVAL_TIPOS.forEach(tipo => {
-          const opt = document.createElement("option");
-          opt.value = tipo; opt.textContent = tipo;
-          if (av.tipo === tipo) opt.selected = true;
-          sel.appendChild(opt);
-        });
-        sel.addEventListener("change", e => { av.tipo = e.target.value; saveDisciplinas(list); });
-
-        const dateInput = document.createElement("input");
-        dateInput.type = "date";
-        dateInput.value = av.data || "";
-        dateInput.addEventListener("input", e => { av.data = e.target.value; saveDisciplinas(list); });
-
-        const rm = document.createElement("button");
-        rm.className = "rm-aval"; rm.textContent = "✕";
-        rm.addEventListener("click", () => {
-          d.avaliacoes.splice(idx, 1);
-          saveDisciplinas(list);
-          renderAvaliacoes();
-        });
-
-        row.appendChild(sel);
-        row.appendChild(dateInput);
-        row.appendChild(rm);
-        avalList.appendChild(row);
-      });
-    }
-    renderAvaliacoes();
-    card.appendChild(avalList);
-
-    const addAvalBtn = document.createElement("button");
-    addAvalBtn.className = "add-aval-btn"; addAvalBtn.textContent = t("add_avaliacao_btn");
-    addAvalBtn.addEventListener("click", () => {
-      d.avaliacoes.push({ tipo: "Prova 1", data: "" });
-      saveDisciplinas(list);
-      renderAvaliacoes();
-    });
-    card.appendChild(addAvalBtn);
-
-    const ementaLabel = document.createElement("div");
-    ementaLabel.className = "field-label"; ementaLabel.textContent = t("ementa_label");
-    card.appendChild(ementaLabel);
-    const ementaTa = document.createElement("textarea");
-    ementaTa.value = d.ementa || "";
-    ementaTa.placeholder = t("ementa_placeholder");
-    if (d.ementaAltura) ementaTa.style.height = d.ementaAltura + "px";
-    ementaTa.addEventListener("input", e => { d.ementa = e.target.value; saveDisciplinas(list); });
-    if (window.ResizeObserver) {
-      let resizeTimer = null;
-      new ResizeObserver(() => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          const h = Math.round(ementaTa.getBoundingClientRect().height);
-          if (h && d.ementaAltura !== h) { d.ementaAltura = h; saveDisciplinas(list); }
-        }, 300);
-      }).observe(ementaTa);
-    }
-    card.appendChild(ementaTa);
-
-    wrap.appendChild(card);
+// ---------- Trilhas (árvore de habilidades) ----------
+function getTrilhas() {
+  return loadJSON("tape_trilhas", {});
+}
+function saveTrilhas(dados) {
+  saveJSON("tape_trilhas", dados);
+  if (window.pushTrilhasToCloud) window.pushTrilhasToCloud(dados);
+}
+function getModulos(discId) {
+  const dados = getTrilhas();
+  return dados[discId] || [];
+}
+function saveModulos(discId, lista) {
+  const dados = getTrilhas();
+  dados[discId] = lista;
+  saveTrilhas(dados);
+}
+function moduloDesbloqueado(mod, lista) {
+  if (!mod.prerequisitos || !mod.prerequisitos.length) return true;
+  return mod.prerequisitos.every(preId => {
+    const pre = lista.find(m => m.id === preId);
+    return !pre || pre.concluido; // se o pré-requisito não existe mais, não trava
   });
 }
 
-document.getElementById("addBtn").addEventListener("click", () => {
-  const list = getDisciplinas();
-  const color = DISC_COLORS[list.length % DISC_COLORS.length];
-  list.push({ id: uid(), name: t("nome_padrao_disciplina"), codigo: "", sala: "", professor: "", horario: "", avaliacoes: [], ementa: "", color });
-  saveDisciplinas(list);
-  render();
-  if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("disciplina");
-});
+let discSelecionadaId = localStorage.getItem("trilha_disc_selecionada") || "";
 
-document.querySelectorAll("#sizeToggle button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    cardSize = btn.dataset.size;
-    localStorage.setItem("disc_tamanho", cardSize);
-    document.querySelectorAll("#sizeToggle button").forEach(b => b.classList.toggle("active", b === btn));
-    render();
+function renderSelectDisciplinas() {
+  const disciplinas = getDisciplinas();
+  const select = document.getElementById("trilhaDiscSelect");
+  const semDisc = document.getElementById("trilhaSemDisciplinas");
+  const conteudo = document.getElementById("trilhaConteudo");
+
+  if (!disciplinas.length) {
+    select.style.display = "none";
+    semDisc.style.display = "block";
+    conteudo.style.display = "none";
+    return;
+  }
+  select.style.display = "";
+  semDisc.style.display = "none";
+  conteudo.style.display = "block";
+
+  if (!disciplinas.some(d => d.id === discSelecionadaId)) {
+    discSelecionadaId = disciplinas[0].id;
+  }
+  select.innerHTML = disciplinas
+    .map(d => `<option value="${d.id}" ${d.id === discSelecionadaId ? "selected" : ""}>${d.name || "Disciplina"}</option>`)
+    .join("");
+}
+
+function renderModulos() {
+  const lista = getModulos(discSelecionadaId);
+  const grid = document.getElementById("modulosGrid");
+  grid.innerHTML = "";
+
+  if (!lista.length) {
+    grid.innerHTML = `<p class="sem-disciplinas">Nenhum módulo ainda nesta disciplina — adicione o primeiro logo abaixo.</p>`;
+  }
+
+  lista.forEach(mod => {
+    const desbloqueado = moduloDesbloqueado(mod, lista);
+    const card = document.createElement("div");
+    card.className = "modulo-card" + (desbloqueado ? "" : " bloqueado");
+
+    const nomesPre = (mod.prerequisitos || [])
+      .map(id => (lista.find(m => m.id === id) || {}).nome)
+      .filter(Boolean);
+
+    card.innerHTML = `
+      <div class="modulo-top">
+        <span class="modulo-status">${mod.concluido ? "✅" : (desbloqueado ? "🔓" : "🔒")}</span>
+        <span class="modulo-nome">${mod.nome}</span>
+      </div>
+      ${nomesPre.length ? `<div class="modulo-pre">Requer: ${nomesPre.join(", ")}</div>` : ""}
+      <div class="modulo-actions">
+        <button class="concluir" ${(!desbloqueado || mod.concluido) ? "disabled" : ""}>${mod.concluido ? "Concluído" : "Marcar como concluído"}</button>
+        <button class="excluir">excluir</button>
+      </div>
+    `;
+
+    card.querySelector(".concluir").addEventListener("click", () => {
+      if (!desbloqueado || mod.concluido) return;
+      mod.concluido = true;
+      saveModulos(discSelecionadaId, lista);
+      renderModulos();
+      if (window.ganharXP) window.ganharXP(20);
+      if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("trilha_modulo");
+    });
+    card.querySelector(".excluir").addEventListener("click", () => {
+      if (!confirm(`Excluir o módulo "${mod.nome}"?`)) return;
+      let nova = lista.filter(m => m.id !== mod.id);
+      // remove referências a este módulo como pré-requisito de outros
+      nova = nova.map(m => ({ ...m, prerequisitos: (m.prerequisitos || []).filter(id => id !== mod.id) }));
+      saveModulos(discSelecionadaId, nova);
+      renderModulos();
+    });
+
+    grid.appendChild(card);
   });
-});
-document.querySelectorAll("#sizeToggle button").forEach(b => b.classList.toggle("active", b.dataset.size === cardSize));
 
-render();
+  const total = lista.length;
+  const feitos = lista.filter(m => m.concluido).length;
+  const pct = total ? Math.round((feitos / total) * 100) : 0;
+  document.getElementById("trilhaProgressoFill").style.width = pct + "%";
+  document.getElementById("trilhaProgressoTexto").textContent = total
+    ? `${feitos}/${total} módulos concluídos (${pct}%)`
+    : "Adicione módulos para começar a trilha desta disciplina.";
+
+  renderPreList(lista);
+}
+
+let preSelecionados = [];
+function renderPreList(lista) {
+  const preList = document.getElementById("preList");
+  preList.innerHTML = "";
+  if (!lista.length) return;
+  lista.forEach(mod => {
+    const chip = document.createElement("div");
+    chip.className = "pre-chip" + (preSelecionados.includes(mod.id) ? " selecionado" : "");
+    chip.textContent = mod.nome;
+    chip.addEventListener("click", () => {
+      if (preSelecionados.includes(mod.id)) {
+        preSelecionados = preSelecionados.filter(id => id !== mod.id);
+      } else {
+        preSelecionados.push(mod.id);
+      }
+      renderPreList(lista);
+    });
+    preList.appendChild(chip);
+  });
+}
+
+document.getElementById("trilhaDiscSelect").addEventListener("change", (e) => {
+  discSelecionadaId = e.target.value;
+  localStorage.setItem("trilha_disc_selecionada", discSelecionadaId);
+  preSelecionados = [];
+  renderModulos();
+});
+
+document.getElementById("addModuloBtn").addEventListener("click", () => {
+  const input = document.getElementById("novoModuloNome");
+  const nome = input.value.trim();
+  if (!nome) { input.focus(); return; }
+  const lista = getModulos(discSelecionadaId);
+  lista.push({ id: uid(), nome, prerequisitos: preSelecionados.slice(), concluido: false });
+  saveModulos(discSelecionadaId, lista);
+  input.value = "";
+  preSelecionados = [];
+  renderModulos();
+});
+
+renderSelectDisciplinas();
+renderModulos();
 </script>
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -678,35 +691,34 @@ const db = getFirestore(app);
 
 let cloudUid = null;
 
-async function pullDisciplinasFromCloud(uid) {
+async function pullTrilhasFromCloud(uid) {
   try {
-    const ref = doc(db, "usuarios", uid, "dados", "disciplinas");
+    const ref = doc(db, "usuarios", uid, "dados", "trilhas");
     const snap = await getDoc(ref);
-    if (snap.exists() && Array.isArray(snap.data().lista)) {
-      saveJSON("disciplinas", snap.data().lista);
+    if (snap.exists() && snap.data().mapa) {
+      saveJSON("tape_trilhas", snap.data().mapa);
     } else {
-      // primeira vez desta conta: se já existir algo salvo neste navegador, sobe pra nuvem
-      const local = getDisciplinas();
-      if (local.length) await setDoc(ref, { lista: local, atualizadoEm: Date.now() });
+      const local = getTrilhas();
+      if (Object.keys(local).length) await setDoc(ref, { mapa: local, atualizadoEm: Date.now() });
     }
   } catch (e) {
-    console.error("tape: erro ao sincronizar disciplinas", e);
+    console.error("tape: erro ao sincronizar trilhas", e);
   }
-  if (typeof render === "function") render();
+  if (typeof renderSelectDisciplinas === "function") { renderSelectDisciplinas(); renderModulos(); }
 }
 
-window.pushDisciplinasToCloud = async function (list) {
+window.pushTrilhasToCloud = async function (mapa) {
   if (!cloudUid) return;
   try {
-    await setDoc(doc(db, "usuarios", cloudUid, "dados", "disciplinas"), { lista: list, atualizadoEm: Date.now() });
+    await setDoc(doc(db, "usuarios", cloudUid, "dados", "trilhas"), { mapa, atualizadoEm: Date.now() });
   } catch (e) {
-    console.error("tape: erro ao salvar disciplinas na nuvem", e);
+    console.error("tape: erro ao salvar trilhas na nuvem", e);
   }
 };
 
 onAuthStateChanged(auth, (user) => {
   cloudUid = user ? user.uid : null;
-  if (cloudUid) pullDisciplinasFromCloud(cloudUid);
+  if (cloudUid) pullTrilhasFromCloud(cloudUid);
 });
 </script>
   <script type="module" src="auth.js"></script>
