@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<title>Trilhas</title>
+<title>Programação</title>
 <style>
 :root {
   color-scheme: only light;
@@ -322,36 +322,52 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .trilha-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 6px 0 8px; max-width:420px; }
 .trilha-progresso-fill { height:100%; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); border-radius:999px; transition:width .3s ease; }
 .trilha-progresso-texto { font-size:0.8rem; opacity:.6; margin-bottom:22px; }
-.trilha-legenda { display:flex; gap:14px; flex-wrap:wrap; font-size:0.75rem; opacity:.5; margin: -10px 0 18px; }
-.modulos-niveis { display:flex; flex-direction:column; gap:22px; margin-bottom:18px; }
-.nivel-grupo { display:flex; flex-direction:column; gap:10px; }
-.nivel-titulo { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; opacity:.45; display:flex; align-items:center; gap:8px; }
-.nivel-titulo::after { content:""; flex:1; height:1px; background:var(--line); }
-.modulos-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap:10px; }
-.modulo-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; display:flex; flex-direction:column; gap:6px; }
+.modulos-grid { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
+.modulo-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display:flex; flex-direction:column; gap:8px; }
 .modulo-card.bloqueado { opacity:.5; }
-.modulo-card.concluido { border-color: var(--qui); }
-.modulo-top { display:flex; align-items:center; gap:8px; }
-.modulo-status { font-size:1rem; flex-shrink:0; }
-.modulo-nome { font-weight:700; font-size:0.9rem; flex:1; line-height:1.25; }
-.modulo-pre { font-size:0.7rem; opacity:.5; }
-.modulo-actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
-.modulo-actions button { font-size:0.72rem; padding:5px 11px; border-radius:999px; border:1px solid var(--line); background:var(--card); cursor:pointer; }
+.modulo-top { display:flex; align-items:center; gap:10px; }
+.modulo-status { font-size:1.2rem; flex-shrink:0; }
+.modulo-nome { font-weight:800; font-size:1rem; flex:1; }
+.modulo-pre { font-size:0.75rem; opacity:.55; }
+.modulo-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.modulo-actions button { font-size:0.78rem; padding:6px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); cursor:pointer; }
 .modulo-actions button.concluir { background:var(--ink); color:var(--paper); border-color:var(--ink); }
 .modulo-actions button.concluir:disabled { opacity:.35; cursor:not-allowed; }
 .modulo-actions button.excluir { color:#B33; opacity:.7; }
 .modulo-actions button.excluir:hover { opacity:1; }
-.toggle-novo-modulo-btn {
-  font-size:0.82rem; font-weight:700; padding:8px 16px; border-radius:999px; border:1px dashed var(--line);
-  background:none; color:var(--ink); cursor:pointer; opacity:.7; margin-bottom:6px;
-}
-.toggle-novo-modulo-btn:hover { opacity:1; }
 .novo-modulo-box { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px dashed var(--line); border-radius: 6px; padding: 16px; margin-top:6px; }
 .novo-modulo-box input[type="text"] { width:100%; box-sizing:border-box; font-size:0.9rem; padding:9px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:10px; font-family:inherit; }
 .pre-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
 .pre-chip { font-size:0.78rem; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--overlay); cursor:pointer; user-select:none; }
 .pre-chip.selecionado { background:var(--ink); color:var(--paper); border-color:var(--ink); }
 .sem-disciplinas { opacity:.6; font-size:.9rem; }
+
+/* ---------- Programação ---------- */
+.lead-prog { font-size:0.92rem; line-height:1.55; opacity:.75; margin: 0 0 26px; max-width:56ch; }
+
+.fases-card { background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:18px; margin-bottom:28px; }
+.fases-titulo { font-weight:700; font-size:1rem; margin:0 0 3px; display:flex; align-items:center; gap:8px; }
+.fases-sub { font-size:0.8rem; opacity:.55; margin:0 0 14px; }
+.fases-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 4px 0 6px; }
+.fases-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); }
+.fases-progresso-texto { font-size:0.78rem; opacity:.55; margin-bottom:16px; }
+.fase-item { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+.fase-item:last-of-type { border-bottom:none; }
+.fase-item input[type="checkbox"] { width:18px; height:18px; cursor:pointer; accent-color: var(--qui); flex-shrink:0; }
+.fase-item .txt { flex:1; font-size:0.88rem; }
+.fase-item.feita .txt { opacity:.5; text-decoration:line-through; }
+.fase-item .excluir { background:none; border:none; color:#B33; opacity:.5; cursor:pointer; font-size:0.9rem; padding:2px 6px; }
+.fase-item .excluir:hover { opacity:1; }
+.nova-fase-row { display:flex; gap:8px; margin-top:12px; }
+.nova-fase-row input { flex:1; font-size:0.85rem; padding:9px 12px; border-radius:4px; border:1px solid var(--line); font-family:inherit; background:var(--overlay); color:var(--ink); }
+.nova-fase-row button { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.8rem; padding:9px 14px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; }
+
+.metodo-list { display:flex; flex-direction:column; gap:14px; }
+.metodo-card { background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:16px; display:flex; gap:14px; }
+.metodo-emoji { font-size:1.4rem; width:38px; height:38px; border-radius:50%; background:var(--overlay); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.metodo-corpo h3 { margin:0 0 5px; font-size:0.98rem; font-weight:700; }
+.metodo-corpo p { margin:0; font-size:0.87rem; line-height:1.5; opacity:.8; }
+.metodo-corpo p + p { margin-top:6px; }
 
 </style>
 </head>
@@ -369,40 +385,71 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow">Gamificação</div>
-  <h1>Trilhas de aprendizado</h1>
-  <p style="opacity:.55;font-size:.9rem;margin-top:0">Divida cada disciplina em módulos organizados em ordem de dependência — um módulo só destrava depois que os módulos anteriores forem concluídos, como uma árvore de habilidades.</p>
+  <div class="eyebrow">Metodologia</div>
+  <h1>Como estudar programação</h1>
+  <p class="lead-prog">Seis ideias práticas pra sair do modo "só assistir aula" e realmente fixar o que você aprende. A primeira você aplica aqui embaixo — as outras cinco são pra levar pro dia a dia.</p>
 
-  <div class="trilha-select-row">
-    <select id="trilhaDiscSelect"></select>
+  <div class="fases-card">
+    <div class="fases-titulo">🎮 Transforme o estudo em um jogo</div>
+    <div class="fases-sub">Crie fases e registre pequenas vitórias — seu cérebro começa a associar estudo com progresso.</div>
+
+    <div class="fases-progresso-track"><div class="fases-progresso-fill" id="fasesProgressoFill" style="width:0%"></div></div>
+    <div class="fases-progresso-texto" id="fasesProgressoTexto"></div>
+
+    <div id="fasesLista"></div>
+
+    <div class="nova-fase-row">
+      <input type="text" id="novaFaseInput" placeholder="Ex.: Resolvi 5 desafios de arrays">
+      <button id="addFaseBtn">+ Adicionar</button>
+    </div>
   </div>
 
-  <p id="trilhaSemDisciplinas" class="sem-disciplinas" style="display:none">
-    Cadastre uma disciplina primeiro na página <a href="disciplinas.html" style="text-decoration:underline">Disciplinas</a> — depois volte aqui para montar a trilha dela.
-  </p>
-
-  <div id="trilhaConteudo" style="display:none">
-    <div class="trilha-progresso-track"><div class="trilha-progresso-fill" id="trilhaProgressoFill" style="width:0%"></div></div>
-    <div class="trilha-progresso-texto" id="trilhaProgressoTexto"></div>
-
-    <div class="trilha-legenda">
-      <span>🔓 liberado</span><span>🔒 bloqueado</span><span>✅ concluído</span>
+  <div class="metodo-list">
+    <div class="metodo-card">
+      <div class="metodo-emoji">❤️</div>
+      <div class="metodo-corpo">
+        <h3>Estude com propósito</h3>
+        <p>Em vez de pensar "quero aprender React", pense: "quero criar um app pra ajudar os restaurantes da minha cidade".</p>
+        <p>Quando existe um motivo real, fica muito mais fácil continuar.</p>
+      </div>
     </div>
 
-    <div class="modulos-niveis" id="modulosNiveis"></div>
+    <div class="metodo-card">
+      <div class="metodo-emoji">⏳</div>
+      <div class="metodo-corpo">
+        <h3>Regra dos 3 dias</h3>
+        <p>Aprendeu algo? Coloque em prática em até 3 dias. Aprendeu funções? Crie um jogo. Aprendeu API? Construa um app usando dados reais.</p>
+        <p>Quem aplica, aprende. Quem só consome, esquece.</p>
+      </div>
+    </div>
 
-    <button class="toggle-novo-modulo-btn" id="toggleNovoModuloBtn">+ Novo módulo</button>
-    <div class="novo-modulo-box" id="novoModuloBox" style="display:none">
-      <div class="field-label">Novo módulo</div>
-      <input type="text" id="novoModuloNome" placeholder="Nome do módulo (ex.: Lógica básica)">
-      <div class="field-label">Pré-requisitos (opcional) — clique para marcar quais módulos precisam ser concluídos antes</div>
-      <div class="pre-list" id="preList"></div>
-      <button class="new-disc-btn" id="addModuloBtn">+ Adicionar módulo</button>
+    <div class="metodo-card">
+      <div class="metodo-emoji">🧠</div>
+      <div class="metodo-corpo">
+        <h3>Anote como se fosse ensinar</h3>
+        <p>Explique o que aprendeu como se outra pessoa dependesse das suas anotações pra entender. Isso força você a buscar clareza e simplificar o assunto.</p>
+      </div>
+    </div>
+
+    <div class="metodo-card">
+      <div class="metodo-emoji">🔥</div>
+      <div class="metodo-corpo">
+        <h3>Estude do jeito difícil</h3>
+        <p>Tente recriar uma funcionalidade do zero antes de procurar a solução. Vai travar, vai errar, vai dar trabalho — e é justamente aí que você aprende.</p>
+      </div>
+    </div>
+
+    <div class="metodo-card">
+      <div class="metodo-emoji">⛔</div>
+      <div class="metodo-corpo">
+        <h3>Corte o estudo passivo</h3>
+        <p>Assistir aulas e anotar tudo pode dar uma falsa sensação de produtividade. Você realmente evolui quando erra no código, bate cabeça com um bug, tenta resolver e descobre como funciona.</p>
+      </div>
     </div>
   </div>
 </main>
 
-<footer class="foot" id="txtFooter">Seus dados ficam salvos automaticamente neste navegador.</footer>
+<footer class="foot" id="txtFooter">Suas fases ficam salvas automaticamente neste navegador.</footer>
 
 <script>
 // ---------- Configuração ----------
@@ -541,263 +588,86 @@ function renderNav(activePage) {
 
 </script>
 <script>
-renderNav("trilhas.html");
+renderNav("programacao.html");
 
-// ---------- Trilhas (árvore de habilidades) ----------
-function getTrilhas() {
-  return loadJSON("tape_trilhas", {});
+const FASES_PADRAO = [
+  { id: "fase_loops", nome: "Aprendi loops", feita: false },
+  { id: "fase_arrays", nome: "Resolvi 5 desafios de arrays", feita: false },
+  { id: "fase_projeto", nome: "Fiz um mini projeto", feita: false },
+];
+
+function getFases() {
+  const salvas = loadJSON("tape_fases_programacao", null);
+  return salvas || FASES_PADRAO;
 }
-function saveTrilhas(dados) {
-  saveJSON("tape_trilhas", dados);
-  if (window.pushTrilhasToCloud) window.pushTrilhasToCloud(dados);
-}
-function getModulos(discId) {
-  const dados = getTrilhas();
-  return dados[discId] || [];
-}
-function saveModulos(discId, lista) {
-  const dados = getTrilhas();
-  dados[discId] = lista;
-  saveTrilhas(dados);
-}
-function moduloDesbloqueado(mod, lista) {
-  if (!mod.prerequisitos || !mod.prerequisitos.length) return true;
-  return mod.prerequisitos.every(preId => {
-    const pre = lista.find(m => m.id === preId);
-    return !pre || pre.concluido; // se o pré-requisito não existe mais, não trava
-  });
+function saveFases(lista) {
+  saveJSON("tape_fases_programacao", lista);
 }
 
-let discSelecionadaId = localStorage.getItem("trilha_disc_selecionada") || "";
+function renderFases() {
+  const lista = getFases();
+  const el = document.getElementById("fasesLista");
 
-function renderSelectDisciplinas() {
-  const disciplinas = getDisciplinas();
-  const select = document.getElementById("trilhaDiscSelect");
-  const semDisc = document.getElementById("trilhaSemDisciplinas");
-  const conteudo = document.getElementById("trilhaConteudo");
-
-  if (!disciplinas.length) {
-    select.style.display = "none";
-    semDisc.style.display = "block";
-    conteudo.style.display = "none";
-    return;
-  }
-  select.style.display = "";
-  semDisc.style.display = "none";
-  conteudo.style.display = "block";
-
-  if (!disciplinas.some(d => d.id === discSelecionadaId)) {
-    discSelecionadaId = disciplinas[0].id;
-  }
-  select.innerHTML = disciplinas
-    .map(d => `<option value="${d.id}" ${d.id === discSelecionadaId ? "selected" : ""}>${d.name || "Disciplina"}</option>`)
+  el.innerHTML = lista
+    .map(
+      (f, i) => `
+      <div class="fase-item${f.feita ? " feita" : ""}" data-i="${i}">
+        <input type="checkbox" ${f.feita ? "checked" : ""}>
+        <span class="txt">✅ ${f.nome}</span>
+        <button class="excluir" title="Excluir">✕</button>
+      </div>`
+    )
     .join("");
-}
 
-// Calcula o "nível" de cada módulo (profundidade na árvore de pré-requisitos),
-// pra agrupar visualmente em camadas em vez de uma lista solta.
-function calcularNiveis(lista) {
-  const cache = {};
-  function nivelDe(mod, pilha) {
-    if (cache[mod.id] !== undefined) return cache[mod.id];
-    const pre = mod.prerequisitos || [];
-    if (!pre.length || pilha.has(mod.id)) { cache[mod.id] = 0; return 0; }
-    pilha.add(mod.id);
-    let maior = -1;
-    pre.forEach(preId => {
-      const preMod = lista.find(m => m.id === preId);
-      if (preMod) maior = Math.max(maior, nivelDe(preMod, pilha));
+  el.querySelectorAll(".fase-item").forEach((item) => {
+    const i = Number(item.dataset.i);
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener("change", () => {
+      const l = getFases();
+      l[i].feita = checkbox.checked;
+      saveFases(l);
+      item.classList.toggle("feita", checkbox.checked);
+      if (checkbox.checked && window.ganharXP) window.ganharXP(10);
+      if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("fase_programacao");
+      renderProgresso();
     });
-    pilha.delete(mod.id);
-    const n = maior + 1;
-    cache[mod.id] = n;
-    return n;
-  }
-  const niveis = {};
-  lista.forEach(mod => {
-    const n = nivelDe(mod, new Set());
-    (niveis[n] = niveis[n] || []).push(mod);
-  });
-  return niveis;
-}
-
-function criarModuloCard(mod, lista, desbloqueado) {
-  const card = document.createElement("div");
-  card.className = "modulo-card" + (desbloqueado ? "" : " bloqueado") + (mod.concluido ? " concluido" : "");
-
-  const nomesPre = (mod.prerequisitos || [])
-    .map(id => (lista.find(m => m.id === id) || {}).nome)
-    .filter(Boolean);
-
-  card.innerHTML = `
-    <div class="modulo-top">
-      <span class="modulo-status">${mod.concluido ? "✅" : (desbloqueado ? "🔓" : "🔒")}</span>
-      <span class="modulo-nome">${mod.nome}</span>
-    </div>
-    ${nomesPre.length ? `<div class="modulo-pre">Requer: ${nomesPre.join(", ")}</div>` : ""}
-    <div class="modulo-actions">
-      <button class="concluir" ${(!desbloqueado || mod.concluido) ? "disabled" : ""}>${mod.concluido ? "Concluído" : "Marcar como concluído"}</button>
-      <button class="excluir">excluir</button>
-    </div>
-  `;
-
-  card.querySelector(".concluir").addEventListener("click", () => {
-    if (!desbloqueado || mod.concluido) return;
-    mod.concluido = true;
-    saveModulos(discSelecionadaId, lista);
-    renderModulos();
-    if (window.ganharXP) window.ganharXP(20);
-    if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("trilha_modulo");
-  });
-  card.querySelector(".excluir").addEventListener("click", () => {
-    if (!confirm(`Excluir o módulo "${mod.nome}"?`)) return;
-    let nova = lista.filter(m => m.id !== mod.id);
-    // remove referências a este módulo como pré-requisito de outros
-    nova = nova.map(m => ({ ...m, prerequisitos: (m.prerequisitos || []).filter(id => id !== mod.id) }));
-    saveModulos(discSelecionadaId, nova);
-    renderModulos();
-  });
-
-  return card;
-}
-
-function renderModulos() {
-  const lista = getModulos(discSelecionadaId);
-  const container = document.getElementById("modulosNiveis");
-  container.innerHTML = "";
-
-  if (!lista.length) {
-    container.innerHTML = `<p class="sem-disciplinas">Nenhum módulo ainda nesta disciplina — adicione o primeiro logo abaixo.</p>`;
-  } else {
-    const niveis = calcularNiveis(lista);
-    Object.keys(niveis).map(Number).sort((a, b) => a - b).forEach(n => {
-      const grupo = document.createElement("div");
-      grupo.className = "nivel-grupo";
-      const titulo = document.createElement("div");
-      titulo.className = "nivel-titulo";
-      titulo.textContent = `Nível ${n + 1}`;
-      const grid = document.createElement("div");
-      grid.className = "modulos-grid";
-      niveis[n].forEach(mod => {
-        const desbloqueado = moduloDesbloqueado(mod, lista);
-        grid.appendChild(criarModuloCard(mod, lista, desbloqueado));
-      });
-      grupo.appendChild(titulo);
-      grupo.appendChild(grid);
-      container.appendChild(grupo);
+    item.querySelector(".excluir").addEventListener("click", () => {
+      const l = getFases();
+      l.splice(i, 1);
+      saveFases(l);
+      renderFases();
     });
-  }
+  });
 
+  renderProgresso();
+}
+
+function renderProgresso() {
+  const lista = getFases();
   const total = lista.length;
-  const feitos = lista.filter(m => m.concluido).length;
-  const pct = total ? Math.round((feitos / total) * 100) : 0;
-  document.getElementById("trilhaProgressoFill").style.width = pct + "%";
-  document.getElementById("trilhaProgressoTexto").textContent = total
-    ? `${feitos}/${total} módulos concluídos (${pct}%)`
-    : "Adicione módulos para começar a trilha desta disciplina.";
-
-  renderPreList(lista);
+  const feitas = lista.filter((f) => f.feita).length;
+  const pct = total ? Math.round((feitas / total) * 100) : 0;
+  document.getElementById("fasesProgressoFill").style.width = pct + "%";
+  document.getElementById("fasesProgressoTexto").textContent = total
+    ? `${feitas}/${total} vitórias registradas (${pct}%)`
+    : "Nenhuma fase ainda — adicione a primeira abaixo.";
 }
 
-let preSelecionados = [];
-function renderPreList(lista) {
-  const preList = document.getElementById("preList");
-  preList.innerHTML = "";
-  if (!lista.length) return;
-  lista.forEach(mod => {
-    const chip = document.createElement("div");
-    chip.className = "pre-chip" + (preSelecionados.includes(mod.id) ? " selecionado" : "");
-    chip.textContent = mod.nome;
-    chip.addEventListener("click", () => {
-      if (preSelecionados.includes(mod.id)) {
-        preSelecionados = preSelecionados.filter(id => id !== mod.id);
-      } else {
-        preSelecionados.push(mod.id);
-      }
-      renderPreList(lista);
-    });
-    preList.appendChild(chip);
-  });
-}
-
-document.getElementById("trilhaDiscSelect").addEventListener("change", (e) => {
-  discSelecionadaId = e.target.value;
-  localStorage.setItem("trilha_disc_selecionada", discSelecionadaId);
-  preSelecionados = [];
-  renderModulos();
-});
-
-document.getElementById("addModuloBtn").addEventListener("click", () => {
-  const input = document.getElementById("novoModuloNome");
+document.getElementById("addFaseBtn").addEventListener("click", () => {
+  const input = document.getElementById("novaFaseInput");
   const nome = input.value.trim();
   if (!nome) { input.focus(); return; }
-  const lista = getModulos(discSelecionadaId);
-  lista.push({ id: uid(), nome, prerequisitos: preSelecionados.slice(), concluido: false });
-  saveModulos(discSelecionadaId, lista);
+  const lista = getFases();
+  lista.push({ id: "fase_" + Date.now(), nome, feita: false });
+  saveFases(lista);
   input.value = "";
-  preSelecionados = [];
-  renderModulos();
+  renderFases();
+});
+document.getElementById("novaFaseInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("addFaseBtn").click();
 });
 
-document.getElementById("toggleNovoModuloBtn").addEventListener("click", () => {
-  const box = document.getElementById("novoModuloBox");
-  const btn = document.getElementById("toggleNovoModuloBtn");
-  const aberto = box.style.display !== "none";
-  box.style.display = aberto ? "none" : "block";
-  btn.textContent = aberto ? "+ Novo módulo" : "− Fechar";
-});
-
-renderSelectDisciplinas();
-renderModulos();
-</script>
-<script type="module">
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAnv0eey-idqfBf8hVLvQ-0IMtoF4RXnkc",
-  authDomain: "tape-1717.firebaseapp.com",
-  projectId: "tape-1717",
-  storageBucket: "tape-1717.firebasestorage.app",
-  messagingSenderId: "244010846598",
-  appId: "1:244010846598:web:e704631b12d4137fdcc407"
-};
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let cloudUid = null;
-
-async function pullTrilhasFromCloud(uid) {
-  try {
-    const ref = doc(db, "usuarios", uid, "dados", "trilhas");
-    const snap = await getDoc(ref);
-    if (snap.exists() && snap.data().mapa) {
-      saveJSON("tape_trilhas", snap.data().mapa);
-    } else {
-      const local = getTrilhas();
-      if (Object.keys(local).length) await setDoc(ref, { mapa: local, atualizadoEm: Date.now() });
-    }
-  } catch (e) {
-    console.error("tape: erro ao sincronizar trilhas", e);
-  }
-  if (typeof renderSelectDisciplinas === "function") { renderSelectDisciplinas(); renderModulos(); }
-}
-
-window.pushTrilhasToCloud = async function (mapa) {
-  if (!cloudUid) return;
-  try {
-    await setDoc(doc(db, "usuarios", cloudUid, "dados", "trilhas"), { mapa, atualizadoEm: Date.now() });
-  } catch (e) {
-    console.error("tape: erro ao salvar trilhas na nuvem", e);
-  }
-};
-
-onAuthStateChanged(auth, (user) => {
-  cloudUid = user ? user.uid : null;
-  if (cloudUid) pullTrilhasFromCloud(cloudUid);
-});
+renderFases();
 </script>
   <script type="module" src="auth.js"></script>
 <script src="assistente.js" defer></script>
