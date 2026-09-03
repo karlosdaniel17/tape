@@ -6,25 +6,27 @@
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Perfil</title>
 <style>
 :root {
   color-scheme: only light;
-  --paper: #FBF3E6;
-  --ink: #1A1712;
-  --line: #00000014;
-  --card: #FFFCF5;
-  --overlay: #00000008;
-  --overlay-2: #00000010;
-}
+  --paper: #F2F4EF;
+  --ink: #1A2333;
+  --line: #1A233318;
+  --card: #FFFFFF;
+  --overlay: #1A23330A;
+  --overlay-2: #1A233314;
+  --pauta: #1A23330F;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: var(--paper);
+  background:
+    linear-gradient(var(--paper) 0 0),
+    repeating-linear-gradient(0deg, transparent, transparent 27px, var(--pauta) 27px, var(--pauta) 28px);
   color: var(--ink);
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 a { color: inherit; text-decoration: none; }
 
@@ -37,7 +39,7 @@ a { color: inherit; text-decoration: none; }
 }
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   .brand span.brand-text {
-    background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63);
+    background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A);
     -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
   }
 }
@@ -48,12 +50,12 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 .lang-switch { flex-shrink: 0; }
 
 main { max-width: 640px; margin: 0 auto; padding: 30px 16px 60px; }
-.eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.65; margin-bottom: 4px; }
+.eyebrow { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.02em; opacity: 0.9; margin-bottom: 10px; padding: 3px 10px 4px; background: linear-gradient(100deg, var(--ter), #E8BD3F); color: #3A2E10; transform: rotate(-1.4deg); box-shadow: 0 1px 2px rgba(26,35,51,0.18); }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
-h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63); }
+h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A); }
 .lead { opacity: 0.6; font-size: 0.92rem; line-height: 1.5; margin: 0 0 24px; }
 
-.profile-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+.profile-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
 .avatar-row { display: flex; align-items: center; gap: 14px; }
 .avatar-circle {
   width: 62px; height: 62px; border-radius: 999px; background: var(--ink); color: var(--paper);
@@ -78,7 +80,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 .field-group { display: flex; flex-direction: column; }
 .field-group input, .field-group select {
-  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  width: 100%; border: none; background: #00000006; border-radius: 4px;
   padding: 10px 12px; font-size: 0.92rem; font-family: inherit; color: var(--ink);
 }
 .field-group input:focus, .field-group select:focus { outline: 2px solid #00000022; }

@@ -6,33 +6,36 @@
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Exercícios</title>
 <style>
 :root {
   color-scheme: only light;
-  --paper: #FBF3E6;
-  --ink: #1A1712;
-  --line: #00000014;
-  --card: #FFFCF5;
-  --overlay: #00000008;
-  --overlay-2: #00000010;
-  --seg: #C1502B;
+  --paper: #F2F4EF;
+  --ink: #1A2333;
+  --line: #1A233318;
+  --card: #FFFFFF;
+  --overlay: #1A23330A;
+  --overlay-2: #1A233314;
+  --seg: #C13B2E;
   --ter: #D9A441;
-  --qua: #C1922B;
+  --qua: #3E6E8A;
   --qui: #5B7A4F;
-  --sex: #3E7C8A;
-  --sab: #7A4B5E;
-  --dom: #C97B63;
+  --sex: #7A5C99;
+  --sab: #C97B4E;
+  --dom: #B5568A;
+  --pauta: #1A23330F;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--paper);
+  background:
+    linear-gradient(var(--paper) 0 0),
+    repeating-linear-gradient(0deg, transparent, transparent 27px, var(--pauta) 27px, var(--pauta) 28px);
   color: var(--ink);
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -70,7 +73,7 @@ a { color: inherit; text-decoration: none; }
 }
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   .brand span.brand-text {
-    background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63);
+    background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A);
     -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
   }
 }
@@ -91,19 +94,19 @@ nav.mainnav a.active { opacity: 1; background: var(--ink); color: var(--paper); 
 .lang-toggle {
   display: flex; align-items: center; gap: 6px;
   font-size: 0.78rem; font-weight: 700; padding: 7px 13px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; color: var(--ink);
+  border: 1px solid var(--line); background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); cursor: pointer; color: var(--ink);
 }
 .lang-toggle:hover { background: #00000008; }
 .lang-toggle .caret { font-size: 9px; opacity: 0.5; }
 .lang-menu {
   position: absolute; top: calc(100% + 8px); right: 0;
-  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 12px;
+  background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden;
   min-width: 150px; display: none; z-index: 30;
 }
 .lang-menu.open { display: block; }
 .lang-menu button {
-  width: 100%; text-align: left; padding: 10px 14px; border: none; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
+  width: 100%; text-align: left; padding: 10px 14px; border: none; background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10);
   font-size: 0.85rem; cursor: pointer; display: block; color: var(--ink);
 }
 .lang-menu button:hover { background: #00000008; }
@@ -118,14 +121,20 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
 }
 
 .eyebrow {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.65;
-  margin-bottom: 4px;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  padding: 3px 10px 4px;
+  background: linear-gradient(100deg, var(--ter), #E8BD3F);
+  color: #3A2E10;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 1px 2px rgba(26,35,51,0.18);
 }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
-h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #B5502E, #D9A441 55%, #C97B63); }
+h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A); }
 
 /* ---------- Week nav ---------- */
 .weeknav {
@@ -139,7 +148,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   width: 34px; height: 34px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
+  background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10);
   cursor: pointer;
   font-size: 1rem;
 }
@@ -178,7 +187,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   .grid { grid-template-columns: 1fr; }
 }
 
-.day-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+.day-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
 .day-head {
   padding: 12px 16px; color: white; display: flex; align-items: center; justify-content: space-between;
 }
@@ -189,13 +198,13 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
   background: rgba(255,255,255,0.25); color: white; cursor: pointer; font-weight: 700;
 }
 .day-addlist { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; }
-.day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; }
+.day-addlist button { font-size: 0.75rem; padding: 5px 10px; border-radius: 999px; border: 1px solid; background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); cursor: pointer; }
 
 .day-schedule { padding: 10px 14px 6px; display: flex; flex-direction: column; gap: 6px; min-height: 30px; }
 .sched-empty { font-size: 0.78rem; opacity: 0.4; padding: 4px 0; }
 .sched-item {
   display: flex; align-items: center; gap: 8px;
-  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border-radius: 10px; padding: 6px 10px;
+  background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border-radius: 4px; padding: 6px 10px;
   cursor: grab;
 }
 .sched-item .dot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
@@ -207,7 +216,7 @@ h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius
 .day-body { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--line); }
 .field-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-bottom: 5px; }
 textarea, .textinput {
-  width: 100%; border: none; background: #00000006; border-radius: 10px;
+  width: 100%; border: none; background: #00000006; border-radius: 4px;
   padding: 8px 10px; font-size: 0.85rem; font-family: inherit; resize: vertical;
 }
 textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
@@ -221,10 +230,10 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .task-add input { flex: 1; font-size: 0.85rem; border: none; background: #00000006; border-radius: 8px; padding: 6px 10px; }
 
 /* ---------- Disciplinas page ---------- */
-.disc-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+.disc-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 14px; }
 .disc-card .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .disc-card input.small { flex: 1; min-width: 140px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.9rem; }
-.disc-card input[type="date"].small { flex: 1; min-width: 140px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.85rem; color: var(--ink); background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); }
+.disc-card input[type="date"].small { flex: 1; min-width: 140px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); font-size: 0.85rem; color: var(--ink); background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); }
 .disc-card textarea { min-height: 60px; }
 .disc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .disc-name { font-weight: 800; font-size: 1.05rem; }
@@ -243,7 +252,7 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .size-toggle { display: inline-flex; gap: 4px; margin-left: auto; }
 .size-toggle button {
   font-size: 0.72rem; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line);
-  background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); cursor: pointer; opacity: 0.55;
+  background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); cursor: pointer; opacity: 0.55;
 }
 .size-toggle button.active { opacity: 1; background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .disc-card.compact { padding: 10px 14px; margin-bottom: 8px; }
@@ -263,11 +272,11 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .avaliacao-row { display: flex; gap: 8px; align-items: center; }
 .avaliacao-row select {
   flex: 1; min-width: 110px; padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line);
-  font-size: 0.82rem; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color: var(--ink);
+  font-size: 0.82rem; background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); color: var(--ink);
 }
 .avaliacao-row input[type="date"] {
   flex: 1; min-width: 120px; padding: 6px 9px; border-radius: 8px; border: 1px solid var(--line);
-  font-size: 0.82rem; background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color: var(--ink);
+  font-size: 0.82rem; background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); color: var(--ink);
 }
 .avaliacao-row .rm-aval { border: none; background: none; opacity: 0.35; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; }
 .avaliacao-row .rm-aval:hover { opacity: 0.85; }
@@ -281,11 +290,11 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 .notes-wrap { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
 @media (max-width: 800px) { .notes-wrap { grid-template-columns: 1fr; } }
 .notes-wrap textarea { min-height: 460px; font-size: 0.95rem; line-height: 1.5; }
-.calc-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; height: fit-content; }
-.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 10px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
+.calc-box { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding: 16px; height: fit-content; }
+.calc-display { font-size: 1.4rem; text-align: right; padding: 10px; background: #00000006; border-radius: 4px; margin-bottom: 10px; min-height: 28px; word-break: break-all; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .calc-grid button {
-  padding: 12px 0; border-radius: 10px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
+  padding: 12px 0; border-radius: 4px; border: none; background: #00000008; font-size: 1rem; cursor: pointer;
 }
 .calc-grid button.op { background: var(--ink); color: var(--paper); }
 .calc-grid button:hover { filter: brightness(0.95); }
@@ -293,14 +302,14 @@ textarea:focus, .textinput:focus { outline: 2px solid #00000022; }
 
 /* ---------- Estudos extras page ---------- */
 .study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.study-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.study-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
 .study-card .top { display: flex; justify-content: space-between; align-items: center; }
 .study-card input.title {
   font-size: 1.05rem; font-weight: 800; border: none; background: transparent; flex: 1; padding: 2px 0;
 }
 .study-card textarea { min-height: 100px; }
 .add-study-card {
-  border: 2px dashed var(--line); border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  border: 2px dashed var(--line); border-radius: 6px; display: flex; align-items: center; justify-content: center;
   cursor: pointer; min-height: 100px; opacity: 0.5; font-weight: 700; background: none;
 }
 .add-study-card:hover { opacity: 0.9; }
@@ -309,12 +318,12 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
 /* ---------- Trilhas / árvore de habilidades ---------- */
 .trilha-select-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin: 4px 0 22px; }
-.trilha-select-row select { font-size:0.9rem; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); color:var(--ink); }
+.trilha-select-row select { font-size:0.9rem; padding:9px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); color:var(--ink); }
 .trilha-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 6px 0 8px; max-width:420px; }
-.trilha-progresso-fill { height:100%; background:linear-gradient(120deg,#B5502E,#D9A441 55%,#C97B63); border-radius:999px; transition:width .3s ease; }
+.trilha-progresso-fill { height:100%; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); border-radius:999px; transition:width .3s ease; }
 .trilha-progresso-texto { font-size:0.8rem; opacity:.6; margin-bottom:22px; }
 .modulos-grid { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; }
-.modulo-card { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display:flex; flex-direction:column; gap:8px; }
+.modulo-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display:flex; flex-direction:column; gap:8px; }
 .modulo-card.bloqueado { opacity:.5; }
 .modulo-top { display:flex; align-items:center; gap:10px; }
 .modulo-status { font-size:1.2rem; flex-shrink:0; }
@@ -326,7 +335,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .modulo-actions button.concluir:disabled { opacity:.35; cursor:not-allowed; }
 .modulo-actions button.excluir { color:#B33; opacity:.7; }
 .modulo-actions button.excluir:hover { opacity:1; }
-.novo-modulo-box { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px dashed var(--line); border-radius: 14px; padding: 16px; margin-top:6px; }
+.novo-modulo-box { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px dashed var(--line); border-radius: 6px; padding: 16px; margin-top:6px; }
 .novo-modulo-box input[type="text"] { width:100%; box-sizing:border-box; font-size:0.9rem; padding:9px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:10px; font-family:inherit; }
 .pre-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
 .pre-chip { font-size:0.78rem; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--overlay); cursor:pointer; user-select:none; }
@@ -337,7 +346,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .ex-subject-tabs { display:flex; flex-wrap:wrap; gap:8px; margin: 4px 0 12px; }
 .ex-subject-tabs button {
   font-size:0.85rem; font-weight:700; padding:9px 16px; border-radius:999px;
-  border:1px solid var(--line); background:var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14);
+  border:1px solid var(--line); background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10);
   cursor:pointer; opacity:.6; color:var(--ink);
 }
 .ex-subject-tabs button.active { opacity:1; background:var(--ink); color:var(--paper); border-color:var(--ink); }
@@ -350,21 +359,34 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .ex-level-tabs button.intermediario.active { opacity:1; background:#D9A441; color:#fff; border-color:#D9A441; }
 .ex-level-tabs button.dificil.active { opacity:1; background:#C1502B; color:#fff; border-color:#C1502B; }
 .ex-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 10px 0 6px; max-width:420px; }
-.ex-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#B5502E,#D9A441 55%,#C97B63); }
+.ex-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); }
 .ex-progresso-texto { font-size:0.8rem; opacity:.55; margin-bottom:18px; }
 .ex-list { display:flex; flex-direction:column; gap:10px; }
-.ex-item { background: var(--card); box-shadow: 0 2px 12px -6px rgba(30,25,18,0.14); border: 1px solid var(--line); border-radius: 14px; overflow:hidden; }
-.ex-item-head { padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer; }
-.ex-item-check { flex-shrink:0; }
-.ex-item-check input { width:18px; height:18px; cursor:pointer; accent-color: var(--qui); }
-.ex-item-num { width:24px; height:24px; border-radius:999px; background:var(--overlay); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:800; flex-shrink:0; }
-.ex-item-enunciado { flex:1; font-size:0.92rem; line-height:1.45; }
-.ex-item.feito .ex-item-enunciado { opacity:.5; text-decoration: line-through; }
-.ex-item-caret { opacity:.4; font-size:.75rem; transition: transform .15s ease; flex-shrink:0; }
-.ex-item.open .ex-item-caret { transform: rotate(90deg); }
-.ex-item-resposta { display:none; padding: 0 16px 16px 62px; font-size:0.88rem; opacity:.85; border-top:1px solid var(--line); margin-top:0; }
-.ex-item-resposta strong { opacity:.6; font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; display:block; margin: 12px 0 4px; }
-.ex-item.open .ex-item-resposta { display:block; }
+.ex-item { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:16px; display:flex; flex-direction:column; gap:12px; }
+.ex-item.acertou { border-color: var(--qui); }
+.ex-item-top { display:flex; align-items:flex-start; gap:10px; }
+.ex-item-num { width:24px; height:24px; border-radius:999px; background:var(--overlay); display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:800; flex-shrink:0; margin-top:1px; }
+.ex-item-enunciado { flex:1; font-size:0.92rem; line-height:1.45; white-space:pre-wrap; }
+.ex-opcoes { display:flex; flex-direction:column; gap:8px; padding-left:34px; }
+.ex-opcao {
+  text-align:left; font-size:0.85rem; padding:10px 14px; border-radius:10px;
+  border:1px solid var(--line); background:var(--overlay); cursor:pointer; color:var(--ink);
+}
+.ex-opcao:hover { background:var(--overlay-2); }
+.ex-opcao.correta-marcada { background:#5B7A4F30; border-color:#5B7A4F; font-weight:700; }
+.ex-opcao.errada-marcada { background:#C1502B25; border-color:#C1502B; }
+.ex-opcao:disabled { cursor:default; }
+.ex-resolucao-btn {
+  align-self:flex-start; margin-left:34px; font-size:0.78rem; padding:6px 14px; border-radius:999px;
+  border:1px dashed var(--line); background:none; color:var(--ink); cursor:pointer; opacity:.6;
+}
+.ex-resolucao-btn:hover { opacity:1; }
+.ex-resolucao { display:none; padding-left:34px; font-size:0.85rem; opacity:.85; border-top:1px solid var(--line); padding-top:12px; white-space:pre-wrap; }
+.ex-resolucao.aberta { display:block; }
+.ex-resolucao strong { opacity:.6; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:4px; }
+.ex-resolucao pre { background:#00000008; border-radius:10px; padding:12px; overflow-x:auto; font-size:0.8rem; line-height:1.5; margin: 6px 0 0; }
+.ex-item-check-row { display:flex; align-items:center; gap:8px; padding-left:34px; font-size:0.8rem; opacity:.75; }
+.ex-item-check-row input { width:16px; height:16px; cursor:pointer; accent-color: var(--qui); }
 
 </style>
 </head>
@@ -411,7 +433,7 @@ const DAY_DEFS = [
   { key: "dom", label: "Domingo", css: "--dom" },
 ];
 
-const DISC_COLORS = ["#C1502B", "#D9A441", "#5B7A4F", "#3E7C8A", "#7A4B5E", "#C97B63", "#8C6A3F", "#4F6B52"];
+const DISC_COLORS = ["#C13B2E", "#D9A441", "#5B7A4F", "#3E6E8A", "#7A5C99", "#C97B4E", "#8C6A3F", "#3E5F6B"];
 
 // ---------- localStorage helpers ----------
 function loadJSON(key, fallback) {
@@ -536,172 +558,221 @@ function renderNav(activePage) {
 renderNav("exercicios.html");
 
 // ---------- Banco de exercícios ----------
+// tipo "mc" = múltipla escolha (opcoes + índice da correta + resolução)
+// tipo "codigo" = exercício de programação (sem alternativas — resolução é um código sugerido)
 const MATERIAS = [
   {
     id: "calculo",
     nome: "Cálculo",
+    tipo: "mc",
     niveis: {
       facil: [
-        { enunciado: "Calcule lim(x→3) (2x + 5).", resposta: "11" },
-        { enunciado: "Calcule lim(x→0) (x² + 3x) / x.", resposta: "Simplificando (x²+3x)/x = x+3, logo o limite é 3." },
-        { enunciado: "Derive f(x) = x³ − 4x + 7.", resposta: "f'(x) = 3x² − 4" },
-        { enunciado: "Derive f(x) = 5x² + 2x − 1.", resposta: "f'(x) = 10x + 2" },
-        { enunciado: "Calcule a derivada de f(x) = 7 (função constante).", resposta: "f'(x) = 0" },
-        { enunciado: "Calcule ∫ 3x² dx.", resposta: "x³ + C" },
-        { enunciado: "Calcule ∫ (4x + 1) dx.", resposta: "2x² + x + C" },
-        { enunciado: "Encontre a inclinação da reta tangente a f(x) = x² em x = 2.", resposta: "f'(x) = 2x → f'(2) = 4" },
-        { enunciado: "Calcule lim(x→∞) (5 / x).", resposta: "0" },
-        { enunciado: "Derive f(x) = x⁵.", resposta: "f'(x) = 5x⁴" },
+        { enunciado: "Calcule lim(x→3) (2x + 5).", opcoes: ["11", "6", "8", "16"], correta: 0, resolucao: "Substituindo x=3 diretamente (função contínua): 2(3)+5 = 6+5 = 11." },
+        { enunciado: "Calcule lim(x→0) (x² + 3x) / x.", opcoes: ["3", "0", "1", "9"], correta: 0, resolucao: "Fatorando x no numerador: (x²+3x)/x = x(x+3)/x = x+3 (para x≠0). Substituindo x=0: 0+3=3." },
+        { enunciado: "Derive f(x) = x³ − 4x + 7.", opcoes: ["3x² − 4", "3x² + 4", "x² − 4", "3x² − 4x"], correta: 0, resolucao: "Derivando termo a termo: d/dx(x³)=3x²; d/dx(−4x)=−4; d/dx(7)=0. Logo f'(x)=3x²−4." },
+        { enunciado: "Derive f(x) = 5x² + 2x − 1.", opcoes: ["10x + 2", "5x + 2", "10x − 2", "10x + 2x"], correta: 0, resolucao: "d/dx(5x²)=10x; d/dx(2x)=2; d/dx(−1)=0. f'(x)=10x+2." },
+        { enunciado: "Calcule a derivada de f(x) = 7 (função constante).", opcoes: ["0", "7", "1", "x"], correta: 0, resolucao: "A derivada de qualquer constante é sempre 0, pois a função não varia." },
+        { enunciado: "Calcule ∫ 3x² dx.", opcoes: ["x³ + C", "3x³ + C", "x³", "6x + C"], correta: 0, resolucao: "Regra da potência para integrais: ∫xⁿdx = xⁿ⁺¹/(n+1)+C. Então ∫3x²dx = 3·(x³/3)+C = x³+C." },
+        { enunciado: "Calcule ∫ (4x + 1) dx.", opcoes: ["2x² + x + C", "4x² + x + C", "2x² + C", "2x² + x"], correta: 0, resolucao: "∫4x dx = 4·x²/2 = 2x²; ∫1 dx = x. Somando: 2x²+x+C." },
+        { enunciado: "Encontre a inclinação da reta tangente a f(x) = x² em x = 2.", opcoes: ["4", "2", "8", "16"], correta: 0, resolucao: "f'(x)=2x. Em x=2: f'(2)=2(2)=4, que é o coeficiente angular da reta tangente." },
+        { enunciado: "Calcule lim(x→∞) (5 / x).", opcoes: ["0", "5", "∞", "1"], correta: 0, resolucao: "Quando x cresce indefinidamente, 5/x se aproxima cada vez mais de 0." },
+        { enunciado: "Derive f(x) = x⁵.", opcoes: ["5x⁴", "x⁴", "5x⁵", "4x⁵"], correta: 0, resolucao: "Regra da potência: d/dx(xⁿ)=n·x^(n−1). Para n=5: f'(x)=5x⁴." },
       ],
       intermediario: [
-        { enunciado: "Calcule lim(x→2) (x² − 4) / (x − 2).", resposta: "Fatorando: (x−2)(x+2)/(x−2) = x+2 → limite = 4" },
-        { enunciado: "Derive f(x) = (x² + 1)(x − 3) usando a regra do produto.", resposta: "f'(x) = 3x² − 6x + 1" },
-        { enunciado: "Derive f(x) = x² / (x + 1) usando a regra do quociente.", resposta: "f'(x) = (x² + 2x) / (x + 1)²" },
-        { enunciado: "Derive f(x) = sen(3x).", resposta: "f'(x) = 3·cos(3x)" },
-        { enunciado: "Derive f(x) = e^(2x).", resposta: "f'(x) = 2·e^(2x)" },
-        { enunciado: "Calcule ∫ (3x² − 2x + 5) dx.", resposta: "x³ − x² + 5x + C" },
-        { enunciado: "Calcule a derivada de f(x) = ln(x² + 1).", resposta: "f'(x) = 2x / (x² + 1)" },
-        { enunciado: "Encontre os pontos críticos de f(x) = x³ − 3x.", resposta: "f'(x) = 3x² − 3 = 0 → x = 1 ou x = −1" },
-        { enunciado: "Calcule lim(x→0) sen(x) / x.", resposta: "1 (limite fundamental trigonométrico)" },
-        { enunciado: "Calcule ∫₀¹ x² dx.", resposta: "[x³/3] de 0 a 1 = 1/3" },
+        { enunciado: "Calcule lim(x→2) (x² − 4) / (x − 2).", opcoes: ["4", "0", "2", "Indefinido"], correta: 0, resolucao: "Fatorando: x²−4=(x−2)(x+2). Simplificando (x−2)(x+2)/(x−2)=x+2 (x≠2). Substituindo x=2: 2+2=4." },
+        { enunciado: "Derive f(x) = (x² + 1)(x − 3) usando a regra do produto.", opcoes: ["3x² − 6x + 1", "2x(x − 3)", "x² + 1", "3x² − 6x − 1"], correta: 0, resolucao: "Regra do produto: f'=u'v+uv', u=x²+1(u'=2x), v=x−3(v'=1). f'=2x(x−3)+(x²+1)(1)=2x²−6x+x²+1=3x²−6x+1." },
+        { enunciado: "Derive f(x) = x² / (x + 1) usando a regra do quociente.", opcoes: ["(x² + 2x) / (x + 1)²", "2x / (x + 1)", "(2x) / (x + 1)²", "x² / (x + 1)²"], correta: 0, resolucao: "Regra do quociente: f'=(u'v−uv')/v². u=x²(u'=2x), v=x+1(v'=1). f'=[2x(x+1)−x²(1)]/(x+1)²=(2x²+2x−x²)/(x+1)²=(x²+2x)/(x+1)²." },
+        { enunciado: "Derive f(x) = sen(3x).", opcoes: ["3cos(3x)", "cos(3x)", "3sen(3x)", "−3cos(3x)"], correta: 0, resolucao: "Regra da cadeia: d/dx sen(u)=cos(u)·u'. Aqui u=3x, u'=3. f'(x)=3cos(3x)." },
+        { enunciado: "Derive f(x) = e^(2x).", opcoes: ["2e^(2x)", "e^(2x)", "2xe^(2x)", "eˣ"], correta: 0, resolucao: "Regra da cadeia: d/dx eᵘ = eᵘ·u'. u=2x, u'=2. f'(x)=2e^(2x)." },
+        { enunciado: "Calcule ∫ (3x² − 2x + 5) dx.", opcoes: ["x³ − x² + 5x + C", "3x³ − x² + 5x + C", "x³ − x² + C", "x³ + x² + 5x + C"], correta: 0, resolucao: "Integrando termo a termo: ∫3x²dx=x³; ∫−2xdx=−x²; ∫5dx=5x. Soma: x³−x²+5x+C." },
+        { enunciado: "Calcule a derivada de f(x) = ln(x² + 1).", opcoes: ["2x / (x² + 1)", "1 / (x² + 1)", "2x", "ln(2x)"], correta: 0, resolucao: "Regra da cadeia: d/dx ln(u)=u'/u. u=x²+1, u'=2x. f'(x)=2x/(x²+1)." },
+        { enunciado: "Encontre os pontos críticos de f(x) = x³ − 3x.", opcoes: ["x = 1 e x = −1", "x = 0", "x = 3 e x = −3", "x = √3 e x = −√3"], correta: 0, resolucao: "f'(x)=3x²−3. Igualando a zero: 3x²=3 → x²=1 → x=1 ou x=−1." },
+        { enunciado: "Calcule lim(x→0) sen(x) / x.", opcoes: ["1", "0", "∞", "x"], correta: 0, resolucao: "É um limite fundamental da trigonometria — sen(x)/x tende a 1 quando x tende a 0." },
+        { enunciado: "Calcule ∫₀¹ x² dx.", opcoes: ["1/3", "1", "1/2", "2/3"], correta: 0, resolucao: "Antiderivada: x³/3. Avaliando de 0 a 1: (1³/3)−(0³/3)=1/3." },
       ],
       dificil: [
-        { enunciado: "Derive f(x) = xˣ (derivação logarítmica).", resposta: "ln f = x·ln x → f'/f = ln x + 1 → f'(x) = xˣ(ln x + 1)" },
-        { enunciado: "Calcule lim(x→∞) (1 + 1/x)ˣ.", resposta: "e (número de Euler, ≈ 2,718)" },
-        { enunciado: "Encontre a derivada de f(x) = arctan(x²).", resposta: "f'(x) = 2x / (1 + x⁴)" },
-        { enunciado: "Calcule ∫ x·eˣ dx por partes.", resposta: "(x − 1)eˣ + C" },
-        { enunciado: "Encontre os pontos de inflexão de f(x) = x⁴ − 6x² + 2.", resposta: "f''(x) = 12x² − 12 = 0 → x = 1 ou x = −1" },
-        { enunciado: "Calcule ∫ 1 / (x² + 1) dx.", resposta: "arctan(x) + C" },
-        { enunciado: "Use a Regra de L'Hôpital para calcular lim(x→0) (1 − cos x) / x².", resposta: "1/2" },
-        { enunciado: "Calcule a derivada implícita de x² + y² = 25 em relação a x.", resposta: "2x + 2y·y' = 0 → y' = −x/y" },
-        { enunciado: "Encontre a área entre f(x) = x² e g(x) = x no intervalo [0, 1].", resposta: "∫(x − x²)dx de 0 a 1 = 1/6" },
-        { enunciado: "Calcule ∫ x²·ln(x) dx por partes.", resposta: "(x³/3)ln x − x³/9 + C" },
+        { enunciado: "Derive f(x) = xˣ (derivação logarítmica).", opcoes: ["xˣ(ln x + 1)", "x·x^(x−1)", "xˣ·ln x", "xˣ"], correta: 0, resolucao: "Usando derivação logarítmica: ln f = x ln x. Derivando ambos os lados: f'/f = ln x + 1. Logo f' = f·(ln x+1) = xˣ(ln x+1)." },
+        { enunciado: "Calcule lim(x→∞) (1 + 1/x)ˣ.", opcoes: ["e", "1", "∞", "1/e"], correta: 0, resolucao: "Esse é o limite clássico que define o número de Euler, e ≈ 2,718." },
+        { enunciado: "Encontre a derivada de f(x) = arctan(x²).", opcoes: ["2x / (1 + x⁴)", "1 / (1 + x⁴)", "2x / (1 + x²)", "1 / (1 + x²)"], correta: 0, resolucao: "d/dx arctan(u)=u'/(1+u²). u=x², u'=2x. f'(x)=2x/(1+x⁴)." },
+        { enunciado: "Calcule ∫ x·eˣ dx por partes.", opcoes: ["(x − 1)eˣ + C", "xeˣ + C", "eˣ + C", "x²eˣ/2 + C"], correta: 0, resolucao: "Integração por partes: u=x, dv=eˣdx → du=dx, v=eˣ. ∫xeˣdx = xeˣ−∫eˣdx = xeˣ−eˣ+C = (x−1)eˣ+C." },
+        { enunciado: "Encontre os pontos de inflexão de f(x) = x⁴ − 6x² + 2.", opcoes: ["x = 1 e x = −1", "x = 0", "x = √6 e x = −√6", "x = 2 e x = −2"], correta: 0, resolucao: "f''(x)=12x²−12. Igualando a zero: x²=1 → x=1 ou x=−1." },
+        { enunciado: "Calcule ∫ 1 / (x² + 1) dx.", opcoes: ["arctan(x) + C", "ln(x² + 1) + C", "1/x + C", "x·arctan(x) + C"], correta: 0, resolucao: "É uma integral imediata: a antiderivada de 1/(x²+1) é arctan(x)+C." },
+        { enunciado: "Use a Regra de L'Hôpital para calcular lim(x→0) (1 − cos x) / x².", opcoes: ["1/2", "0", "1", "2"], correta: 0, resolucao: "Aplicando L'Hôpital duas vezes (forma 0/0): derivando numerador e denominador chega-se a cos(x)/2, que em x=0 dá 1/2." },
+        { enunciado: "Calcule a derivada implícita de x² + y² = 25 em relação a x.", opcoes: ["dy/dx = −x/y", "dy/dx = x/y", "dy/dx = −y/x", "dy/dx = y/x"], correta: 0, resolucao: "Derivando implicitamente: 2x+2y·y'=0 → y'=−x/y." },
+        { enunciado: "Encontre a área entre f(x) = x² e g(x) = x no intervalo [0, 1].", opcoes: ["1/6", "1/3", "1/2", "1"], correta: 0, resolucao: "Área = ∫₀¹(x−x²)dx = [x²/2 − x³/3]₀¹ = 1/2−1/3 = 1/6." },
+        { enunciado: "Calcule ∫ x²·ln(x) dx por partes.", opcoes: ["(x³/3)ln x − x³/9 + C", "(x³/3)ln x + C", "x³ln x − x³ + C", "(x³/3)ln x − x³/3 + C"], correta: 0, resolucao: "Por partes: u=ln x, dv=x²dx → du=dx/x, v=x³/3. ∫x²ln x dx = (x³/3)ln x − ∫(x³/3)(1/x)dx = (x³/3)ln x − x³/9 + C." },
       ],
     },
   },
   {
     id: "geometria",
     nome: "Geometria Analítica",
+    tipo: "mc",
     niveis: {
       facil: [
-        { enunciado: "Calcule a distância entre os pontos A(1,2) e B(4,6).", resposta: "d = √((4−1)² + (6−2)²) = √(9+16) = 5" },
-        { enunciado: "Encontre o ponto médio entre A(2,3) e B(8,7).", resposta: "M = ((2+8)/2, (3+7)/2) = (5, 5)" },
-        { enunciado: "Determine a equação da reta que passa por (0,3) com coeficiente angular 2.", resposta: "y = 2x + 3" },
-        { enunciado: "Qual a inclinação da reta que passa por (1,1) e (3,7)?", resposta: "m = (7−1)/(3−1) = 3" },
-        { enunciado: "Escreva a equação da circunferência de centro (0,0) e raio 4.", resposta: "x² + y² = 16" },
-        { enunciado: "As retas y = 2x + 1 e y = 2x − 5 são paralelas?", resposta: "Sim, têm o mesmo coeficiente angular (m = 2)" },
-        { enunciado: "Encontre a interseção das retas y = x + 1 e y = −x + 3.", resposta: "(1, 2)" },
-        { enunciado: "Calcule a distância do ponto (3,4) até a origem.", resposta: "d = √(3²+4²) = 5" },
-        { enunciado: "Determine o centro e o raio de (x−2)² + (y+1)² = 9.", resposta: "Centro (2, −1), raio 3" },
-        { enunciado: "Escreva a equação da reta vertical que passa por (5,2).", resposta: "x = 5" },
+        { enunciado: "Calcule a distância entre os pontos A(1,2) e B(4,6).", opcoes: ["5", "7", "25", "4"], correta: 0, resolucao: "d=√((4−1)²+(6−2)²)=√(9+16)=√25=5." },
+        { enunciado: "Encontre o ponto médio entre A(2,3) e B(8,7).", opcoes: ["(5, 5)", "(10, 10)", "(3, 4)", "(6, 5)"], correta: 0, resolucao: "M=((x1+x2)/2, (y1+y2)/2)=((2+8)/2,(3+7)/2)=(5,5)." },
+        { enunciado: "Determine a equação da reta que passa por (0,3) com coeficiente angular 2.", opcoes: ["y = 2x + 3", "y = 3x + 2", "y = 2x − 3", "y = x + 3"], correta: 0, resolucao: "Forma reduzida y=mx+b, com m=2 e b=3 (o ponto (0,3) já dá o coeficiente linear)." },
+        { enunciado: "Qual a inclinação da reta que passa por (1,1) e (3,7)?", opcoes: ["3", "2", "6", "1/3"], correta: 0, resolucao: "m=(y2−y1)/(x2−x1)=(7−1)/(3−1)=6/2=3." },
+        { enunciado: "Escreva a equação da circunferência de centro (0,0) e raio 4.", opcoes: ["x² + y² = 16", "x² + y² = 4", "x² + y² = 8", "x² + y² = 2"], correta: 0, resolucao: "Fórmula geral x²+y²=r². Com r=4, r²=16." },
+        { enunciado: "As retas y = 2x + 1 e y = 2x − 5 são paralelas?", opcoes: ["Sim, têm o mesmo coeficiente angular", "Não, são perpendiculares", "Não, se cruzam em um ponto", "Só se x=0"], correta: 0, resolucao: "Retas são paralelas quando têm o mesmo coeficiente angular. Aqui ambas têm m=2." },
+        { enunciado: "Encontre a interseção das retas y = x + 1 e y = −x + 3.", opcoes: ["(1, 2)", "(2, 1)", "(0, 3)", "(1, 1)"], correta: 0, resolucao: "Igualando: x+1=−x+3 → 2x=2 → x=1. Substituindo: y=1+1=2. Ponto (1,2)." },
+        { enunciado: "Calcule a distância do ponto (3,4) até a origem.", opcoes: ["5", "7", "25", "3,5"], correta: 0, resolucao: "d=√(3²+4²)=√(9+16)=√25=5." },
+        { enunciado: "Determine o centro e o raio de (x−2)² + (y+1)² = 9.", opcoes: ["Centro (2,−1), raio 3", "Centro (−2,1), raio 3", "Centro (2,−1), raio 9", "Centro (2,1), raio 3"], correta: 0, resolucao: "Forma padrão (x−a)²+(y−b)²=r². Aqui a=2, b=−1, r²=9→r=3." },
+        { enunciado: "Escreva a equação da reta vertical que passa por (5,2).", opcoes: ["x = 5", "y = 5", "y = 2", "x = 2"], correta: 0, resolucao: "Retas verticais têm equação x=constante, igual à coordenada x do ponto." },
       ],
       intermediario: [
-        { enunciado: "Encontre a reta perpendicular a y = 3x + 1 que passa por (2,5).", resposta: "m perpendicular = −1/3 → y − 5 = −1/3(x−2) → y = −x/3 + 17/3" },
-        { enunciado: "Calcule a distância do ponto (1,2) à reta 3x + 4y − 5 = 0.", resposta: "d = |3+8−5| / √(9+16) = 6/5 = 1,2" },
-        { enunciado: "Escreva a equação da elipse com centro na origem, a = 5 e b = 3.", resposta: "x²/25 + y²/9 = 1" },
-        { enunciado: "Encontre a equação da parábola com vértice (0,0) e foco (0,2).", resposta: "x² = 8y" },
-        { enunciado: "Os pontos (1,1), (2,3) e (4,7) são colineares?", resposta: "Sim — coeficiente angular igual a 2 entre quaisquer dois pontos" },
-        { enunciado: "Calcule a área do triângulo com vértices (0,0), (4,0), (0,3).", resposta: "Área = (base × altura)/2 = (4×3)/2 = 6" },
-        { enunciado: "Escreva a equação da hipérbole com a=4, b=3, centrada na origem, eixo x.", resposta: "x²/16 − y²/9 = 1" },
-        { enunciado: "Encontre o ângulo entre as retas y = x e y = 2x.", resposta: "tanθ = |(2−1)/(1+2)| = 1/3 → θ = arctan(1/3) ≈ 18,4°" },
-        { enunciado: "Determine a reta tangente à circunferência x²+y²=25 no ponto (3,4).", resposta: "3x + 4y = 25" },
-        { enunciado: "Calcule o ponto que divide AB, A(1,1) e B(7,13), na razão 1:2 a partir de A.", resposta: "P = A + (1/3)(B−A) = (3, 5)" },
+        { enunciado: "Encontre a reta perpendicular a y = 3x + 1 que passa por (2,5).", opcoes: ["y = −x/3 + 17/3", "y = 3x − 1", "y = −3x + 11", "y = x/3 + 5"], correta: 0, resolucao: "A perpendicular tem coeficiente angular oposto e inverso: m=−1/3. Usando ponto-inclinação: y−5=−1/3(x−2) → y=−x/3+17/3." },
+        { enunciado: "Calcule a distância do ponto (1,2) à reta 3x + 4y − 5 = 0.", opcoes: ["6/5", "5/6", "6", "0,6"], correta: 0, resolucao: "d=|3(1)+4(2)−5|/√(3²+4²)=|3+8−5|/5=6/5=1,2." },
+        { enunciado: "Escreva a equação da elipse com centro na origem, a = 5 e b = 3.", opcoes: ["x²/25 + y²/9 = 1", "x²/9 + y²/25 = 1", "x²/25 + y²/9 = 25", "x²/5 + y²/3 = 1"], correta: 0, resolucao: "Forma padrão x²/a²+y²/b²=1, com a=5→a²=25 e b=3→b²=9." },
+        { enunciado: "Encontre a equação da parábola com vértice (0,0) e foco (0,2).", opcoes: ["x² = 8y", "y² = 8x", "x² = 4y", "x² = 2y"], correta: 0, resolucao: "Forma x²=4py, com p=distância do vértice ao foco=2. x²=4(2)y=8y." },
+        { enunciado: "Os pontos (1,1), (2,3) e (4,7) são colineares?", opcoes: ["Sim", "Não", "Só (1,1) e (2,3)", "Impossível saber"], correta: 0, resolucao: "O coeficiente angular entre quaisquer dois pontos é sempre 2: (3−1)/(2−1)=2 e (7−3)/(4−2)=2. Logo estão na mesma reta." },
+        { enunciado: "Calcule a área do triângulo com vértices (0,0), (4,0), (0,3).", opcoes: ["6", "12", "7", "3,5"], correta: 0, resolucao: "Como dois lados estão sobre os eixos, área=(base×altura)/2=(4×3)/2=6." },
+        { enunciado: "Escreva a equação da hipérbole com a=4, b=3, centrada na origem, eixo x.", opcoes: ["x²/16 − y²/9 = 1", "x²/9 − y²/16 = 1", "x²/16 + y²/9 = 1", "x²/16 − y²/9 = 25"], correta: 0, resolucao: "Forma padrão x²/a²−y²/b²=1 com a=4→16, b=3→9." },
+        { enunciado: "Encontre o ângulo entre as retas y = x e y = 2x.", opcoes: ["≈ 18,4°", "45°", "26,6°", "33,7°"], correta: 0, resolucao: "tanθ=|(m2−m1)/(1+m1m2)|=|(2−1)/(1+2)|=1/3 → θ=arctan(1/3)≈18,4°." },
+        { enunciado: "Determine a reta tangente à circunferência x²+y²=25 no ponto (3,4).", opcoes: ["3x + 4y = 25", "3x − 4y = 25", "4x + 3y = 25", "x + y = 25"], correta: 0, resolucao: "A tangente num ponto (x1,y1) da circunferência x²+y²=r² é x·x1+y·y1=r². Aqui: 3x+4y=25." },
+        { enunciado: "Calcule o ponto que divide o segmento AB, A(1,1) e B(7,13), na razão 1:2 a partir de A.", opcoes: ["(3, 5)", "(4, 7)", "(5, 9)", "(2, 3)"], correta: 0, resolucao: "P=A+(1/3)(B−A)=(1,1)+(1/3)(6,12)=(1+2,1+4)=(3,5)." },
       ],
       dificil: [
-        { enunciado: "Ache a reta pela interseção de 2x+y−3=0 e x−y+1=0, perpendicular à primeira.", resposta: "Interseção: (2/3, 5/3). Perpendicular a m=−2 tem m=1/2 → y − 5/3 = 1/2(x − 2/3)" },
-        { enunciado: "Calcule a distância entre as retas paralelas 2x+3y−6=0 e 2x+3y+9=0.", resposta: "d = |9−(−6)| / √(4+9) = 15/√13 ≈ 4,16" },
-        { enunciado: "Determine a excentricidade da elipse x²/25 + y²/16 = 1.", resposta: "c = √(25−16) = 3 → e = c/a = 3/5" },
-        { enunciado: "Encontre as assíntotas da hipérbole x²/9 − y²/4 = 1.", resposta: "y = ±(2/3)x" },
-        { enunciado: "Ache o lugar geométrico dos pontos equidistantes de (2,0) e (−2,0).", resposta: "A reta x = 0 (mediatriz do segmento)" },
-        { enunciado: "Calcule a área do quadrilátero (0,0), (4,0), (6,3), (2,3) pela fórmula do cadarço.", resposta: "Soma do cadarço = 24 → área = 24/2 = 12" },
-        { enunciado: "Determine centro e raio de x² + y² − 6x + 4y − 3 = 0 completando quadrados.", resposta: "(x−3)² + (y+2)² = 16 → centro (3,−2), raio 4" },
-        { enunciado: "Encontre a reta tangente à parábola y = x² no ponto (2,4).", resposta: "y' = 2x → m = 4 → y − 4 = 4(x−2) → y = 4x − 4" },
-        { enunciado: "As retas r: x=1+2t, y=3−t e s: x=2−4t, y=1+2t são paralelas, perpendiculares ou concorrentes?", resposta: "Vetores diretores (2,−1) e (−4,2) são proporcionais (−2×) → paralelas" },
-        { enunciado: "Calcule a distância do ponto (1,1,1) ao plano 2x+2y−z+3=0 no espaço R³.", resposta: "d = |2+2−1+3| / √(4+4+1) = 6/3 = 2" },
+        { enunciado: "Ache a reta pela interseção de 2x+y−3=0 e x−y+1=0, perpendicular à primeira.", opcoes: ["y − 5/3 = 1/2(x − 2/3)", "y − 5/3 = −2(x − 2/3)", "y = 2x − 3", "y − 2/3 = 1/2(x − 5/3)"], correta: 0, resolucao: "Interseção: somando as equações 3x−2=0→x=2/3, y=3−2(2/3)=5/3. A primeira reta tem m=−2; a perpendicular tem m=1/2. Reta: y−5/3=1/2(x−2/3)." },
+        { enunciado: "Calcule a distância entre as retas paralelas 2x+3y−6=0 e 2x+3y+9=0.", opcoes: ["15/√13", "3/√13", "15/13", "√13"], correta: 0, resolucao: "d=|c1−c2|/√(a²+b²)=|−6−9|/√(4+9)=15/√13≈4,16." },
+        { enunciado: "Determine a excentricidade da elipse x²/25 + y²/16 = 1.", opcoes: ["3/5", "4/5", "5/3", "9/25"], correta: 0, resolucao: "c²=a²−b²=25−16=9→c=3. e=c/a=3/5." },
+        { enunciado: "Encontre as assíntotas da hipérbole x²/9 − y²/4 = 1.", opcoes: ["y = ±(2/3)x", "y = ±(3/2)x", "y = ±(4/9)x", "y = ±(9/4)x"], correta: 0, resolucao: "Para hipérbole x²/a²−y²/b²=1, as assíntotas são y=±(b/a)x. Aqui a=3,b=2 → y=±(2/3)x." },
+        { enunciado: "Ache o lugar geométrico dos pontos equidistantes de (2,0) e (−2,0).", opcoes: ["x = 0", "y = 0", "x = 2", "x²+y²=4"], correta: 0, resolucao: "É a mediatriz do segmento entre os dois pontos, que nesse caso é o eixo y (x=0)." },
+        { enunciado: "Calcule a área do quadrilátero (0,0), (4,0), (6,3), (2,3) pela fórmula do cadarço.", opcoes: ["12", "24", "18", "6"], correta: 0, resolucao: "Pela fórmula do cadarço (shoelace), a soma dá 24; a área é metade do valor absoluto: 24/2=12." },
+        { enunciado: "Determine o centro e o raio de x² + y² − 6x + 4y − 3 = 0.", opcoes: ["Centro (3,−2), raio 4", "Centro (3,−2), raio 16", "Centro (−3,2), raio 4", "Centro (6,−4), raio 4"], correta: 0, resolucao: "Completando quadrados: (x²−6x+9)+(y²+4y+4)=3+9+4 → (x−3)²+(y+2)²=16. Centro (3,−2), raio √16=4." },
+        { enunciado: "Encontre a reta tangente à parábola y = x² no ponto (2,4).", opcoes: ["y = 4x − 4", "y = 2x", "y = 4x + 4", "y = 8x − 12"], correta: 0, resolucao: "y'=2x → em x=2, m=4. Reta: y−4=4(x−2) → y=4x−4." },
+        { enunciado: "As retas r: x=1+2t, y=3−t e s: x=2−4t, y=1+2t são paralelas, perpendiculares ou concorrentes?", opcoes: ["Paralelas", "Perpendiculares", "Concorrentes em um ponto", "Coincidentes"], correta: 0, resolucao: "Os vetores diretores são (2,−1) e (−4,2). Como (−4,2)=−2·(2,−1), são múltiplos — logo as retas são paralelas." },
+        { enunciado: "Calcule a distância do ponto (1,1,1) ao plano 2x+2y−z+3=0 no espaço R³.", opcoes: ["2", "6", "3", "6/√5"], correta: 0, resolucao: "d=|2(1)+2(1)−1(1)+3|/√(2²+2²+1²)=|2+2−1+3|/√9=6/3=2." },
       ],
     },
   },
   {
     id: "logica",
     nome: "Circuitos Lógicos",
+    tipo: "mc",
     niveis: {
       facil: [
-        { enunciado: "Construa a tabela-verdade de A AND B.", resposta: "00→0, 01→0, 10→0, 11→1" },
-        { enunciado: "Construa a tabela-verdade de A OR B.", resposta: "00→0, 01→1, 10→1, 11→1" },
-        { enunciado: "Qual o resultado de NOT(1)?", resposta: "0" },
-        { enunciado: "Simplifique A AND 1.", resposta: "A" },
-        { enunciado: "Simplifique A OR 0.", resposta: "A" },
-        { enunciado: "Simplifique A AND 0.", resposta: "0" },
-        { enunciado: "Simplifique A OR 1.", resposta: "1" },
-        { enunciado: "Quantas linhas tem a tabela-verdade de uma expressão com 3 variáveis?", resposta: "2³ = 8 linhas" },
-        { enunciado: "Qual porta lógica dá saída 1 apenas quando as entradas são diferentes?", resposta: "XOR (ou-exclusivo)" },
-        { enunciado: "Escreva a tabela-verdade da porta NAND para A e B.", resposta: "00→1, 01→1, 10→1, 11→0" },
+        { enunciado: "Qual é a tabela-verdade correta da porta A AND B?", opcoes: ["00→0, 01→0, 10→0, 11→1", "00→0, 01→1, 10→1, 11→1", "00→0, 01→1, 10→1, 11→0", "00→1, 01→1, 10→1, 11→0"], correta: 0, resolucao: "A porta AND só resulta em 1 quando as duas entradas são 1 simultaneamente." },
+        { enunciado: "Qual é a tabela-verdade correta da porta A OR B?", opcoes: ["00→0, 01→1, 10→1, 11→1", "00→0, 01→0, 10→0, 11→1", "00→1, 01→0, 10→0, 11→0", "00→0, 01→1, 10→1, 11→0"], correta: 0, resolucao: "A porta OR resulta em 1 quando pelo menos uma das entradas é 1." },
+        { enunciado: "Qual o resultado de NOT(1)?", opcoes: ["0", "1", "Indefinido", "Depende de B"], correta: 0, resolucao: "A porta NOT inverte o valor: NOT(1)=0 e NOT(0)=1." },
+        { enunciado: "Simplifique A AND 1.", opcoes: ["A", "1", "0", "NOT A"], correta: 0, resolucao: "Multiplicar (AND) por 1 não altera o valor — é o elemento neutro do AND." },
+        { enunciado: "Simplifique A OR 0.", opcoes: ["A", "0", "1", "NOT A"], correta: 0, resolucao: "Somar (OR) com 0 não altera o valor — é o elemento neutro do OR." },
+        { enunciado: "Simplifique A AND 0.", opcoes: ["0", "A", "1", "NOT A"], correta: 0, resolucao: "Qualquer valor em AND com 0 sempre resulta em 0." },
+        { enunciado: "Simplifique A OR 1.", opcoes: ["1", "A", "0", "NOT A"], correta: 0, resolucao: "Qualquer valor em OR com 1 sempre resulta em 1." },
+        { enunciado: "Quantas linhas tem a tabela-verdade de uma expressão com 3 variáveis?", opcoes: ["8", "6", "9", "4"], correta: 0, resolucao: "Número de linhas = 2ⁿ, onde n é o número de variáveis. 2³=8." },
+        { enunciado: "Qual porta lógica dá saída 1 apenas quando as entradas são diferentes?", opcoes: ["XOR", "AND", "OR", "NAND"], correta: 0, resolucao: "A porta XOR (ou-exclusivo) só resulta 1 quando as entradas são diferentes entre si." },
+        { enunciado: "Qual é a tabela-verdade correta da porta NAND?", opcoes: ["00→1, 01→1, 10→1, 11→0", "00→0, 01→0, 10→0, 11→1", "00→1, 01→0, 10→0, 11→0", "00→0, 01→1, 10→1, 11→1"], correta: 0, resolucao: "NAND é o NOT do AND: inverte o resultado do AND, então só é 0 quando ambas entradas são 1." },
       ],
       intermediario: [
-        { enunciado: "Simplifique A + A·B (lei da absorção).", resposta: "A" },
-        { enunciado: "Simplifique A·(A + B).", resposta: "A" },
-        { enunciado: "Aplique De Morgan em NOT(A AND B).", resposta: "NOT A OR NOT B" },
-        { enunciado: "Aplique De Morgan em NOT(A OR B).", resposta: "NOT A AND NOT B" },
-        { enunciado: "Simplifique A + A'·B.", resposta: "A + B" },
-        { enunciado: "Quantas linhas tem a tabela-verdade de (A AND B) OR C?", resposta: "2³ = 8 linhas — saída 1 sempre que (A e B) ou C forem verdadeiros" },
-        { enunciado: "A expressão A'B + AB' equivale a qual porta lógica conhecida?", resposta: "XOR(A, B)" },
-        { enunciado: "Simplifique A'B' + A'B + AB.", resposta: "Agrupando A'B'+A'B = A' → A' + AB = A' + B (absorção)" },
-        { enunciado: "Quantos mintermos existem numa função de 4 variáveis?", resposta: "2⁴ = 16" },
-        { enunciado: "Projete a expressão para 'lâmpada acende se ao menos 2 de 3 interruptores A,B,C estiverem ligados' (circuito de maioria).", resposta: "L = AB + AC + BC" },
+        { enunciado: "Simplifique A + A·B (lei da absorção).", opcoes: ["A", "A·B", "A + B", "1"], correta: 0, resolucao: "Lei da absorção: A+AB=A, pois se A já é verdadeiro, o termo AB é redundante." },
+        { enunciado: "Simplifique A·(A + B).", opcoes: ["A", "A + B", "B", "0"], correta: 0, resolucao: "Lei da absorção (forma dual): A·(A+B)=A." },
+        { enunciado: "Aplique De Morgan em NOT(A AND B).", opcoes: ["NOT A OR NOT B", "NOT A AND NOT B", "A OR B", "A AND B"], correta: 0, resolucao: "Primeira lei de De Morgan: o complemento de um AND é o OR dos complementos." },
+        { enunciado: "Aplique De Morgan em NOT(A OR B).", opcoes: ["NOT A AND NOT B", "NOT A OR NOT B", "A AND B", "A OR B"], correta: 0, resolucao: "Segunda lei de De Morgan: o complemento de um OR é o AND dos complementos." },
+        { enunciado: "Simplifique A + A'·B.", opcoes: ["A + B", "A", "B", "A'B"], correta: 0, resolucao: "Usando a lei de absorção estendida: A+A'B=A+B (se A é falso, sobra B; se A é verdadeiro, já é 1)." },
+        { enunciado: "Quantas linhas tem a tabela-verdade de (A AND B) OR C?", opcoes: ["8", "4", "6", "3"], correta: 0, resolucao: "A expressão tem 3 variáveis (A,B,C), então a tabela tem 2³=8 linhas." },
+        { enunciado: "A expressão A'B + AB' equivale a qual porta lógica conhecida?", opcoes: ["XOR(A,B)", "XNOR(A,B)", "AND(A,B)", "OR(A,B)"], correta: 0, resolucao: "A'B+AB' é exatamente a definição da porta XOR: saída 1 quando as entradas são diferentes." },
+        { enunciado: "Simplifique A'B' + A'B + AB.", opcoes: ["A' + B", "A + B'", "A'B", "A + B"], correta: 0, resolucao: "Agrupando os dois primeiros termos: A'B'+A'B=A'(B'+B)=A'. Sobra A'+AB, que pela absorção vira A'+B." },
+        { enunciado: "Quantos mintermos existem numa função de 4 variáveis?", opcoes: ["16", "8", "12", "4"], correta: 0, resolucao: "O número de mintermos é 2ⁿ, com n=4 variáveis: 2⁴=16." },
+        { enunciado: "Projete a expressão para 'lâmpada acende se ao menos 2 de 3 interruptores A,B,C estiverem ligados'.", opcoes: ["L = AB + AC + BC", "L = A + B + C", "L = ABC", "L = A·B·C + A"], correta: 0, resolucao: "A lâmpada acende se pelo menos dois interruptores estiverem ligados — cobrindo todos os pares possíveis: AB, AC e BC, somados com OR." },
       ],
       dificil: [
-        { enunciado: "Simplifique com mapa de Karnaugh: F(A,B,C) = Σm(1,3,5,7).", resposta: "Todos os mintermos têm C=1 → F = C" },
-        { enunciado: "Simplifique F(A,B,C) = Σm(0,1,2,3,4,5,6,7).", resposta: "Todos os mintermos presentes → F = 1" },
-        { enunciado: "Escreva as expressões de Soma e Carry-out de um somador completo (full adder).", resposta: "S = A⊕B⊕Cin; Cout = AB + ACin + BCin" },
-        { enunciado: "Converta o número binário 10110 para decimal.", resposta: "16+0+4+2+0 = 22" },
-        { enunciado: "Converta o número decimal 45 para binário.", resposta: "101101 (32+8+4+1=45)" },
-        { enunciado: "Simplifique F = AB + A'C + BC pelo teorema do consenso.", resposta: "BC é o termo de consenso, redundante → F = AB + A'C" },
-        { enunciado: "Escreva a expressão de um multiplexador 2:1 com entradas D0, D1 e seletor S.", resposta: "Y = S'·D0 + S·D1" },
-        { enunciado: "Quantos flip-flops são necessários para um contador binário de 0 a 15?", resposta: "4 flip-flops (2⁴ = 16 estados)" },
-        { enunciado: "Simplifique com Karnaugh: F(A,B,C,D) = Σm(0,2,8,10).", resposta: "Em todos, B=0 e D=0, enquanto A e C variam → F = B'D'" },
-        { enunciado: "Reescreva F = AB + CD usando apenas portas NAND.", resposta: "F = NAND(NAND(A,B), NAND(C,D))" },
+        { enunciado: "Simplifique com mapa de Karnaugh: F(A,B,C) = Σm(1,3,5,7).", opcoes: ["F = C", "F = A", "F = B", "F = A + B"], correta: 0, resolucao: "Os mintermos 1,3,5,7 em binário (ABC) são 001,011,101,111 — todos têm o bit C=1. Logo F=C." },
+        { enunciado: "Simplifique F(A,B,C) = Σm(0,1,2,3,4,5,6,7).", opcoes: ["F = 1", "F = 0", "F = A+B+C", "F = ABC"], correta: 0, resolucao: "Todos os 8 mintermos possíveis estão presentes, então a função é sempre verdadeira: F=1." },
+        { enunciado: "Quais são as expressões de Soma e Carry-out de um somador completo (full adder)?", opcoes: ["S=A⊕B⊕Cin; Cout=AB+ACin+BCin", "S=AB; Cout=A+B", "S=A+B+Cin; Cout=ABCin", "S=A⊕B; Cout=AB"], correta: 0, resolucao: "A soma usa XOR: S=A⊕B⊕Cin. O carry-out é 1 se pelo menos duas das três entradas forem 1: Cout=AB+ACin+BCin." },
+        { enunciado: "Converta o número binário 10110 para decimal.", opcoes: ["22", "24", "20", "26"], correta: 0, resolucao: "10110 = 1·16+0·8+1·4+1·2+0·1 = 16+4+2 = 22." },
+        { enunciado: "Converta o número decimal 45 para binário.", opcoes: ["101101", "101110", "110101", "101011"], correta: 0, resolucao: "45=32+8+4+1 → bits ligados nas posições 32,8,4,1 → 101101." },
+        { enunciado: "Simplifique F = AB + A'C + BC pelo teorema do consenso.", opcoes: ["F = AB + A'C", "F = AB + BC", "F = A'C + BC", "Não é possível simplificar"], correta: 0, resolucao: "BC é o termo de consenso de AB e A'C, portanto redundante — pode ser removido sem alterar a função." },
+        { enunciado: "Escreva a expressão de um multiplexador 2:1 com entradas D0, D1 e seletor S.", opcoes: ["Y = S'D0 + SD1", "Y = SD0 + S'D1", "Y = D0 + D1", "Y = S·D0·D1"], correta: 0, resolucao: "Quando o seletor S=0, a saída deve ser D0 (por isso S'D0); quando S=1, deve ser D1 (por isso SD1)." },
+        { enunciado: "Quantos flip-flops são necessários para um contador binário de 0 a 15?", opcoes: ["4", "16", "8", "2"], correta: 0, resolucao: "Para representar 16 estados (0 a 15) são necessários 2ⁿ≥16, ou seja, n=4 flip-flops." },
+        { enunciado: "Simplifique com Karnaugh: F(A,B,C,D) = Σm(0,2,8,10).", opcoes: ["F = B'D'", "F = A'C'", "F = BD", "F = AC"], correta: 0, resolucao: "Os mintermos 0,2,8,10 em binário (ABCD) são 0000,0010,1000,1010 — em todos, B=0 e D=0, enquanto A e C variam. Logo F=B'D'." },
+        { enunciado: "Reescreva F = AB + CD usando apenas portas NAND.", opcoes: ["NAND(NAND(A,B), NAND(C,D))", "NAND(A,B) + NAND(C,D)", "NAND(A, NAND(B,C))", "NAND(AB, CD)"], correta: 0, resolucao: "Cada NAND(X,Y) equivale a NOT(X·Y). Aplicando NAND duas vezes em cada termo e depois combinando, reconstrói-se AB+CD só com portas NAND." },
       ],
     },
   },
   {
     id: "fisica",
     nome: "Física Geral",
+    tipo: "mc",
     niveis: {
       facil: [
-        { enunciado: "Um carro parte do repouso e acelera a 2 m/s² por 5 s. Qual a velocidade final?", resposta: "v = a·t = 2×5 = 10 m/s" },
-        { enunciado: "Calcule a força resultante sobre um corpo de 4 kg com aceleração de 3 m/s².", resposta: "F = m·a = 4×3 = 12 N" },
-        { enunciado: "Um objeto cai em queda livre por 3 s (g=10 m/s²). Qual sua velocidade final?", resposta: "v = g·t = 30 m/s" },
-        { enunciado: "Calcule a energia cinética de um corpo de 2 kg a 5 m/s.", resposta: "Ec = ½mv² = ½×2×25 = 25 J" },
-        { enunciado: "Calcule o peso de um corpo de 10 kg (g=10 m/s²).", resposta: "P = m·g = 100 N" },
-        { enunciado: "Um corpo percorre 100 m em 20 s com velocidade constante. Qual a velocidade?", resposta: "v = d/t = 5 m/s" },
-        { enunciado: "Calcule a energia potencial gravitacional de um corpo de 5 kg a 10 m de altura (g=10).", resposta: "Ep = m·g·h = 500 J" },
-        { enunciado: "Dois corpos (2 kg a 6 m/s e 3 kg parado) colidem e ficam juntos. Qual a velocidade final?", resposta: "Conservação de momento: v = (2×6)/(2+3) = 2,4 m/s" },
-        { enunciado: "Um corpo parte do repouso e atinge 20 m/s em 4 s. Qual a aceleração?", resposta: "a = Δv/Δt = 20/4 = 5 m/s²" },
-        { enunciado: "Qual a distância percorrida por um corpo com a=2 m/s², partindo do repouso, em 4 s?", resposta: "d = ½at² = ½×2×16 = 16 m" },
+        { enunciado: "Um carro parte do repouso e acelera a 2 m/s² por 5 s. Qual a velocidade final?", opcoes: ["10 m/s", "2 m/s", "5 m/s", "25 m/s"], correta: 0, resolucao: "v=v0+at=0+2×5=10 m/s." },
+        { enunciado: "Calcule a força resultante sobre um corpo de 4 kg com aceleração de 3 m/s².", opcoes: ["12 N", "7 N", "3 N", "1,33 N"], correta: 0, resolucao: "F=m·a=4×3=12 N." },
+        { enunciado: "Um objeto cai em queda livre por 3 s (g=10 m/s²). Qual sua velocidade final?", opcoes: ["30 m/s", "10 m/s", "45 m/s", "13 m/s"], correta: 0, resolucao: "v=g·t=10×3=30 m/s." },
+        { enunciado: "Calcule a energia cinética de um corpo de 2 kg a 5 m/s.", opcoes: ["25 J", "50 J", "10 J", "5 J"], correta: 0, resolucao: "Ec=½mv²=½×2×5²=½×2×25=25 J." },
+        { enunciado: "Calcule o peso de um corpo de 10 kg (g=10 m/s²).", opcoes: ["100 N", "10 N", "1 N", "1000 N"], correta: 0, resolucao: "P=m·g=10×10=100 N." },
+        { enunciado: "Um corpo percorre 100 m em 20 s com velocidade constante. Qual a velocidade?", opcoes: ["5 m/s", "20 m/s", "2000 m/s", "0,2 m/s"], correta: 0, resolucao: "v=d/t=100/20=5 m/s." },
+        { enunciado: "Calcule a energia potencial gravitacional de um corpo de 5 kg a 10 m de altura (g=10).", opcoes: ["500 J", "50 J", "5 J", "250 J"], correta: 0, resolucao: "Ep=m·g·h=5×10×10=500 J." },
+        { enunciado: "Dois corpos, 2 kg a 6 m/s e 3 kg parado, colidem e ficam juntos. Qual a velocidade final?", opcoes: ["2,4 m/s", "3 m/s", "6 m/s", "1,2 m/s"], correta: 0, resolucao: "Conservação do momento: (2×6+3×0)/(2+3)=12/5=2,4 m/s." },
+        { enunciado: "Um corpo parte do repouso e atinge 20 m/s em 4 s. Qual a aceleração?", opcoes: ["5 m/s²", "20 m/s²", "80 m/s²", "4 m/s²"], correta: 0, resolucao: "a=(20−0)/4=5 m/s²." },
+        { enunciado: "Qual a distância percorrida por um corpo com a=2 m/s², partindo do repouso, em 4 s?", opcoes: ["16 m", "8 m", "4 m", "32 m"], correta: 0, resolucao: "d=½at²=½×2×4²=½×2×16=16 m." },
       ],
       intermediario: [
-        { enunciado: "Um projétil é lançado horizontalmente a 20 m/s de 45 m de altura (g=10). Quanto tempo leva para cair?", resposta: "t = √(2h/g) = √9 = 3 s" },
-        { enunciado: "No exercício anterior, qual o alcance horizontal?", resposta: "x = v·t = 20×3 = 60 m" },
-        { enunciado: "Um bloco de 5 kg está sobre superfície com atrito μ=0,3. Qual a força de atrito máxima (g=10)?", resposta: "fat = μ·m·g = 0,3×5×10 = 15 N" },
-        { enunciado: "Calcule o trabalho de uma força de 20 N que desloca um corpo 5 m na mesma direção.", resposta: "W = F·d = 100 J" },
-        { enunciado: "Calcule a quantidade de movimento de um corpo de 3 kg a 4 m/s.", resposta: "p = m·v = 12 kg·m/s" },
-        { enunciado: "Um pêndulo simples tem 1 m de comprimento. Qual o período aproximado (g=10)?", resposta: "T = 2π√(L/g) ≈ 2 s" },
-        { enunciado: "Calcule a potência para realizar 500 J de trabalho em 10 s.", resposta: "P = W/t = 50 W" },
-        { enunciado: "Um corpo é lançado verticalmente a 20 m/s. Qual a altura máxima (g=10)?", resposta: "h = v²/2g = 400/20 = 20 m" },
-        { enunciado: "Duas forças perpendiculares de 3 N e 4 N atuam num corpo. Qual a resultante?", resposta: "R = √(3²+4²) = 5 N" },
-        { enunciado: "Um carro de 1000 kg freia de 20 m/s até parar em 4 s. Qual a força de frenagem?", resposta: "a = −5 m/s² → F = m·a = 5000 N" },
+        { enunciado: "Um projétil é lançado horizontalmente a 20 m/s de 45 m de altura (g=10). Quanto tempo leva para cair?", opcoes: ["3 s", "4,5 s", "9 s", "1,5 s"], correta: 0, resolucao: "t=√(2h/g)=√(2×45/10)=√9=3 s." },
+        { enunciado: "No exercício anterior, qual o alcance horizontal?", opcoes: ["60 m", "20 m", "45 m", "15 m"], correta: 0, resolucao: "x=v·t=20×3=60 m." },
+        { enunciado: "Um bloco de 5 kg está sobre superfície com atrito μ=0,3. Qual a força de atrito máxima (g=10)?", opcoes: ["15 N", "1,5 N", "50 N", "30 N"], correta: 0, resolucao: "fat=μ·m·g=0,3×5×10=15 N." },
+        { enunciado: "Calcule o trabalho de uma força de 20 N que desloca um corpo 5 m na mesma direção.", opcoes: ["100 J", "4 J", "25 J", "20 J"], correta: 0, resolucao: "W=F·d=20×5=100 J." },
+        { enunciado: "Calcule a quantidade de movimento de um corpo de 3 kg a 4 m/s.", opcoes: ["12 kg·m/s", "7 kg·m/s", "1,33 kg·m/s", "3 kg·m/s"], correta: 0, resolucao: "p=m·v=3×4=12 kg·m/s." },
+        { enunciado: "Um pêndulo simples tem 1 m de comprimento. Qual o período aproximado (g=10)?", opcoes: ["≈ 2 s", "≈ 1 s", "≈ 6,28 s", "≈ 0,5 s"], correta: 0, resolucao: "T=2π√(L/g)=2π√(1/10)=2π×0,316≈1,987≈2 s." },
+        { enunciado: "Calcule a potência para realizar 500 J de trabalho em 10 s.", opcoes: ["50 W", "5000 W", "0,02 W", "500 W"], correta: 0, resolucao: "P=W/t=500/10=50 W." },
+        { enunciado: "Um corpo é lançado verticalmente a 20 m/s. Qual a altura máxima (g=10)?", opcoes: ["20 m", "40 m", "10 m", "400 m"], correta: 0, resolucao: "h=v²/(2g)=20²/20=400/20=20 m." },
+        { enunciado: "Duas forças perpendiculares de 3 N e 4 N atuam num corpo. Qual a resultante?", opcoes: ["5 N", "7 N", "1 N", "12 N"], correta: 0, resolucao: "Como as forças são perpendiculares: R=√(3²+4²)=√25=5 N." },
+        { enunciado: "Um carro de 1000 kg freia de 20 m/s até parar em 4 s. Qual a força de frenagem?", opcoes: ["5000 N", "1250 N", "200 N", "20000 N"], correta: 0, resolucao: "a=(0−20)/4=−5 m/s². F=m·a=1000×5=5000 N (em módulo)." },
       ],
       dificil: [
-        { enunciado: "Um corpo desliza sem atrito num plano inclinado de 30° (g=10). Qual sua aceleração?", resposta: "a = g·sen30° = 5 m/s²" },
-        { enunciado: "No exercício anterior, com atrito μ=0,2, qual a aceleração?", resposta: "a = g(sen30° − μ·cos30°) ≈ 3,27 m/s²" },
-        { enunciado: "Corpos de 2 kg (a 5 m/s) e 4 kg (parado) colidem elasticamente. Calcule as velocidades finais.", resposta: "v1' = ((m1−m2)/(m1+m2))·v1 = −5/3 m/s; v2' = (2m1/(m1+m2))·v1 = 10/3 m/s" },
-        { enunciado: "Um satélite orbita onde g=8 m/s² e raio orbital 7000 km. Qual a velocidade orbital?", resposta: "v = √(g·r) = √(8×7.000.000) ≈ 7483 m/s" },
-        { enunciado: "Calcule o trabalho da gravidade sobre um corpo de 2 kg que cai 10 m.", resposta: "W = m·g·h = 200 J" },
-        { enunciado: "Um corpo de 1 kg preso a uma mola (k=200 N/m) oscila em MHS. Qual o período?", resposta: "T = 2π√(m/k) ≈ 0,44 s" },
-        { enunciado: "Um objeto de 5 kg gira num círculo de raio 2 m a 4 m/s. Qual a força centrípeta?", resposta: "Fc = mv²/r = 5×16/2 = 40 N" },
-        { enunciado: "Calcule o momento de inércia de um disco homogêneo de 4 kg e raio 0,5 m (I=½MR²).", resposta: "I = 0,5×4×0,25 = 0,5 kg·m²" },
-        { enunciado: "1 mol de gás ideal expande isotermicamente de 2L para 6L a 300K. Calcule ΔS ≈ nR·ln(V2/V1).", resposta: "ΔS = R·ln(3) ≈ 9,13 J/K" },
-        { enunciado: "Corpo de 10 kg sobe plano inclinado de 37° (sen≈0,6, cos≈0,8), atrito μ=0,25, puxado por F=80 N paralela ao plano (g=10). Calcule a aceleração.", resposta: "F − mg·sen37° − μmg·cos37° = 80 − 60 − 20 = 0 → a = 0 (velocidade constante)" },
+        { enunciado: "Um corpo desliza sem atrito num plano inclinado de 30° (g=10). Qual sua aceleração?", opcoes: ["5 m/s²", "8,66 m/s²", "10 m/s²", "2,5 m/s²"], correta: 0, resolucao: "Num plano sem atrito, a=g·sen(θ)=10×0,5=5 m/s²." },
+        { enunciado: "No exercício anterior, com atrito μ=0,2, qual a aceleração?", opcoes: ["≈ 3,27 m/s²", "≈ 5 m/s²", "≈ 1,73 m/s²", "≈ 6,73 m/s²"], correta: 0, resolucao: "a=g(sen30°−μcos30°)=10(0,5−0,2×0,866)=10×0,327≈3,27 m/s²." },
+        { enunciado: "Corpos de 2 kg (5 m/s) e 4 kg (parado) colidem elasticamente. Calcule as velocidades finais.", opcoes: ["v1'=−5/3 m/s, v2'=10/3 m/s", "v1'=5/3 m/s, v2'=−10/3 m/s", "v1'=0, v2'=5 m/s", "v1'=−5 m/s, v2'=10 m/s"], correta: 0, resolucao: "v1'=((m1−m2)/(m1+m2))v1=(−2/6)×5=−5/3; v2'=(2m1/(m1+m2))v1=(4/6)×5=10/3." },
+        { enunciado: "Um satélite orbita onde g=8 m/s² e raio orbital 7000 km. Qual a velocidade orbital?", opcoes: ["≈ 7483 m/s", "≈ 748 m/s", "≈ 56000 m/s", "≈ 8000 m/s"], correta: 0, resolucao: "v=√(g·r)=√(8×7.000.000)=√56.000.000≈7483 m/s." },
+        { enunciado: "Calcule o trabalho da gravidade sobre um corpo de 2 kg que cai 10 m.", opcoes: ["200 J", "20 J", "100 J", "2000 J"], correta: 0, resolucao: "W=m·g·h=2×10×10=200 J." },
+        { enunciado: "Um corpo de 1 kg preso a uma mola (k=200 N/m) oscila em MHS. Qual o período?", opcoes: ["≈ 0,44 s", "≈ 2,24 s", "≈ 0,07 s", "≈ 14,1 s"], correta: 0, resolucao: "T=2π√(m/k)=2π√(1/200)≈0,444 s." },
+        { enunciado: "Um objeto de 5 kg gira num círculo de raio 2 m a 4 m/s. Qual a força centrípeta?", opcoes: ["40 N", "10 N", "20 N", "80 N"], correta: 0, resolucao: "Fc=m·v²/r=5×16/2=80/2=40 N." },
+        { enunciado: "Calcule o momento de inércia de um disco homogêneo de 4 kg e raio 0,5 m (I=½MR²).", opcoes: ["0,5 kg·m²", "1 kg·m²", "2 kg·m²", "0,25 kg·m²"], correta: 0, resolucao: "I=½×4×0,5²=½×4×0,25=0,5 kg·m²." },
+        { enunciado: "1 mol de gás ideal expande isotermicamente de 2L para 6L a 300K. Calcule ΔS ≈ nR·ln(V2/V1).", opcoes: ["≈ 9,13 J/K", "≈ 3 J/K", "≈ 24,9 J/K", "≈ 8,31 J/K"], correta: 0, resolucao: "ΔS=nR·ln(V2/V1)=1×8,314×ln(3)≈8,314×1,0986≈9,13 J/K." },
+        { enunciado: "Corpo de 10 kg sobe plano de 37° (sen≈0,6, cos≈0,8), atrito μ=0,25, puxado por F=80 N (g=10). Calcule a aceleração.", opcoes: ["a = 0 (velocidade constante)", "a = 2 m/s²", "a = 8 m/s²", "a = −2 m/s²"], correta: 0, resolucao: "F−mg·sen37°−μmg·cos37°=80−60−20=0 → como a força resultante é nula, a=0 e o corpo sobe com velocidade constante." },
+      ],
+    },
+  },
+  {
+    id: "linguagemc",
+    nome: "Linguagem C",
+    tipo: "codigo",
+    niveis: {
+      facil: [
+        { enunciado: "Escreva um programa que imprime \"Olá, mundo!\" na tela.", resolucao: "#include <stdio.h>\n\nint main() {\n    printf(\"Olá, mundo!\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê dois números inteiros e imprime a soma.", resolucao: "#include <stdio.h>\n\nint main() {\n    int a, b;\n    printf(\"Digite dois números: \");\n    scanf(\"%d %d\", &a, &b);\n    printf(\"Soma: %d\\n\", a + b);\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê um número e informa se ele é par ou ímpar.", resolucao: "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Digite um número: \");\n    scanf(\"%d\", &n);\n    if (n % 2 == 0)\n        printf(\"Par\\n\");\n    else\n        printf(\"Ímpar\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que calcula a área de um círculo dado o raio (use 3.14159 como π).", resolucao: "#include <stdio.h>\n\nint main() {\n    float raio;\n    printf(\"Digite o raio: \");\n    scanf(\"%f\", &raio);\n    float area = 3.14159 * raio * raio;\n    printf(\"Área: %.2f\\n\", area);\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê 3 números e imprime o maior deles.", resolucao: "#include <stdio.h>\n\nint main() {\n    int a, b, c, maior;\n    printf(\"Digite 3 números: \");\n    scanf(\"%d %d %d\", &a, &b, &c);\n    maior = a;\n    if (b > maior) maior = b;\n    if (c > maior) maior = c;\n    printf(\"Maior: %d\\n\", maior);\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que imprime os números de 1 a 10 usando um laço for.", resolucao: "#include <stdio.h>\n\nint main() {\n    for (int i = 1; i <= 10; i++) {\n        printf(\"%d\\n\", i);\n    }\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê a idade de uma pessoa e informa se ela é maior de idade (>=18).", resolucao: "#include <stdio.h>\n\nint main() {\n    int idade;\n    printf(\"Digite a idade: \");\n    scanf(\"%d\", &idade);\n    if (idade >= 18)\n        printf(\"Maior de idade\\n\");\n    else\n        printf(\"Menor de idade\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que calcula o fatorial de um número usando um laço.", resolucao: "#include <stdio.h>\n\nint main() {\n    int n;\n    long fat = 1;\n    printf(\"Digite um número: \");\n    scanf(\"%d\", &n);\n    for (int i = 1; i <= n; i++) {\n        fat *= i;\n    }\n    printf(\"Fatorial: %ld\\n\", fat);\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê um número e imprime sua tabuada (de 1 a 10).", resolucao: "#include <stdio.h>\n\nint main() {\n    int n;\n    printf(\"Digite um número: \");\n    scanf(\"%d\", &n);\n    for (int i = 1; i <= 10; i++) {\n        printf(\"%d x %d = %d\\n\", n, i, n * i);\n    }\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que troca os valores de duas variáveis usando uma variável auxiliar.", resolucao: "#include <stdio.h>\n\nint main() {\n    int a = 5, b = 10, aux;\n    aux = a;\n    a = b;\n    b = aux;\n    printf(\"a=%d b=%d\\n\", a, b);\n    return 0;\n}" },
+      ],
+      intermediario: [
+        { enunciado: "Escreva uma função que recebe um vetor de inteiros e seu tamanho, e retorna a soma dos elementos.", resolucao: "#include <stdio.h>\n\nint somaVetor(int v[], int tamanho) {\n    int soma = 0;\n    for (int i = 0; i < tamanho; i++) {\n        soma += v[i];\n    }\n    return soma;\n}\n\nint main() {\n    int v[] = {1, 2, 3, 4, 5};\n    printf(\"Soma: %d\\n\", somaVetor(v, 5));\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que verifica se um número é primo.", resolucao: "#include <stdio.h>\n\nint ehPrimo(int n) {\n    if (n < 2) return 0;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return 0;\n    }\n    return 1;\n}\n\nint main() {\n    int n;\n    printf(\"Digite um número: \");\n    scanf(\"%d\", &n);\n    printf(ehPrimo(n) ? \"Primo\\n\" : \"Não é primo\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê um vetor de 10 números e imprime o maior e o menor.", resolucao: "#include <stdio.h>\n\nint main() {\n    int v[10], maior, menor;\n    printf(\"Digite 10 números:\\n\");\n    for (int i = 0; i < 10; i++) scanf(\"%d\", &v[i]);\n    maior = menor = v[0];\n    for (int i = 1; i < 10; i++) {\n        if (v[i] > maior) maior = v[i];\n        if (v[i] < menor) menor = v[i];\n    }\n    printf(\"Maior: %d, Menor: %d\\n\", maior, menor);\n    return 0;\n}" },
+        { enunciado: "Escreva uma função recursiva que calcula o fatorial de um número.", resolucao: "#include <stdio.h>\n\nlong fatorial(int n) {\n    if (n <= 1) return 1;\n    return n * fatorial(n - 1);\n}\n\nint main() {\n    int n;\n    printf(\"Digite um número: \");\n    scanf(\"%d\", &n);\n    printf(\"Fatorial: %ld\\n\", fatorial(n));\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que inverte uma string (sem usar funções prontas de biblioteca, tipo strrev).", resolucao: "#include <stdio.h>\n#include <string.h>\n\nint main() {\n    char s[100];\n    printf(\"Digite uma palavra: \");\n    scanf(\"%s\", s);\n    int tam = strlen(s);\n    for (int i = 0; i < tam / 2; i++) {\n        char tmp = s[i];\n        s[i] = s[tam - 1 - i];\n        s[tam - 1 - i] = tmp;\n    }\n    printf(\"Invertida: %s\\n\", s);\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que conta quantas vogais existem em uma string.", resolucao: "#include <stdio.h>\n\nint contarVogais(char s[]) {\n    int cont = 0;\n    for (int i = 0; s[i] != '\\0'; i++) {\n        char c = s[i];\n        if (c=='a'||c=='e'||c=='i'||c=='o'||c=='u'||\n            c=='A'||c=='E'||c=='I'||c=='O'||c=='U') cont++;\n    }\n    return cont;\n}\n\nint main() {\n    char s[100];\n    printf(\"Digite uma frase: \");\n    fgets(s, 100, stdin);\n    printf(\"Vogais: %d\\n\", contarVogais(s));\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que ordena um vetor de inteiros usando o algoritmo Bubble Sort.", resolucao: "#include <stdio.h>\n\nvoid bubbleSort(int v[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - 1 - i; j++) {\n            if (v[j] > v[j + 1]) {\n                int tmp = v[j];\n                v[j] = v[j + 1];\n                v[j + 1] = tmp;\n            }\n        }\n    }\n}\n\nint main() {\n    int v[] = {5, 2, 9, 1, 7};\n    int n = 5;\n    bubbleSort(v, n);\n    for (int i = 0; i < n; i++) printf(\"%d \", v[i]);\n    printf(\"\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que verifica se uma string é um palíndromo.", resolucao: "#include <stdio.h>\n#include <string.h>\n\nint ehPalindromo(char s[]) {\n    int tam = strlen(s);\n    for (int i = 0; i < tam / 2; i++) {\n        if (s[i] != s[tam - 1 - i]) return 0;\n    }\n    return 1;\n}\n\nint main() {\n    char s[100];\n    printf(\"Digite uma palavra: \");\n    scanf(\"%s\", s);\n    printf(ehPalindromo(s) ? \"É palíndromo\\n\" : \"Não é palíndromo\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que usa uma struct pra representar um aluno (nome e nota) e imprime os dados de um aluno cadastrado.", resolucao: "#include <stdio.h>\n#include <string.h>\n\nstruct Aluno {\n    char nome[50];\n    float nota;\n};\n\nint main() {\n    struct Aluno a1;\n    strcpy(a1.nome, \"Maria\");\n    a1.nota = 9.5;\n    printf(\"Nome: %s, Nota: %.1f\\n\", a1.nome, a1.nota);\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que calcula o máximo divisor comum (MDC) de dois números usando o algoritmo de Euclides (com laço).", resolucao: "#include <stdio.h>\n\nint mdc(int a, int b) {\n    while (b != 0) {\n        int r = a % b;\n        a = b;\n        b = r;\n    }\n    return a;\n}\n\nint main() {\n    int a, b;\n    printf(\"Digite dois números: \");\n    scanf(\"%d %d\", &a, &b);\n    printf(\"MDC: %d\\n\", mdc(a, b));\n    return 0;\n}" },
+      ],
+      dificil: [
+        { enunciado: "Escreva uma função recursiva que calcula o n-ésimo termo da sequência de Fibonacci.", resolucao: "#include <stdio.h>\n\nint fib(int n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n}\n\nint main() {\n    int n;\n    printf(\"Digite n: \");\n    scanf(\"%d\", &n);\n    printf(\"Fib(%d) = %d\\n\", n, fib(n));\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que aloca dinamicamente um vetor de N inteiros (malloc), preenche com valores do usuário e depois libera a memória.", resolucao: "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n;\n    printf(\"Quantos números? \");\n    scanf(\"%d\", &n);\n\n    int *v = malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) {\n        printf(\"Valor %d: \", i + 1);\n        scanf(\"%d\", &v[i]);\n    }\n\n    printf(\"Você digitou: \");\n    for (int i = 0; i < n; i++) printf(\"%d \", v[i]);\n    printf(\"\\n\");\n\n    free(v);\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que recebe um ponteiro para um vetor e inverte o vetor 'in-place' (sem usar outro vetor auxiliar).", resolucao: "#include <stdio.h>\n\nvoid inverterVetor(int *v, int n) {\n    int inicio = 0, fim = n - 1;\n    while (inicio < fim) {\n        int tmp = v[inicio];\n        v[inicio] = v[fim];\n        v[fim] = tmp;\n        inicio++;\n        fim--;\n    }\n}\n\nint main() {\n    int v[] = {1, 2, 3, 4, 5};\n    inverterVetor(v, 5);\n    for (int i = 0; i < 5; i++) printf(\"%d \", v[i]);\n    printf(\"\\n\");\n    return 0;\n}" },
+        { enunciado: "Implemente uma lista encadeada simples em C, com uma função para inserir um novo nó no início.", resolucao: "#include <stdio.h>\n#include <stdlib.h>\n\nstruct No {\n    int valor;\n    struct No *prox;\n};\n\nstruct No* inserirInicio(struct No *cabeca, int valor) {\n    struct No *novo = malloc(sizeof(struct No));\n    novo->valor = valor;\n    novo->prox = cabeca;\n    return novo;\n}\n\nint main() {\n    struct No *lista = NULL;\n    lista = inserirInicio(lista, 3);\n    lista = inserirInicio(lista, 2);\n    lista = inserirInicio(lista, 1);\n\n    for (struct No *p = lista; p != NULL; p = p->prox) {\n        printf(\"%d \", p->valor);\n    }\n    printf(\"\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que implementa a busca binária em um vetor ordenado.", resolucao: "#include <stdio.h>\n\nint buscaBinaria(int v[], int n, int alvo) {\n    int inicio = 0, fim = n - 1;\n    while (inicio <= fim) {\n        int meio = (inicio + fim) / 2;\n        if (v[meio] == alvo) return meio;\n        if (v[meio] < alvo) inicio = meio + 1;\n        else fim = meio - 1;\n    }\n    return -1;\n}\n\nint main() {\n    int v[] = {1, 3, 5, 7, 9, 11};\n    int pos = buscaBinaria(v, 6, 7);\n    printf(\"Posição: %d\\n\", pos);\n    return 0;\n}" },
+        { enunciado: "Escreva um programa que lê uma matriz 3x3 e calcula a soma dos elementos da diagonal principal.", resolucao: "#include <stdio.h>\n\nint main() {\n    int m[3][3], soma = 0;\n    printf(\"Digite os 9 valores da matriz:\\n\");\n    for (int i = 0; i < 3; i++)\n        for (int j = 0; j < 3; j++)\n            scanf(\"%d\", &m[i][j]);\n\n    for (int i = 0; i < 3; i++) {\n        soma += m[i][i];\n    }\n    printf(\"Soma da diagonal: %d\\n\", soma);\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que implementa o algoritmo Quicksort para ordenar um vetor de inteiros.", resolucao: "#include <stdio.h>\n\nvoid trocar(int *a, int *b) {\n    int tmp = *a; *a = *b; *b = tmp;\n}\n\nint particionar(int v[], int inicio, int fim) {\n    int pivo = v[fim], i = inicio - 1;\n    for (int j = inicio; j < fim; j++) {\n        if (v[j] < pivo) {\n            i++;\n            trocar(&v[i], &v[j]);\n        }\n    }\n    trocar(&v[i + 1], &v[fim]);\n    return i + 1;\n}\n\nvoid quicksort(int v[], int inicio, int fim) {\n    if (inicio < fim) {\n        int p = particionar(v, inicio, fim);\n        quicksort(v, inicio, p - 1);\n        quicksort(v, p + 1, fim);\n    }\n}\n\nint main() {\n    int v[] = {8, 3, 1, 9, 5};\n    quicksort(v, 0, 4);\n    for (int i = 0; i < 5; i++) printf(\"%d \", v[i]);\n    printf(\"\\n\");\n    return 0;\n}" },
+        { enunciado: "Escreva uma função que recebe uma matriz de inteiros (M x N, alocada como vetor de ponteiros) e retorna sua transposta em uma nova matriz alocada dinamicamente.", resolucao: "#include <stdio.h>\n#include <stdlib.h>\n\nint** transposta(int **m, int linhas, int colunas) {\n    int **t = malloc(colunas * sizeof(int*));\n    for (int i = 0; i < colunas; i++) {\n        t[i] = malloc(linhas * sizeof(int));\n        for (int j = 0; j < linhas; j++) {\n            t[i][j] = m[j][i];\n        }\n    }\n    return t;\n}\n// m também precisa ser alocada como matriz de ponteiros (int**)\n// pra essa função funcionar com matrizes de tamanho variável." },
+        { enunciado: "Escreva um programa que implementa uma pilha (stack) usando um vetor, com funções de push e pop.", resolucao: "#include <stdio.h>\n#define MAX 100\n\nint pilha[MAX], topo = -1;\n\nvoid push(int valor) {\n    if (topo < MAX - 1) {\n        pilha[++topo] = valor;\n    }\n}\n\nint pop() {\n    if (topo >= 0) {\n        return pilha[topo--];\n    }\n    return -1;\n}\n\nint main() {\n    push(10);\n    push(20);\n    push(30);\n    printf(\"%d\\n\", pop());\n    printf(\"%d\\n\", pop());\n    return 0;\n}" },
+        { enunciado: "Escreva uma função recursiva que calcula o máximo divisor comum (MDC) de dois números.", resolucao: "#include <stdio.h>\n\nint mdc(int a, int b) {\n    if (b == 0) return a;\n    return mdc(b, a % b);\n}\n\nint main() {\n    int a, b;\n    printf(\"Digite dois números: \");\n    scanf(\"%d %d\", &a, &b);\n    printf(\"MDC: %d\\n\", mdc(a, b));\n    return 0;\n}" },
       ],
     },
   },
@@ -716,10 +787,17 @@ let nivelSel = localStorage.getItem("ex_nivel_sel") || "facil";
 function getProgresso() {
   return loadJSON("tape_exercicios_progresso", {});
 }
-function setFeito(chave, feito) {
+function marcarFeito(chave, feito) {
   const prog = getProgresso();
   prog[chave] = feito;
   saveJSON("tape_exercicios_progresso", prog);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function renderSubjectTabs() {
@@ -763,36 +841,87 @@ function renderLista() {
   listEl.innerHTML = lista
     .map((ex, i) => {
       const chave = `${materia.id}_${nivelSel}_${i}`;
-      const feito = !!prog[chave];
+      const acertou = !!prog[chave];
+
+      if (materia.tipo === "mc") {
+        const opcoesHtml = ex.opcoes
+          .map((op, oi) => `<button class="ex-opcao" data-oi="${oi}">${escapeHtml(op)}</button>`)
+          .join("");
+        return `
+        <div class="ex-item${acertou ? " acertou" : ""}" data-chave="${chave}" data-correta="${ex.correta}">
+          <div class="ex-item-top">
+            <span class="ex-item-num">${i + 1}</span>
+            <span class="ex-item-enunciado">${escapeHtml(ex.enunciado)}</span>
+          </div>
+          <div class="ex-opcoes">${opcoesHtml}</div>
+          <button class="ex-resolucao-btn" data-aberto="0">Ver resolução</button>
+          <div class="ex-resolucao"><strong>Resolução</strong>${escapeHtml(ex.resolucao)}</div>
+        </div>`;
+      }
+
+      // tipo "codigo"
       return `
-      <div class="ex-item${feito ? " feito" : ""}" data-chave="${chave}">
-        <div class="ex-item-head">
-          <span class="ex-item-check"><input type="checkbox" ${feito ? "checked" : ""}></span>
+      <div class="ex-item${acertou ? " acertou" : ""}" data-chave="${chave}">
+        <div class="ex-item-top">
           <span class="ex-item-num">${i + 1}</span>
-          <span class="ex-item-enunciado">${ex.enunciado}</span>
-          <span class="ex-item-caret">▸</span>
+          <span class="ex-item-enunciado">${escapeHtml(ex.enunciado)}</span>
         </div>
-        <div class="ex-item-resposta"><strong>Resposta</strong>${ex.resposta}</div>
+        <button class="ex-resolucao-btn" data-aberto="0">Ver resolução (código sugerido)</button>
+        <div class="ex-resolucao"><strong>Resolução</strong><pre>${escapeHtml(ex.resolucao)}</pre></div>
+        <div class="ex-item-check-row">
+          <input type="checkbox" ${acertou ? "checked" : ""}>
+          <span>Já resolvi esse</span>
+        </div>
       </div>`;
     })
     .join("");
 
+  // Múltipla escolha: clique numa opção
   listEl.querySelectorAll(".ex-item").forEach((item) => {
-    const head = item.querySelector(".ex-item-head");
-    const checkbox = item.querySelector(".ex-item-check input");
-    head.addEventListener("click", (e) => {
-      if (e.target === checkbox) return;
-      item.classList.toggle("open");
-    });
-    checkbox.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const chave = item.dataset.chave;
-      const feito = checkbox.checked;
-      setFeito(chave, feito);
-      item.classList.toggle("feito", feito);
-      if (feito && window.ganharXP) window.ganharXP(5);
-      if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("exercicio_feito");
-      renderProgresso();
+    const chave = item.dataset.chave;
+    const opcoesEl = item.querySelectorAll(".ex-opcao");
+    if (opcoesEl.length) {
+      const correta = Number(item.dataset.correta);
+      opcoesEl.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (item.classList.contains("respondido")) return;
+          item.classList.add("respondido");
+          const escolhida = Number(btn.dataset.oi);
+          opcoesEl.forEach((b) => (b.disabled = true));
+          if (escolhida === correta) {
+            btn.classList.add("correta-marcada");
+            item.classList.add("acertou");
+            marcarFeito(chave, true);
+            if (window.ganharXP) window.ganharXP(5);
+            if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("exercicio_acertou");
+          } else {
+            btn.classList.add("errada-marcada");
+            opcoesEl[correta].classList.add("correta-marcada");
+          }
+          renderProgresso();
+        });
+      });
+    }
+
+    // checkbox manual (exercícios de código)
+    const checkbox = item.querySelector(".ex-item-check-row input");
+    if (checkbox) {
+      checkbox.addEventListener("change", () => {
+        marcarFeito(chave, checkbox.checked);
+        item.classList.toggle("acertou", checkbox.checked);
+        if (checkbox.checked && window.ganharXP) window.ganharXP(5);
+        renderProgresso();
+      });
+    }
+
+    // botão "ver resolução"
+    const resBtn = item.querySelector(".ex-resolucao-btn");
+    const resDiv = item.querySelector(".ex-resolucao");
+    resBtn.addEventListener("click", () => {
+      const aberta = resDiv.classList.toggle("aberta");
+      resBtn.textContent = aberta
+        ? "Esconder resolução"
+        : (materia.tipo === "codigo" ? "Ver resolução (código sugerido)" : "Ver resolução");
     });
   });
 
