@@ -342,32 +342,48 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .pre-chip.selecionado { background:var(--ink); color:var(--paper); border-color:var(--ink); }
 .sem-disciplinas { opacity:.6; font-size:.9rem; }
 
-/* ---------- Programação ---------- */
-.lead-prog { font-size:0.92rem; line-height:1.55; opacity:.75; margin: 0 0 26px; max-width:56ch; }
+/* ---------- RPG do Programador ---------- */
+.personagem-card {
+  background: var(--card); box-shadow: 4px 4px 0 rgba(26,35,51,0.12); border: 1.5px solid var(--ink);
+  border-radius: 8px; padding: 20px; margin-bottom: 24px; display:flex; gap:16px; align-items:center;
+}
+.personagem-avatar { font-size:2.4rem; width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#D9A441,#C13B2E); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow: 0 2px 8px rgba(26,35,51,0.25); }
+.personagem-info { flex:1; min-width:0; }
+.personagem-nome-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.personagem-rank { font-family:"IBM Plex Mono",monospace; font-weight:800; font-size:1.05rem; }
+.personagem-nivel { font-size:0.78rem; opacity:.6; font-family:"IBM Plex Mono",monospace; }
+.personagem-xp-track { height:10px; border-radius:999px; background:var(--overlay); overflow:hidden; margin:8px 0 4px; }
+.personagem-xp-fill { height:100%; border-radius:999px; transition:width .4s ease; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); }
+.personagem-xp-texto { font-size:0.75rem; opacity:.55; font-family:"IBM Plex Mono",monospace; }
+.personagem-streak { font-family:"IBM Plex Mono",monospace; font-size:0.85rem; font-weight:700; white-space:nowrap; flex-shrink:0; text-align:center; }
+.personagem-streak .num { font-size:1.3rem; display:block; }
 
-.fases-card { background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:18px; margin-bottom:28px; }
-.fases-titulo { font-weight:700; font-size:1rem; margin:0 0 3px; display:flex; align-items:center; gap:8px; }
-.fases-sub { font-size:0.8rem; opacity:.55; margin:0 0 14px; }
-.fases-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 4px 0 6px; }
-.fases-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); }
-.fases-progresso-texto { font-size:0.78rem; opacity:.55; margin-bottom:16px; }
-.fase-item { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
-.fase-item:last-of-type { border-bottom:none; }
-.fase-item input[type="checkbox"] { width:18px; height:18px; cursor:pointer; accent-color: var(--qui); flex-shrink:0; }
-.fase-item .txt { flex:1; font-size:0.88rem; }
-.fase-item.feita .txt { opacity:.5; text-decoration:line-through; }
-.fase-item .excluir { background:none; border:none; color:#B33; opacity:.5; cursor:pointer; font-size:0.9rem; padding:2px 6px; }
-.fase-item .excluir:hover { opacity:1; }
-.nova-fase-row { display:flex; gap:8px; margin-top:12px; }
-.nova-fase-row input { flex:1; font-size:0.85rem; padding:9px 12px; border-radius:4px; border:1px solid var(--line); font-family:inherit; background:var(--overlay); color:var(--ink); }
-.nova-fase-row button { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.8rem; padding:9px 14px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; }
+.tier-secao { margin-bottom: 26px; }
+.tier-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.tier-titulo { font-weight:800; font-size:0.95rem; }
+.tier-badge { font-family:"IBM Plex Mono",monospace; font-size:0.72rem; padding:3px 9px; border-radius:999px; background:var(--overlay); opacity:.7; }
+.tier-secao.bloqueada { opacity: 0.5; }
+.tier-cadeado { font-family:"IBM Plex Mono",monospace; font-size:0.78rem; opacity:.7; margin-left:auto; }
 
-.metodo-list { display:flex; flex-direction:column; gap:14px; }
-.metodo-card { background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:16px; display:flex; gap:14px; }
-.metodo-emoji { font-size:1.4rem; width:38px; height:38px; border-radius:50%; background:var(--overlay); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.metodo-corpo h3 { margin:0 0 5px; font-size:0.98rem; font-weight:700; }
-.metodo-corpo p { margin:0; font-size:0.87rem; line-height:1.5; opacity:.8; }
-.metodo-corpo p + p { margin-top:6px; }
+.missao-lista { display:flex; flex-direction:column; gap:8px; }
+.missao-item {
+  background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line);
+  border-radius: 6px; padding:12px 14px; display:flex; align-items:center; gap:12px;
+}
+.missao-item.concluida { border-color: var(--qui); }
+.missao-item.bloqueada { pointer-events:none; }
+.missao-texto { flex:1; font-size:0.87rem; }
+.missao-item.concluida .missao-texto { opacity:.5; text-decoration:line-through; }
+.missao-xp { font-family:"IBM Plex Mono",monospace; font-size:0.75rem; font-weight:700; color:#8C6A00; background:#D9A44125; padding:3px 9px; border-radius:999px; white-space:nowrap; flex-shrink:0; }
+.missao-btn { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.78rem; padding:7px 14px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; flex-shrink:0; }
+.missao-btn:disabled { background:var(--overlay); color:var(--ink); opacity:.4; border-color:var(--line); cursor:default; }
+.missao-item .excluir { background:none; border:none; color:#B33; opacity:.4; cursor:pointer; font-size:0.85rem; padding:2px 6px; flex-shrink:0; }
+.missao-item .excluir:hover { opacity:1; }
+
+.nova-missao-row { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+.nova-missao-row input[type="text"] { flex:1; min-width:140px; font-size:0.85rem; padding:9px 12px; border-radius:4px; border:1px solid var(--line); font-family:inherit; background:var(--overlay); color:var(--ink); }
+.nova-missao-row input[type="number"] { width:80px; font-size:0.85rem; padding:9px 8px; border-radius:4px; border:1px solid var(--line); font-family:"IBM Plex Mono",monospace; background:var(--overlay); color:var(--ink); }
+.nova-missao-row button { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.8rem; padding:9px 14px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; }
 
 </style>
 </head>
@@ -385,71 +401,39 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow">Metodologia</div>
-  <h1>Como estudar programação</h1>
-  <p class="lead-prog">Seis ideias práticas pra sair do modo "só assistir aula" e realmente fixar o que você aprende. A primeira você aplica aqui embaixo — as outras cinco são pra levar pro dia a dia.</p>
+  <div class="eyebrow">RPG</div>
+  <h1>Modo Programador</h1>
 
-  <div class="fases-card">
-    <div class="fases-titulo">🎮 Transforme o estudo em um jogo</div>
-    <div class="fases-sub">Crie fases e registre pequenas vitórias — seu cérebro começa a associar estudo com progresso.</div>
-
-    <div class="fases-progresso-track"><div class="fases-progresso-fill" id="fasesProgressoFill" style="width:0%"></div></div>
-    <div class="fases-progresso-texto" id="fasesProgressoTexto"></div>
-
-    <div id="fasesLista"></div>
-
-    <div class="nova-fase-row">
-      <input type="text" id="novaFaseInput" placeholder="Ex.: Resolvi 5 desafios de arrays">
-      <button id="addFaseBtn">+ Adicionar</button>
+  <div class="personagem-card">
+    <div class="personagem-avatar" id="personagemAvatar">🌱</div>
+    <div class="personagem-info">
+      <div class="personagem-nome-row">
+        <span class="personagem-rank" id="personagemRank">Iniciante</span>
+        <span class="personagem-nivel" id="personagemNivelTexto">Nível 1</span>
+      </div>
+      <div class="personagem-xp-track"><div class="personagem-xp-fill" id="personagemXpFill" style="width:0%"></div></div>
+      <div class="personagem-xp-texto" id="personagemXpTexto"></div>
+    </div>
+    <div class="personagem-streak">
+      <span class="num" id="personagemStreak">🔥0</span>
+      dias
     </div>
   </div>
 
-  <div class="metodo-list">
-    <div class="metodo-card">
-      <div class="metodo-emoji">❤️</div>
-      <div class="metodo-corpo">
-        <h3>Estude com propósito</h3>
-        <p>Em vez de pensar "quero aprender React", pense: "quero criar um app pra ajudar os restaurantes da minha cidade".</p>
-        <p>Quando existe um motivo real, fica muito mais fácil continuar.</p>
-      </div>
-    </div>
+  <div id="tiersContainer"></div>
 
-    <div class="metodo-card">
-      <div class="metodo-emoji">⏳</div>
-      <div class="metodo-corpo">
-        <h3>Regra dos 3 dias</h3>
-        <p>Aprendeu algo? Coloque em prática em até 3 dias. Aprendeu funções? Crie um jogo. Aprendeu API? Construa um app usando dados reais.</p>
-        <p>Quem aplica, aprende. Quem só consome, esquece.</p>
-      </div>
-    </div>
-
-    <div class="metodo-card">
-      <div class="metodo-emoji">🧠</div>
-      <div class="metodo-corpo">
-        <h3>Anote como se fosse ensinar</h3>
-        <p>Explique o que aprendeu como se outra pessoa dependesse das suas anotações pra entender. Isso força você a buscar clareza e simplificar o assunto.</p>
-      </div>
-    </div>
-
-    <div class="metodo-card">
-      <div class="metodo-emoji">🔥</div>
-      <div class="metodo-corpo">
-        <h3>Estude do jeito difícil</h3>
-        <p>Tente recriar uma funcionalidade do zero antes de procurar a solução. Vai travar, vai errar, vai dar trabalho — e é justamente aí que você aprende.</p>
-      </div>
-    </div>
-
-    <div class="metodo-card">
-      <div class="metodo-emoji">⛔</div>
-      <div class="metodo-corpo">
-        <h3>Corte o estudo passivo</h3>
-        <p>Assistir aulas e anotar tudo pode dar uma falsa sensação de produtividade. Você realmente evolui quando erra no código, bate cabeça com um bug, tenta resolver e descobre como funciona.</p>
-      </div>
+  <div class="tier-secao">
+    <div class="tier-header"><span class="tier-titulo">✏️ Missões personalizadas</span></div>
+    <div class="missao-lista" id="missoesCustomLista"></div>
+    <div class="nova-missao-row">
+      <input type="text" id="novaMissaoTexto" placeholder="Ex.: Terminei o curso de ponteiros">
+      <input type="number" id="novaMissaoXp" value="15" min="5" max="200" step="5">
+      <button id="addMissaoBtn">+ Adicionar</button>
     </div>
   </div>
 </main>
 
-<footer class="foot" id="txtFooter">Suas fases ficam salvas automaticamente neste navegador.</footer>
+<footer class="foot" id="txtFooter">Seu progresso é o mesmo XP/nível usado no resto do site.</footer>
 
 <script>
 // ---------- Configuração ----------
@@ -590,84 +574,241 @@ function renderNav(activePage) {
 <script>
 renderNav("programacao.html");
 
-const FASES_PADRAO = [
-  { id: "fase_loops", nome: "Aprendi loops", feita: false },
-  { id: "fase_arrays", nome: "Resolvi 5 desafios de arrays", feita: false },
-  { id: "fase_projeto", nome: "Fiz um mini projeto", feita: false },
+// ---------- Progressão (mesmo XP/nível do resto do site) ----------
+function xpAcumuladoParaNivel(nivel) {
+  return Math.round(100 * Math.pow(nivel, 1.5));
+}
+function calcularNivel(xpTotal) {
+  let nivel = 1;
+  while (xpTotal >= xpAcumuladoParaNivel(nivel)) nivel++;
+  return nivel;
+}
+function progressoNivel(xpTotal) {
+  const nivel = calcularNivel(xpTotal);
+  const piso = nivel === 1 ? 0 : xpAcumuladoParaNivel(nivel - 1);
+  const teto = xpAcumuladoParaNivel(nivel);
+  const percentual = teto > piso ? Math.min(100, Math.max(0, Math.round(((xpTotal - piso) / (teto - piso)) * 100))) : 100;
+  return { nivel, piso, teto, percentual, faltam: Math.max(0, teto - xpTotal) };
+}
+function lerGamificacao() {
+  try {
+    const raw = localStorage.getItem("tape_gamificacao");
+    const dados = raw ? JSON.parse(raw) : null;
+    if (dados && typeof dados.xpTotal === "number") return dados;
+  } catch (e) {}
+  return { xpTotal: 0, streakAtual: 0, melhorStreak: 0 };
+}
+function rankPorNivel(nivel) {
+  if (nivel >= 20) return { nome: "Lenda do Código", emoji: "👑" };
+  if (nivel >= 15) return { nome: "Arquiteto de Software", emoji: "🏛️" };
+  if (nivel >= 10) return { nome: "Debugger", emoji: "🐛" };
+  if (nivel >= 6) return { nome: "Codador", emoji: "💻" };
+  if (nivel >= 3) return { nome: "Aprendiz", emoji: "🧩" };
+  return { nome: "Iniciante", emoji: "🌱" };
+}
+
+function renderPersonagem() {
+  const g = lerGamificacao();
+  const p = progressoNivel(g.xpTotal);
+  const rank = rankPorNivel(p.nivel);
+
+  document.getElementById("personagemAvatar").textContent = rank.emoji;
+  document.getElementById("personagemRank").textContent = rank.nome;
+  document.getElementById("personagemNivelTexto").textContent = `Nível ${p.nivel}`;
+  document.getElementById("personagemXpFill").style.width = p.percentual + "%";
+  document.getElementById("personagemXpTexto").textContent =
+    `${g.xpTotal} XP total · faltam ${p.faltam} XP pro Nível ${p.nivel + 1}`;
+  document.getElementById("personagemStreak").textContent = `🔥${g.streakAtual || 0}`;
+
+  return p;
+}
+
+function mostrarMissaoToast(texto, xp) {
+  const aviso = document.createElement("div");
+  aviso.style.cssText = "position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#5B7A4F;color:#F5F4F0;padding:12px 22px;border-radius:999px;font-weight:700;font-size:.9rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center;max-width:90vw;";
+  aviso.textContent = `✅ ${texto} (+${xp} XP)`;
+  document.body.appendChild(aviso);
+  setTimeout(() => aviso.remove(), 3200);
+}
+
+// ---------- Missões fixas, por tier ----------
+const TIERS = [
+  {
+    id: "fundamentos",
+    nome: "Fundamentos",
+    nivelMinimo: 1,
+    missoes: [
+      { id: "f1", texto: "Aprendi variáveis e tipos de dados", xp: 10 },
+      { id: "f2", texto: "Aprendi estruturas condicionais (if/else)", xp: 10 },
+      { id: "f3", texto: "Aprendi loops (for/while)", xp: 15 },
+      { id: "f4", texto: "Aprendi funções", xp: 15 },
+      { id: "f5", texto: "Resolvi 5 exercícios fáceis de lógica", xp: 15 },
+      { id: "f6", texto: "Escrevi um programa sozinho, sem tutorial do lado", xp: 20 },
+    ],
+  },
+  {
+    id: "intermediario",
+    nome: "Intermediário",
+    nivelMinimo: 3,
+    missoes: [
+      { id: "i1", texto: "Aprendi arrays / vetores", xp: 20 },
+      { id: "i2", texto: "Aprendi structs", xp: 20 },
+      { id: "i3", texto: "Aprendi recursão", xp: 25 },
+      { id: "i4", texto: "Resolvi 5 desafios de arrays", xp: 25 },
+      { id: "i5", texto: "Recriei uma funcionalidade do zero antes de ver a solução", xp: 30 },
+      { id: "i6", texto: "Consumi uma API e usei dados reais num programa", xp: 30 },
+    ],
+  },
+  {
+    id: "avancado",
+    nome: "Avançado",
+    nivelMinimo: 6,
+    missoes: [
+      { id: "a1", texto: "Fiz um mini projeto completo", xp: 50 },
+      { id: "a2", texto: "Publiquei um projeto no GitHub", xp: 40 },
+      { id: "a3", texto: "Corrigi um bug difícil sozinho, sem copiar solução pronta", xp: 35 },
+      { id: "a4", texto: "Expliquei um conceito como se estivesse ensinando alguém", xp: 30 },
+      { id: "a5", texto: "Contribuí (ou tentei contribuir) num projeto open source", xp: 50 },
+    ],
+  },
 ];
 
-function getFases() {
-  const salvas = loadJSON("tape_fases_programacao", null);
-  return salvas || FASES_PADRAO;
+function getMissoesEstado() {
+  return loadJSON("tape_missoes_programacao", { concluidas: [], custom: [] });
 }
-function saveFases(lista) {
-  saveJSON("tape_fases_programacao", lista);
+function saveMissoesEstado(estado) {
+  saveJSON("tape_missoes_programacao", estado);
 }
 
-function renderFases() {
-  const lista = getFases();
-  const el = document.getElementById("fasesLista");
+function concluirMissaoFixa(missao) {
+  const estado = getMissoesEstado();
+  if (estado.concluidas.includes(missao.id)) return;
+  estado.concluidas.push(missao.id);
+  saveMissoesEstado(estado);
+  window.ganharXP(missao.xp);
+  mostrarMissaoToast(missao.texto, missao.xp);
+  renderPersonagem();
+  renderTiers();
+}
 
-  el.innerHTML = lista
-    .map(
-      (f, i) => `
-      <div class="fase-item${f.feita ? " feita" : ""}" data-i="${i}">
-        <input type="checkbox" ${f.feita ? "checked" : ""}>
-        <span class="txt">✅ ${f.nome}</span>
-        <button class="excluir" title="Excluir">✕</button>
-      </div>`
-    )
-    .join("");
+function renderTiers() {
+  const p = renderPersonagemSemDom(); // recalcula nível sem re-renderizar (evita loop)
+  const estado = getMissoesEstado();
+  const container = document.getElementById("tiersContainer");
 
-  el.querySelectorAll(".fase-item").forEach((item) => {
-    const i = Number(item.dataset.i);
-    const checkbox = item.querySelector('input[type="checkbox"]');
-    checkbox.addEventListener("change", () => {
-      const l = getFases();
-      l[i].feita = checkbox.checked;
-      saveFases(l);
-      item.classList.toggle("feita", checkbox.checked);
-      if (checkbox.checked && window.ganharXP) window.ganharXP(10);
-      if (window.tapeRegistrarAcao) window.tapeRegistrarAcao("fase_programacao");
-      renderProgresso();
-    });
-    item.querySelector(".excluir").addEventListener("click", () => {
-      const l = getFases();
-      l.splice(i, 1);
-      saveFases(l);
-      renderFases();
+  container.innerHTML = TIERS.map((tier) => {
+    const desbloqueada = p.nivel >= tier.nivelMinimo;
+    const missoesHtml = tier.missoes
+      .map((m) => {
+        const feita = estado.concluidas.includes(m.id);
+        return `
+        <div class="missao-item ${feita ? "concluida" : ""} ${!desbloqueada ? "bloqueada" : ""}" data-id="${m.id}" data-tier="${tier.id}">
+          <span class="missao-texto">${m.texto}</span>
+          <span class="missao-xp">+${m.xp} XP</span>
+          <button class="missao-btn" ${feita || !desbloqueada ? "disabled" : ""}>${feita ? "Concluída" : "Concluir"}</button>
+        </div>`;
+      })
+      .join("");
+
+    return `
+    <div class="tier-secao ${desbloqueada ? "" : "bloqueada"}">
+      <div class="tier-header">
+        <span class="tier-titulo">${tier.nome}</span>
+        <span class="tier-badge">${tier.missoes.filter((m) => estado.concluidas.includes(m.id)).length}/${tier.missoes.length}</span>
+        ${!desbloqueada ? `<span class="tier-cadeado">🔒 desbloqueia no Nível ${tier.nivelMinimo}</span>` : ""}
+      </div>
+      <div class="missao-lista">${missoesHtml}</div>
+    </div>`;
+  }).join("");
+
+  container.querySelectorAll(".missao-item:not(.bloqueada) .missao-btn:not(:disabled)").forEach((btn) => {
+    const item = btn.closest(".missao-item");
+    const tierId = item.dataset.tier;
+    const missaoId = item.dataset.id;
+    btn.addEventListener("click", () => {
+      const tier = TIERS.find((t) => t.id === tierId);
+      const missao = tier.missoes.find((m) => m.id === missaoId);
+      concluirMissaoFixa(missao);
     });
   });
-
-  renderProgresso();
 }
 
-function renderProgresso() {
-  const lista = getFases();
-  const total = lista.length;
-  const feitas = lista.filter((f) => f.feita).length;
-  const pct = total ? Math.round((feitas / total) * 100) : 0;
-  document.getElementById("fasesProgressoFill").style.width = pct + "%";
-  document.getElementById("fasesProgressoTexto").textContent = total
-    ? `${feitas}/${total} vitórias registradas (${pct}%)`
-    : "Nenhuma fase ainda — adicione a primeira abaixo.";
+// versão que só calcula (não escreve no DOM do cabeçalho) — usada dentro de renderTiers
+function renderPersonagemSemDom() {
+  const g = lerGamificacao();
+  return progressoNivel(g.xpTotal);
 }
 
-document.getElementById("addFaseBtn").addEventListener("click", () => {
-  const input = document.getElementById("novaFaseInput");
-  const nome = input.value.trim();
-  if (!nome) { input.focus(); return; }
-  const lista = getFases();
-  lista.push({ id: "fase_" + Date.now(), nome, feita: false });
-  saveFases(lista);
-  input.value = "";
-  renderFases();
+// ---------- Missões personalizadas ----------
+function renderMissoesCustom() {
+  const estado = getMissoesEstado();
+  const el = document.getElementById("missoesCustomLista");
+
+  if (!estado.custom.length) {
+    el.innerHTML = `<p style="opacity:.55;font-size:0.85rem">Nenhuma missão personalizada ainda — crie a sua abaixo.</p>`;
+  } else {
+    el.innerHTML = estado.custom
+      .map(
+        (m, i) => `
+      <div class="missao-item ${m.feita ? "concluida" : ""}" data-i="${i}">
+        <span class="missao-texto">${escapeHtmlProg(m.texto)}</span>
+        <span class="missao-xp">+${m.xp} XP</span>
+        <button class="missao-btn" ${m.feita ? "disabled" : ""}>${m.feita ? "Concluída" : "Concluir"}</button>
+        <button class="excluir" title="Excluir">✕</button>
+      </div>`
+      )
+      .join("");
+  }
+
+  el.querySelectorAll(".missao-item").forEach((item) => {
+    const i = Number(item.dataset.i);
+    const btn = item.querySelector(".missao-btn");
+    if (btn && !btn.disabled) {
+      btn.addEventListener("click", () => {
+        const est = getMissoesEstado();
+        if (est.custom[i].feita) return;
+        est.custom[i].feita = true;
+        saveMissoesEstado(est);
+        window.ganharXP(est.custom[i].xp);
+        mostrarMissaoToast(est.custom[i].texto, est.custom[i].xp);
+        renderPersonagem();
+        renderTiers();
+        renderMissoesCustom();
+      });
+    }
+    item.querySelector(".excluir").addEventListener("click", () => {
+      const est = getMissoesEstado();
+      est.custom.splice(i, 1);
+      saveMissoesEstado(est);
+      renderMissoesCustom();
+    });
+  });
+}
+
+function escapeHtmlProg(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+document.getElementById("addMissaoBtn").addEventListener("click", () => {
+  const textoInput = document.getElementById("novaMissaoTexto");
+  const xpInput = document.getElementById("novaMissaoXp");
+  const texto = textoInput.value.trim();
+  const xp = Math.max(5, Math.min(200, Number(xpInput.value) || 15));
+  if (!texto) { textoInput.focus(); return; }
+  const estado = getMissoesEstado();
+  estado.custom.push({ texto, xp, feita: false });
+  saveMissoesEstado(estado);
+  textoInput.value = "";
+  xpInput.value = "15";
+  renderMissoesCustom();
 });
-document.getElementById("novaFaseInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") document.getElementById("addFaseBtn").click();
+document.getElementById("novaMissaoTexto").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("addMissaoBtn").click();
 });
 
-renderFases();
+renderPersonagem();
+renderTiers();
+renderMissoesCustom();
 </script>
   <script type="module" src="auth.js"></script>
 <script src="assistente.js" defer></script>
