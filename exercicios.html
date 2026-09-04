@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="https://felixhao28.github.io/JSCPP/dist/JSCPP.es5.min.js"></script>
 <title>Exercícios</title>
 <style>
 :root {
@@ -391,6 +392,43 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .ex-item-check-row { display:flex; align-items:center; gap:8px; padding-left:34px; font-size:0.8rem; opacity:.75; }
 .ex-item-check-row input { width:16px; height:16px; cursor:pointer; accent-color: var(--qui); }
 
+.painel-titulo { font-weight:700; font-size:0.95rem; margin-bottom:10px; }
+
+.grafico-panel, .logic-panel { background:var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:16px; margin-bottom:18px; }
+.grafico-controles { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+.grafico-controles input { flex:1; min-width:120px; font-size:0.85rem; padding:8px 12px; border-radius:4px; border:1px solid var(--line); background:var(--overlay); color:var(--ink); font-family:"IBM Plex Mono",monospace; }
+.grafico-controles button { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.82rem; padding:8px 16px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; }
+.grafico-canvas-wrap { background:#fff; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+.grafico-canvas-wrap canvas { display:block; width:100%; height:auto; }
+.grafico-legenda { display:flex; gap:16px; font-size:0.78rem; margin-top:8px; }
+.grafico-legenda span::before { content:"—"; margin-right:4px; font-weight:900; }
+.grafico-legenda .leg-f::before { color:#C13B2E; }
+.grafico-legenda .leg-g::before { color:#3E6E8A; }
+.grafico-dica { font-size:0.75rem; opacity:.55; margin-top:8px; }
+.grafico-dica code { background:var(--overlay); padding:1px 5px; border-radius:3px; font-family:"IBM Plex Mono",monospace; }
+
+.logic-controles { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+.logic-toggle { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.85rem; padding:9px 16px; border-radius:4px; border:1px solid var(--ink); background:var(--overlay); color:var(--ink); cursor:pointer; }
+.logic-toggle[data-v="1"] { background:var(--ink); color:var(--paper); }
+.logic-controles select { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.85rem; padding:9px 12px; border-radius:4px; border:1px solid var(--line); background:var(--overlay); color:var(--ink); }
+.logic-saida { font-family:"IBM Plex Mono",monospace; font-size:1rem; margin-bottom:14px; }
+.logic-saida span { font-weight:800; padding:2px 10px; border-radius:4px; background:var(--overlay); }
+.logic-tabela { width:100%; border-collapse:collapse; font-family:"IBM Plex Mono",monospace; font-size:0.82rem; }
+.logic-tabela th, .logic-tabela td { border:1px solid var(--line); padding:6px 10px; text-align:center; }
+.logic-tabela th { background:var(--overlay); }
+.logic-tabela tr.linha-atual td { background:#D9A44125; font-weight:700; }
+
+.code-runner-toggle { font-family:"IBM Plex Mono",monospace; font-size:0.78rem; padding:6px 14px; border-radius:999px; border:1px dashed var(--line); background:none; color:var(--ink); cursor:pointer; opacity:.6; margin-left:34px; margin-top:6px; }
+.code-runner-toggle:hover { opacity:1; }
+.code-runner { display:none; padding-left:34px; margin-top:10px; }
+.code-runner.aberto { display:block; }
+.code-runner textarea { width:100%; box-sizing:border-box; font-family:"IBM Plex Mono",monospace; font-size:0.8rem; line-height:1.5; padding:12px; border-radius:6px; border:1px solid var(--line); background:#fff; color:#1A2333; min-height:160px; resize:vertical; }
+.code-runner .entrada-stdin { width:100%; box-sizing:border-box; font-family:"IBM Plex Mono",monospace; font-size:0.78rem; padding:8px 10px; border-radius:4px; border:1px solid var(--line); background:var(--overlay); color:var(--ink); margin-top:6px; }
+.code-runner-actions { display:flex; gap:8px; margin-top:8px; align-items:center; }
+.code-runner-actions button { font-family:"IBM Plex Mono",monospace; font-weight:700; font-size:0.8rem; padding:8px 16px; border-radius:4px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer; }
+.code-runner-output { margin-top:8px; background:#0D1210; color:#D8E0DA; border-radius:6px; padding:12px; font-family:"IBM Plex Mono",monospace; font-size:0.78rem; white-space:pre-wrap; min-height:24px; }
+.code-runner-output.erro { color:#E8A33D; }
+
 </style>
 </head>
 <body>
@@ -413,6 +451,37 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
   <div class="ex-subject-tabs" id="exSubjectTabs"></div>
   <div class="ex-level-tabs" id="exLevelTabs"></div>
+
+  <div class="grafico-panel" id="graficoPanel" style="display:none">
+    <div class="painel-titulo">📈 Plotar função</div>
+    <div class="grafico-controles">
+      <input type="text" id="graficoFx" placeholder="f(x) = x^2">
+      <input type="text" id="graficoGx" placeholder="g(x) = (opcional)">
+      <button id="graficoPlotarBtn">Plotar</button>
+    </div>
+    <div class="grafico-canvas-wrap"><canvas id="graficoCanvas" width="600" height="320"></canvas></div>
+    <div class="grafico-legenda"><span class="leg-f">f(x)</span><span class="leg-g">g(x)</span></div>
+    <div class="grafico-dica">Use <code>x^2</code>, <code>sqrt(x)</code>, <code>sin(x)</code>, <code>cos(x)</code>, <code>abs(x)</code>, <code>pi</code> normalmente.</div>
+  </div>
+
+  <div class="logic-panel" id="logicPanel" style="display:none">
+    <div class="painel-titulo">⚡ Simulador de portas lógicas</div>
+    <div class="logic-controles">
+      <button class="logic-toggle" id="logicA" data-v="0">A = 0</button>
+      <button class="logic-toggle" id="logicB" data-v="0">B = 0</button>
+      <select id="logicGate">
+        <option value="AND">AND</option>
+        <option value="OR">OR</option>
+        <option value="XOR">XOR</option>
+        <option value="NAND">NAND</option>
+        <option value="NOR">NOR</option>
+        <option value="XNOR">XNOR</option>
+        <option value="NOT">NOT (só A)</option>
+      </select>
+    </div>
+    <div class="logic-saida">Saída: <span id="logicResultado">0</span></div>
+    <table class="logic-tabela" id="logicTabela"></table>
+  </div>
 
   <div class="ex-progresso-track"><div class="ex-progresso-fill" id="exProgressoFill" style="width:0%"></div></div>
   <div class="ex-progresso-texto" id="exProgressoTexto"></div>
@@ -814,9 +883,17 @@ function renderSubjectTabs() {
       materiaSelId = btn.dataset.id;
       localStorage.setItem("ex_materia_sel", materiaSelId);
       renderSubjectTabs();
+      renderPaineisExtras();
       renderLista();
     });
   });
+}
+
+function renderPaineisExtras() {
+  const graficoPanel = document.getElementById("graficoPanel");
+  const logicPanel = document.getElementById("logicPanel");
+  graficoPanel.style.display = (materiaSelId === "calculo" || materiaSelId === "geometria") ? "block" : "none";
+  logicPanel.style.display = (materiaSelId === "logica") ? "block" : "none";
 }
 
 function renderLevelTabs() {
@@ -872,6 +949,20 @@ function renderLista() {
         </div>
         <button class="ex-resolucao-btn" data-aberto="0">Ver resolução (código sugerido)</button>
         <div class="ex-resolucao"><strong>Resolução</strong><pre>${escapeHtml(ex.resolucao)}</pre></div>
+        <button class="code-runner-toggle">▶ Testar seu código</button>
+        <div class="code-runner">
+          <textarea spellcheck="false" placeholder="Escreva seu código C aqui...">#include &lt;stdio.h&gt;
+
+int main() {
+    
+    return 0;
+}</textarea>
+          <input type="text" class="entrada-stdin" placeholder="Entrada (stdin), se o programa usar scanf — separada por espaço ou quebra de linha">
+          <div class="code-runner-actions">
+            <button class="code-runner-play">Rodar</button>
+          </div>
+          <div class="code-runner-output"></div>
+        </div>
         <div class="ex-item-check-row">
           <input type="checkbox" ${acertou ? "checked" : ""}>
           <span>Já resolvi esse</span>
@@ -927,6 +1018,27 @@ function renderLista() {
         ? "Esconder resolução"
         : (materia.tipo === "codigo" ? "Ver resolução (código sugerido)" : "Ver resolução");
     });
+
+    // executor de código C
+    const runnerToggle = item.querySelector(".code-runner-toggle");
+    if (runnerToggle) {
+      const runnerBox = item.querySelector(".code-runner");
+      const playBtn = item.querySelector(".code-runner-play");
+      const textarea = item.querySelector(".code-runner textarea");
+      const stdinInput = item.querySelector(".entrada-stdin");
+      const outputEl = item.querySelector(".code-runner-output");
+      runnerToggle.addEventListener("click", () => {
+        const aberto = runnerBox.classList.toggle("aberto");
+        runnerToggle.textContent = aberto ? "✕ Fechar editor" : "▶ Testar seu código";
+      });
+      playBtn.addEventListener("click", () => {
+        outputEl.textContent = "Rodando...";
+        outputEl.classList.remove("erro");
+        setTimeout(() => {
+          rodarCodigoC(textarea.value, stdinInput.value, outputEl);
+        }, 30);
+      });
+    }
   });
 
   renderMath(listEl);
@@ -947,6 +1059,159 @@ function renderMath(el) {
   }
 }
 
+// ---------- Gráfico de funções ----------
+function prepararExpressao(expr) {
+  let e = expr.trim();
+  if (!e) return null;
+  e = e.replace(/\^/g, "**");
+  e = e.replace(/\bpi\b/gi, "Math.PI");
+  e = e.replace(/\be\b/g, "Math.E");
+  ["sqrt", "sin", "cos", "tan", "asin", "acos", "atan", "abs", "log", "exp", "min", "max", "pow"].forEach((fn) => {
+    e = e.replace(new RegExp("\\b" + fn + "\\s*\\(", "g"), "Math." + fn + "(");
+  });
+  e = e.replace(/Math\.Math\./g, "Math.");
+  // depois de remover os tokens conhecidos (Math.fn, Math.PI, Math.E, a variável x),
+  // não pode sobrar nenhuma letra solta nem caractere fora do esperado
+  const restante = e
+    .replace(/Math\.(sqrt|sin|cos|tan|asin|acos|atan|abs|log|exp|min|max|pow|PI|E)/g, "")
+    .replace(/x/g, "");
+  if (/[A-Za-z]/.test(restante)) return null;
+  if (/[^0-9+\-*/().,\s%]/.test(restante)) return null;
+  return e;
+}
+
+function plotarGrafico() {
+  const canvas = document.getElementById("graficoCanvas");
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const range = 10;
+  const escala = (w / 2) / range;
+
+  // grade
+  ctx.strokeStyle = "#1A233314";
+  ctx.lineWidth = 1;
+  for (let gx = -range; gx <= range; gx++) {
+    const px = w / 2 + gx * escala;
+    ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+  }
+  for (let gy = -range; gy <= range; gy++) {
+    const py = h / 2 - gy * escala * (h / w);
+    ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
+  }
+  // eixos
+  ctx.strokeStyle = "#1A2333";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w / 2, 0); ctx.lineTo(w / 2, h); ctx.stroke();
+
+  function desenhar(expr, cor) {
+    const e = prepararExpressao(expr);
+    if (!e) return;
+    let f;
+    try {
+      f = new Function("x", "with(Math){ return " + e + "; }");
+    } catch (err) { return; }
+    ctx.strokeStyle = cor;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let comecou = false;
+    for (let px = 0; px <= w; px++) {
+      const x = (px - w / 2) / escala;
+      let y;
+      try { y = f(x); } catch (err) { comecou = false; continue; }
+      if (typeof y !== "number" || !isFinite(y)) { comecou = false; continue; }
+      const pyFinal = h / 2 - (y / range) * (h / 2);
+      if (pyFinal < -1000 || pyFinal > h + 1000) { comecou = false; continue; }
+      if (!comecou) { ctx.moveTo(px, pyFinal); comecou = true; }
+      else ctx.lineTo(px, pyFinal);
+    }
+    ctx.stroke();
+  }
+
+  desenhar(document.getElementById("graficoFx").value || "x^2", "#C13B2E");
+  const gVal = document.getElementById("graficoGx").value;
+  if (gVal.trim()) desenhar(gVal, "#3E6E8A");
+}
+
+document.getElementById("graficoPlotarBtn").addEventListener("click", plotarGrafico);
+document.getElementById("graficoFx").value = "x^2";
+document.getElementById("graficoFx").addEventListener("keydown", (e) => { if (e.key === "Enter") plotarGrafico(); });
+document.getElementById("graficoGx").addEventListener("keydown", (e) => { if (e.key === "Enter") plotarGrafico(); });
+
+// ---------- Simulador de portas lógicas ----------
+function calcularPorta(gate, a, b) {
+  switch (gate) {
+    case "AND": return a & b;
+    case "OR": return a | b;
+    case "XOR": return a ^ b;
+    case "NAND": return a & b ? 0 : 1;
+    case "NOR": return a | b ? 0 : 1;
+    case "XNOR": return (a ^ b) ? 0 : 1;
+    case "NOT": return a ? 0 : 1;
+    default: return 0;
+  }
+}
+
+function renderLogicSimulador() {
+  const a = Number(document.getElementById("logicA").dataset.v);
+  const b = Number(document.getElementById("logicB").dataset.v);
+  const gate = document.getElementById("logicGate").value;
+  const usaB = gate !== "NOT";
+  document.getElementById("logicB").style.display = usaB ? "inline-block" : "none";
+
+  const resultado = calcularPorta(gate, a, b);
+  document.getElementById("logicResultado").textContent = resultado;
+
+  const tabela = document.getElementById("logicTabela");
+  const combinacoes = usaB ? [[0, 0], [0, 1], [1, 0], [1, 1]] : [[0], [1]];
+  const header = usaB ? "<tr><th>A</th><th>B</th><th>Saída</th></tr>" : "<tr><th>A</th><th>Saída</th></tr>";
+  const linhas = combinacoes
+    .map((combo) => {
+      const [ca, cb] = combo;
+      const r = calcularPorta(gate, ca, usaB ? cb : 0);
+      const atual = ca === a && (!usaB || cb === b);
+      const cols = usaB ? `<td>${ca}</td><td>${cb}</td><td>${r}</td>` : `<td>${ca}</td><td>${r}</td>`;
+      return `<tr class="${atual ? "linha-atual" : ""}">${cols}</tr>`;
+    })
+    .join("");
+  tabela.innerHTML = header + linhas;
+}
+
+document.getElementById("logicA").addEventListener("click", function () {
+  this.dataset.v = this.dataset.v === "0" ? "1" : "0";
+  this.textContent = "A = " + this.dataset.v;
+  renderLogicSimulador();
+});
+document.getElementById("logicB").addEventListener("click", function () {
+  this.dataset.v = this.dataset.v === "0" ? "1" : "0";
+  this.textContent = "B = " + this.dataset.v;
+  renderLogicSimulador();
+});
+document.getElementById("logicGate").addEventListener("change", renderLogicSimulador);
+
+// ---------- Executor de código C (JSCPP) ----------
+function rodarCodigoC(codigo, entrada, outputEl) {
+  outputEl.classList.remove("erro");
+  if (!window.JSCPP) {
+    outputEl.classList.add("erro");
+    outputEl.textContent = "O interpretador de C ainda está carregando — espera um segundinho e tenta de novo.";
+    return;
+  }
+  let saida = "";
+  try {
+    const exitCode = JSCPP.run(codigo, entrada || "", {
+      stdio: { write: (s) => { saida += s; } },
+      unsigned_overflow: "warn",
+    });
+    outputEl.textContent = (saida || "(sem saída)") + `\n\n[processo encerrado com código ${exitCode}]`;
+  } catch (err) {
+    outputEl.classList.add("erro");
+    outputEl.textContent = (saida ? saida + "\n\n" : "") + "Erro: " + (err && err.message ? err.message : String(err));
+  }
+}
+
 function renderProgresso() {
   const materia = MATERIAS.find((m) => m.id === materiaSelId) || MATERIAS[0];
   const lista = materia.niveis[nivelSel] || [];
@@ -962,8 +1227,13 @@ function renderProgresso() {
 
 renderSubjectTabs();
 renderLevelTabs();
+renderPaineisExtras();
+renderLogicSimulador();
 renderLista();
-window.addEventListener("load", () => renderMath(document.getElementById("exList")));
+window.addEventListener("load", () => {
+  renderMath(document.getElementById("exList"));
+  plotarGrafico();
+});
 </script>
   <script type="module" src="auth.js"></script>
 <script src="assistente.js" defer></script>
