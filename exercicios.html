@@ -127,16 +127,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
 .eyebrow {
   display: inline-block;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-  margin-bottom: 10px;
-  padding: 3px 10px 4px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+  margin-bottom: 14px;
+  padding: 6px 16px 8px;
   background: linear-gradient(100deg, var(--ter), #E8BD3F);
   color: #3A2E10;
   transform: rotate(-1.4deg);
-  box-shadow: 0 1px 2px rgba(26,35,51,0.18);
+  box-shadow: 0 2px 4px rgba(26,35,51,0.2);
 }
+.h1-oculto { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A); }
 
@@ -445,8 +447,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 </div>
 
 <main>
-  <div class="eyebrow">Prática</div>
-  <h1>Exercícios</h1>
+  <div class="eyebrow">Exercícios</div>
   <p style="opacity:.55;font-size:.9rem;margin-top:0">Escolha a matéria e o nível. Clique em um exercício pra ver a resposta, e marque a caixinha quando resolver certo.</p>
 
   <div class="ex-subject-tabs" id="exSubjectTabs"></div>
@@ -843,7 +844,7 @@ const MATERIAS = [
         { enunciado: "Escreva uma função que implementa a busca binária em um vetor ordenado.", resolucao: "#include <stdio.h>\n\nint buscaBinaria(int v[], int n, int alvo) {\n    int inicio = 0, fim = n - 1;\n    while (inicio <= fim) {\n        int meio = (inicio + fim) / 2;\n        if (v[meio] == alvo) return meio;\n        if (v[meio] < alvo) inicio = meio + 1;\n        else fim = meio - 1;\n    }\n    return -1;\n}\n\nint main() {\n    int v[] = {1, 3, 5, 7, 9, 11};\n    int pos = buscaBinaria(v, 6, 7);\n    printf(\"Posição: %d\\n\", pos);\n    return 0;\n}" },
         { enunciado: "Escreva um programa que lê uma matriz 3x3 e calcula a soma dos elementos da diagonal principal.", resolucao: "#include <stdio.h>\n\nint main() {\n    int m[3][3], soma = 0;\n    printf(\"Digite os 9 valores da matriz:\\n\");\n    for (int i = 0; i < 3; i++)\n        for (int j = 0; j < 3; j++)\n            scanf(\"%d\", &m[i][j]);\n\n    for (int i = 0; i < 3; i++) {\n        soma += m[i][i];\n    }\n    printf(\"Soma da diagonal: %d\\n\", soma);\n    return 0;\n}" },
         { enunciado: "Escreva uma função que implementa o algoritmo Quicksort para ordenar um vetor de inteiros.", resolucao: "#include <stdio.h>\n\nvoid trocar(int *a, int *b) {\n    int tmp = *a; *a = *b; *b = tmp;\n}\n\nint particionar(int v[], int inicio, int fim) {\n    int pivo = v[fim], i = inicio - 1;\n    for (int j = inicio; j < fim; j++) {\n        if (v[j] < pivo) {\n            i++;\n            trocar(&v[i], &v[j]);\n        }\n    }\n    trocar(&v[i + 1], &v[fim]);\n    return i + 1;\n}\n\nvoid quicksort(int v[], int inicio, int fim) {\n    if (inicio < fim) {\n        int p = particionar(v, inicio, fim);\n        quicksort(v, inicio, p - 1);\n        quicksort(v, p + 1, fim);\n    }\n}\n\nint main() {\n    int v[] = {8, 3, 1, 9, 5};\n    quicksort(v, 0, 4);\n    for (int i = 0; i < 5; i++) printf(\"%d \", v[i]);\n    printf(\"\\n\");\n    return 0;\n}" },
-        { enunciado: "Escreva uma função que recebe uma matriz de inteiros (M x N, alocada como vetor de ponteiros) e retorna sua transposta em uma nova matriz alocada dinamicamente.", resolucao: "#include <stdio.h>\n#include <stdlib.h>\n\nint** transposta(int **m, int linhas, int colunas) {\n    int **t = malloc(colunas * sizeof(int*));\n    for (int i = 0; i < colunas; i++) {\n        t[i] = malloc(linhas * sizeof(int));\n        for (int j = 0; j < linhas; j++) {\n            t[i][j] = m[j][i];\n        }\n    }\n    return t;\n}\n// m também precisa ser alocada como matriz de ponteiros (int**)\n// pra essa função funcionar com matrizes de tamanho variável." },
+        { enunciado: "Escreva uma função que recebe uma matriz de inteiros (M x N, alocada como vetor de ponteiros) e retorna sua transposta em uma nova matriz alocada dinamicamente.", resolucao: "#include <stdio.h>\n#include <stdlib.h>\n\nint** transposta(int **m, int linhas, int colunas) {\n    int **t = malloc(colunas * sizeof(int*));\n    for (int i = 0; i < colunas; i++) {\n        t[i] = malloc(linhas * sizeof(int));\n        for (int j = 0; j < linhas; j++) {\n            t[i][j] = m[j][i];\n        }\n    }\n    return t;\n}\n\nint main() {\n    int linhas = 2, colunas = 3;\n    int **m = malloc(linhas * sizeof(int*));\n    int valores[2][3] = {{1,2,3},{4,5,6}};\n    for (int i = 0; i < linhas; i++) {\n        m[i] = malloc(colunas * sizeof(int));\n        for (int j = 0; j < colunas; j++) m[i][j] = valores[i][j];\n    }\n\n    int **t = transposta(m, linhas, colunas);\n    for (int i = 0; i < colunas; i++) {\n        for (int j = 0; j < linhas; j++) printf(\"%d \", t[i][j]);\n        printf(\"\\n\");\n    }\n    return 0;\n}" },
         { enunciado: "Escreva um programa que implementa uma pilha (stack) usando um vetor, com funções de push e pop.", resolucao: "#include <stdio.h>\n#define MAX 100\n\nint pilha[MAX], topo = -1;\n\nvoid push(int valor) {\n    if (topo < MAX - 1) {\n        pilha[++topo] = valor;\n    }\n}\n\nint pop() {\n    if (topo >= 0) {\n        return pilha[topo--];\n    }\n    return -1;\n}\n\nint main() {\n    push(10);\n    push(20);\n    push(30);\n    printf(\"%d\\n\", pop());\n    printf(\"%d\\n\", pop());\n    return 0;\n}" },
         { enunciado: "Escreva uma função recursiva que calcula o máximo divisor comum (MDC) de dois números.", resolucao: "#include <stdio.h>\n\nint mdc(int a, int b) {\n    if (b == 0) return a;\n    return mdc(b, a % b);\n}\n\nint main() {\n    int a, b;\n    printf(\"Digite dois números: \");\n    scanf(\"%d %d\", &a, &b);\n    printf(\"MDC: %d\\n\", mdc(a, b));\n    return 0;\n}" },
       ],

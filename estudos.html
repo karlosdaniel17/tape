@@ -123,16 +123,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
 .eyebrow {
   display: inline-block;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-  margin-bottom: 10px;
-  padding: 3px 10px 4px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+  margin-bottom: 14px;
+  padding: 6px 16px 8px;
   background: linear-gradient(100deg, var(--ter), #E8BD3F);
   color: #3A2E10;
   transform: rotate(-1.4deg);
-  box-shadow: 0 1px 2px rgba(26,35,51,0.18);
+  box-shadow: 0 2px 4px rgba(26,35,51,0.2);
 }
+.h1-oculto { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A); }
 
@@ -304,7 +306,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
 <main>
   <div class="eyebrow" id="txtEyebrow">Fora da faculdade</div>
-  <h1 id="txtTitulo">Estudos extras</h1>
+  <h1 id="txtTitulo" class="h1-oculto">Estudos extras</h1>
   <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub">Linguagens, idiomas ou qualquer assunto que você está estudando por conta própria. Os títulos abaixo já vêm prontos — preencha o conteúdo quando quiser.</p>
 
   <div class="study-grid" id="studyGrid" style="margin-top:18px"></div>
@@ -449,7 +451,7 @@ function renderNav(activePage) {
 </script>
 <script>
 renderNav("estudos.html");
-document.getElementById("txtEyebrow").textContent = t("eyebrow_fora");
+document.getElementById("txtEyebrow").textContent = t("titulo_estudos");
 document.getElementById("txtTitulo").textContent = t("titulo_estudos");
 document.getElementById("txtSub").textContent = t("subtitulo_estudos");
 document.getElementById("txtFooter").textContent = t("footer_rodape");

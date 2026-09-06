@@ -96,16 +96,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
 .eyebrow {
   display: inline-block;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-  margin-bottom: 10px;
-  padding: 3px 10px 4px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+  margin-bottom: 14px;
+  padding: 6px 16px 8px;
   background: linear-gradient(100deg, var(--ter), #E8BD3F);
   color: #3A2E10;
   transform: rotate(-1.4deg);
-  box-shadow: 0 1px 2px rgba(26,35,51,0.18);
+  box-shadow: 0 2px 4px rgba(26,35,51,0.2);
 }
+.h1-oculto { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 h1 { font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 h1::after { content: ""; display: block; width: 46px; height: 4px; border-radius: 999px; margin-top: 10px; background: linear-gradient(120deg, #C13B2E, #D9A441 55%, #3E6E8A); }
 
@@ -314,7 +316,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 <main>
   <div class="compose-center">
   <div class="eyebrow" id="txtEyebrow">Fale comigo</div>
-  <h1 id="txtTitulo">Sugestões e dúvidas</h1>
+  <h1 id="txtTitulo" class="h1-oculto">Sugestões e dúvidas</h1>
   <p style="opacity:.55;font-size:.9rem;margin-top:0" id="txtSub"></p>
   </div>
 
@@ -451,6 +453,7 @@ function renderNav(activePage) {
     { href: "estudos.html", key: "nav_estudos" },
     { href: "aulas.html", key: "nav_aulas" },
     { href: "formulas.html", key: "nav_formulas" },
+    { href: "foco.html", key: "nav_foco" },
     { href: "calculadora.html", key: "nav_calculadora" },
     { href: "perfil.html", key: "nav_perfil" },
     { href: "ajuda.html", key: "nav_ajuda" },
@@ -476,7 +479,7 @@ function renderNav(activePage) {
 
 renderNav("sugestoes.html");
 
-document.getElementById("txtEyebrow").textContent = t("eyebrow_sugestoes");
+document.getElementById("txtEyebrow").textContent = t("nav_sugestoes");
 document.getElementById("txtTitulo").textContent = t("titulo_sugestoes");
 document.getElementById("txtSub").textContent = t("subtitulo_sugestoes");
 document.getElementById("txtComposeTitulo").textContent = t("compose_titulo");
