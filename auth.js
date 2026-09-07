@@ -36,7 +36,7 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
   const style = document.createElement("style");
   style.id = "tapeThemeStyles";
   style.textContent = `
-    :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; }
+    :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; --card: #26241F; --overlay: #FFFFFF12; --overlay-2: #FFFFFF1C; --pauta: #FFFFFF0F; }
     [data-theme="escuro"] body { background: var(--paper); color: var(--ink); }
     [data-theme="escuro"] .topbar { background: var(--paper); border-color: var(--line); }
     [data-theme="escuro"] .day-card,
@@ -119,7 +119,21 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
     [data-theme="escuro"] footer.foot,
     [data-theme="escuro"] #tapeCopyright,
     [data-theme="escuro"] #txtFooter,
-    [data-theme="escuro"] .thanks { opacity: 0.8 !important; }
+    [data-theme="escuro"] .thanks,
+    [data-theme="escuro"] .painel-titulo,
+    [data-theme="escuro"] .tier-titulo,
+    [data-theme="escuro"] .tier-badge,
+    [data-theme="escuro"] .tier-cadeado,
+    [data-theme="escuro"] .grafico-dica,
+    [data-theme="escuro"] .nivel-titulo,
+    [data-theme="escuro"] .modulo-pre,
+    [data-theme="escuro"] .ex-progresso-texto,
+    [data-theme="escuro"] .fases-progresso-texto,
+    [data-theme="escuro"] .fases-sub,
+    [data-theme="escuro"] .personagem-xp-texto,
+    [data-theme="escuro"] .personagem-nivel,
+    [data-theme="escuro"] .lead-prog,
+    [data-theme="escuro"] .sub { opacity: 0.85 !important; }
 
     [data-theme="escuro"] .del-btn,
     [data-theme="escuro"] .rm,
