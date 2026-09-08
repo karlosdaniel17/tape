@@ -367,7 +367,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .ex-progresso-track { height:8px; border-radius:999px; background:var(--overlay); overflow:hidden; margin: 10px 0 6px; max-width:420px; }
 .ex-progresso-fill { height:100%; border-radius:999px; transition:width .3s ease; background:linear-gradient(120deg,#C13B2E,#D9A441 55%,#3E6E8A); }
 .ex-progresso-texto { font-size:0.8rem; opacity:.55; margin-bottom:18px; }
-.ex-list { display:flex; flex-direction:column; gap:10px; }
+.ex-list { display:flex; flex-direction:column; gap:10px; opacity:0; transition: opacity var(--dur-slow) var(--ease-out); }
+.ex-list.pronto { opacity:1; }
 .ex-item { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 6px; padding:16px; display:flex; flex-direction:column; gap:12px; }
 .ex-item.acertou { border-color: var(--qui); }
 .ex-item-top { display:flex; align-items:flex-start; gap:10px; }
@@ -387,8 +388,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   border:1px dashed var(--line); background:none; color:var(--ink); cursor:pointer; opacity:.6;
 }
 .ex-resolucao-btn:hover { opacity:1; }
-.ex-resolucao { display:none; padding-left:34px; font-size:0.85rem; opacity:.85; border-top:1px solid var(--line); padding-top:12px; white-space:pre-wrap; }
-.ex-resolucao.aberta { display:block; }
+.ex-resolucao { max-height:0; opacity:0; overflow:hidden; padding-left:34px; font-size:0.85rem; border-top:0 solid var(--line); white-space:pre-wrap; transition: max-height var(--dur-slow) var(--ease-out), opacity var(--dur-base) var(--ease-out), padding-top var(--dur-base) var(--ease-out); }
+.ex-resolucao.aberta { max-height:900px; opacity:.85; border-top-width:1px; padding-top:12px; }
 .ex-resolucao strong { opacity:.6; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:4px; }
 .ex-resolucao pre { background:#00000008; border-radius:10px; padding:12px; overflow-x:auto; font-size:0.8rem; line-height:1.5; margin: 6px 0 0; }
 .ex-item-check-row { display:flex; align-items:center; gap:8px; padding-left:34px; font-size:0.8rem; opacity:.75; }
@@ -422,8 +423,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 
 .code-runner-toggle { font-family:"IBM Plex Mono",monospace; font-size:0.78rem; padding:6px 14px; border-radius:999px; border:1px dashed var(--line); background:none; color:var(--ink); cursor:pointer; opacity:.6; margin-left:34px; margin-top:6px; }
 .code-runner-toggle:hover { opacity:1; }
-.code-runner { display:none; padding-left:34px; margin-top:10px; }
-.code-runner.aberto { display:block; }
+.code-runner { max-height:0; opacity:0; overflow:hidden; padding-left:34px; margin-top:0; transition: max-height var(--dur-slow) var(--ease-out), opacity var(--dur-base) var(--ease-out), margin-top var(--dur-base) var(--ease-out); }
+.code-runner.aberto { max-height:700px; opacity:1; margin-top:10px; }
 .code-runner textarea { width:100%; box-sizing:border-box; font-family:"IBM Plex Mono",monospace; font-size:0.8rem; line-height:1.5; padding:12px; border-radius:6px; border:1px solid var(--line); background:#fff; color:#1A2333; min-height:160px; resize:vertical; }
 .code-runner .entrada-stdin { width:100%; box-sizing:border-box; font-family:"IBM Plex Mono",monospace; font-size:0.78rem; padding:8px 10px; border-radius:4px; border:1px solid var(--line); background:var(--overlay); color:var(--ink); margin-top:6px; }
 .code-runner-actions { display:flex; gap:8px; margin-top:8px; align-items:center; }
@@ -930,7 +931,7 @@ function renderLista() {
           .map((op, oi) => `<button class="ex-opcao" data-oi="${oi}">${escapeHtml(op)}</button>`)
           .join("");
         return `
-        <div class="ex-item${acertou ? " acertou" : ""}" data-chave="${chave}" data-correta="${ex.correta}">
+        <div class="ex-item tape-stagger-item${acertou ? " acertou" : ""}" style="--i:${i}" data-chave="${chave}" data-correta="${ex.correta}">
           <div class="ex-item-top">
             <span class="ex-item-num">${i + 1}</span>
             <span class="ex-item-enunciado">${escapeHtml(ex.enunciado)}</span>
@@ -943,7 +944,7 @@ function renderLista() {
 
       // tipo "codigo"
       return `
-      <div class="ex-item${acertou ? " acertou" : ""}" data-chave="${chave}">
+      <div class="ex-item tape-stagger-item${acertou ? " acertou" : ""}" style="--i:${i}" data-chave="${chave}">
         <div class="ex-item-top">
           <span class="ex-item-num">${i + 1}</span>
           <span class="ex-item-enunciado">${escapeHtml(ex.enunciado)}</span>
@@ -1042,8 +1043,27 @@ int main() {
     }
   });
 
-  renderMath(listEl);
+  renderMathELazy(listEl);
   renderProgresso();
+}
+
+function renderMathELazy(el) {
+  // espera o KaTeX terminar de carregar (script "defer") antes de revelar a
+  // lista — evita o flash de LaTeX cru (ex.: "$x^2$") antes de virar fórmula.
+  el.classList.remove("pronto");
+  let tentativas = 0;
+  const tentar = () => {
+    tentativas++;
+    if (window.renderMathInElement) {
+      renderMath(el);
+      el.classList.add("pronto");
+    } else if (tentativas > 40) {
+      el.classList.add("pronto"); // segurança: mostra mesmo sem KaTeX depois de ~4s
+    } else {
+      setTimeout(tentar, 100);
+    }
+  };
+  tentar();
 }
 
 function renderMath(el) {

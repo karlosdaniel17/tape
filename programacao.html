@@ -360,7 +360,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .personagem-streak { font-family:"IBM Plex Mono",monospace; font-size:0.85rem; font-weight:700; white-space:nowrap; flex-shrink:0; text-align:center; }
 .personagem-streak .num { font-size:1.3rem; display:block; }
 
-.tier-secao { margin-bottom: 26px; }
+.tier-secao { margin-bottom: 26px; transition: opacity var(--dur-slow) var(--ease-out); }
 .tier-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
 .tier-titulo { font-weight:800; font-size:0.95rem; }
 .tier-badge { font-family:"IBM Plex Mono",monospace; font-size:0.72rem; padding:3px 9px; border-radius:999px; background:var(--overlay); opacity:.7; }
@@ -626,10 +626,14 @@ function renderPersonagem() {
 
 function mostrarMissaoToast(texto, xp) {
   const aviso = document.createElement("div");
-  aviso.style.cssText = "position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#5B7A4F;color:#F5F4F0;padding:12px 22px;border-radius:999px;font-weight:700;font-size:.9rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center;max-width:90vw;";
+  aviso.className = "tape-toast";
+  aviso.style.cssText = "position:fixed;top:16px;left:50%;background:#5B7A4F;color:#F5F4F0;padding:12px 22px;border-radius:999px;font-weight:700;font-size:.9rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center;max-width:90vw;";
   aviso.textContent = `✅ ${texto} (+${xp} XP)`;
   document.body.appendChild(aviso);
-  setTimeout(() => aviso.remove(), 3200);
+  setTimeout(() => {
+    aviso.classList.add("tape-toast-saindo");
+    aviso.addEventListener("animationend", () => aviso.remove(), { once: true });
+  }, 3000);
 }
 
 // ---------- Missões fixas, por tier ----------
@@ -700,10 +704,10 @@ function renderTiers() {
   container.innerHTML = TIERS.map((tier) => {
     const desbloqueada = p.nivel >= tier.nivelMinimo;
     const missoesHtml = tier.missoes
-      .map((m) => {
+      .map((m, mi) => {
         const feita = estado.concluidas.includes(m.id);
         return `
-        <div class="missao-item ${feita ? "concluida" : ""} ${!desbloqueada ? "bloqueada" : ""}" data-id="${m.id}" data-tier="${tier.id}">
+        <div class="missao-item tape-stagger-item ${feita ? "concluida" : ""} ${!desbloqueada ? "bloqueada" : ""}" style="--i:${mi}" data-id="${m.id}" data-tier="${tier.id}">
           <span class="missao-texto">${m.texto}</span>
           <span class="missao-xp">+${m.xp} XP</span>
           <button class="missao-btn" ${feita || !desbloqueada ? "disabled" : ""}>${feita ? "Concluída" : "Concluir"}</button>
@@ -751,7 +755,7 @@ function renderMissoesCustom() {
     el.innerHTML = estado.custom
       .map(
         (m, i) => `
-      <div class="missao-item ${m.feita ? "concluida" : ""}" data-i="${i}">
+      <div class="missao-item tape-stagger-item ${m.feita ? "concluida" : ""}" style="--i:${i}" data-i="${i}">
         <span class="missao-texto">${escapeHtmlProg(m.texto)}</span>
         <span class="missao-xp">+${m.xp} XP</span>
         <button class="missao-btn" ${m.feita ? "disabled" : ""}>${m.feita ? "Concluída" : "Concluir"}</button>

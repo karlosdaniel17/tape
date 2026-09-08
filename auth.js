@@ -36,6 +36,31 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
   const style = document.createElement("style");
   style.id = "tapeThemeStyles";
   style.textContent = `
+    /* ---------- Motion Principles (tokens + acessibilidade) ---------- */
+    :root { --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 320ms; --ease-out: cubic-bezier(.16,1,.3,1); --ease-in-out: cubic-bezier(.65,0,.35,1); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
+    @keyframes tape-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    main { animation: tape-fade-up var(--dur-slow) var(--ease-out); }
+
+    /* feedback de toque em botões e opções clicáveis do site inteiro */
+    button, .missao-btn, .concluir, .excluir, .code-runner-play, .ex-opcao, .modulo-actions button,
+    .new-disc-btn, .toggle-novo-modulo-btn, .grafico-controles button, .logic-toggle, .code-runner-toggle,
+    .ex-resolucao-btn, .eyebrow, .chip, .day-card, .disc-card {
+      transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+    }
+    button:active:not(:disabled), .missao-btn:active:not(:disabled), .concluir:active:not(:disabled),
+    .ex-opcao:active:not(:disabled), .code-runner-play:active, .new-disc-btn:active { transform: scale(0.96); }
+
+    /* toast de XP / subida de nível */
+    @keyframes tape-toast-in { from { opacity: 0; transform: translate(-50%, -14px) scale(0.96); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+    @keyframes tape-toast-out { from { opacity: 1; transform: translate(-50%, 0) scale(1); } to { opacity: 0; transform: translate(-50%, -10px) scale(0.98); } }
+    .tape-toast { animation: tape-toast-in var(--dur-base) var(--ease-out); }
+    .tape-toast.tape-toast-saindo { animation: tape-toast-out var(--dur-base) var(--ease-in-out) forwards; }
+
+    /* stagger-in genérico pra listas renderizadas via JS (aplicado com --i por item) */
+    .tape-stagger-item { opacity: 0; animation: tape-fade-up var(--dur-base) var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 35ms); }
     :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; --card: #26241F; --overlay: #FFFFFF12; --overlay-2: #FFFFFF1C; --pauta: #FFFFFF0F; }
     [data-theme="escuro"] body { background: var(--paper); color: var(--ink); }
     [data-theme="escuro"] .topbar { background: var(--paper); border-color: var(--line); }
@@ -359,10 +384,14 @@ function renderPainelMissoes(grupo, referencia) {
 
 function mostrarSubidaDeNivel(nivel) {
   const aviso = document.createElement("div");
-  aviso.style.cssText = "position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#26241F;color:#F5F4F0;padding:12px 22px;border-radius:999px;font-weight:700;font-size:.9rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);";
+  aviso.className = "tape-toast";
+  aviso.style.cssText = "position:fixed;top:16px;left:50%;background:#26241F;color:#F5F4F0;padding:12px 22px;border-radius:999px;font-weight:700;font-size:.9rem;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.25);";
   aviso.textContent = `🎉 Você subiu para o Nível ${nivel}!`;
   document.body.appendChild(aviso);
-  setTimeout(() => aviso.remove(), 3200);
+  setTimeout(() => {
+    aviso.classList.add("tape-toast-saindo");
+    aviso.addEventListener("animationend", () => aviso.remove(), { once: true });
+  }, 3000);
 }
 
 // Chame window.ganharXP(quantidade) de qualquer página (ex.: ao concluir um

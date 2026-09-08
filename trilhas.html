@@ -330,7 +330,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
 .nivel-titulo { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.1em; opacity:.45; display:flex; align-items:center; gap:8px; }
 .nivel-titulo::after { content:""; flex:1; height:1px; background:var(--line); }
 .modulos-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap:10px; }
-.modulo-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; display:flex; flex-direction:column; gap:6px; }
+.modulo-card { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; display:flex; flex-direction:column; gap:6px; transition: opacity var(--dur-slow) var(--ease-out), border-color var(--dur-base) var(--ease-out); }
 .modulo-card.bloqueado { opacity:.5; }
 .modulo-card.concluido { border-color: var(--qui); }
 .modulo-top { display:flex; align-items:center; gap:8px; }
@@ -348,7 +348,8 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
   background:none; color:var(--ink); cursor:pointer; opacity:.7; margin-bottom:6px;
 }
 .toggle-novo-modulo-btn:hover { opacity:1; }
-.novo-modulo-box { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px dashed var(--line); border-radius: 6px; padding: 16px; margin-top:6px; }
+.novo-modulo-box { background: var(--card); box-shadow: 3px 3px 0 rgba(26,35,51,0.10); border: 1px dashed var(--line); border-radius: 6px; padding: 16px; margin-top:6px; max-height:0; opacity:0; overflow:hidden; padding-top:0; padding-bottom:0; margin-top:0; transition: max-height var(--dur-slow) var(--ease-out), opacity var(--dur-base) var(--ease-out), padding var(--dur-base) var(--ease-out), margin-top var(--dur-base) var(--ease-out); }
+.novo-modulo-box.aberta { max-height:400px; opacity:1; padding-top:16px; padding-bottom:16px; margin-top:6px; }
 .novo-modulo-box input[type="text"] { width:100%; box-sizing:border-box; font-size:0.9rem; padding:9px 12px; border-radius:8px; border:1px solid var(--line); margin-bottom:10px; font-family:inherit; }
 .pre-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
 .pre-chip { font-size:0.78rem; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--overlay); cursor:pointer; user-select:none; }
@@ -393,7 +394,7 @@ footer.foot { text-align: center; font-size: 11px; opacity: 0.35; padding: 30px 
     <div class="modulos-niveis" id="modulosNiveis"></div>
 
     <button class="toggle-novo-modulo-btn" id="toggleNovoModuloBtn">+ Novo módulo</button>
-    <div class="novo-modulo-box" id="novoModuloBox" style="display:none">
+    <div class="novo-modulo-box" id="novoModuloBox">
       <div class="field-label">Novo módulo</div>
       <input type="text" id="novoModuloNome" placeholder="Nome do módulo (ex.: Lógica básica)">
       <div class="field-label">Pré-requisitos (opcional) — clique para marcar quais módulos precisam ser concluídos antes</div>
@@ -671,6 +672,7 @@ function renderModulos() {
     container.innerHTML = `<p class="sem-disciplinas">Nenhum módulo ainda nesta disciplina — adicione o primeiro logo abaixo.</p>`;
   } else {
     const niveis = calcularNiveis(lista);
+    let indiceGlobal = 0;
     Object.keys(niveis).map(Number).sort((a, b) => a - b).forEach(n => {
       const grupo = document.createElement("div");
       grupo.className = "nivel-grupo";
@@ -681,7 +683,10 @@ function renderModulos() {
       grid.className = "modulos-grid";
       niveis[n].forEach(mod => {
         const desbloqueado = moduloDesbloqueado(mod, lista);
-        grid.appendChild(criarModuloCard(mod, lista, desbloqueado));
+        const card = criarModuloCard(mod, lista, desbloqueado);
+        card.classList.add("tape-stagger-item");
+        card.style.setProperty("--i", indiceGlobal++);
+        grid.appendChild(card);
       });
       grupo.appendChild(titulo);
       grupo.appendChild(grid);
@@ -743,9 +748,8 @@ document.getElementById("addModuloBtn").addEventListener("click", () => {
 document.getElementById("toggleNovoModuloBtn").addEventListener("click", () => {
   const box = document.getElementById("novoModuloBox");
   const btn = document.getElementById("toggleNovoModuloBtn");
-  const aberto = box.style.display !== "none";
-  box.style.display = aberto ? "none" : "block";
-  btn.textContent = aberto ? "+ Novo módulo" : "− Fechar";
+  const aberto = box.classList.toggle("aberta");
+  btn.textContent = aberto ? "− Fechar" : "+ Novo módulo";
 });
 
 renderSelectDisciplinas();
