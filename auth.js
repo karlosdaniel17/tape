@@ -32,6 +32,42 @@ function aplicarTema(tema) {
 }
 aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
 
+(function injetarMenuMobile() {
+  const topbarInner = document.querySelector(".topbar-inner");
+  const nav = document.querySelector("nav.mainnav, .mainnav");
+  if (!topbarInner || !nav || document.getElementById("tapeNavToggle")) return;
+
+  const btn = document.createElement("button");
+  btn.id = "tapeNavToggle";
+  btn.setAttribute("aria-label", "Abrir menu");
+  btn.setAttribute("aria-expanded", "false");
+  btn.textContent = "☰";
+  btn.addEventListener("click", () => {
+    const aberto = nav.classList.toggle("tape-nav-aberto");
+    btn.textContent = aberto ? "✕" : "☰";
+    btn.setAttribute("aria-expanded", String(aberto));
+    btn.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+  });
+
+  // fecha o menu ao navegar (clicar num link) ou ao clicar fora dele
+  nav.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") {
+      nav.classList.remove("tape-nav-aberto");
+      btn.textContent = "☰";
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (!nav.classList.contains("tape-nav-aberto")) return;
+    if (nav.contains(e.target) || btn.contains(e.target)) return;
+    nav.classList.remove("tape-nav-aberto");
+    btn.textContent = "☰";
+    btn.setAttribute("aria-expanded", "false");
+  });
+
+  topbarInner.insertBefore(btn, nav);
+})();
+
 (function injetarEstilosTema() {
   const style = document.createElement("style");
   style.id = "tapeThemeStyles";
@@ -61,6 +97,30 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
 
     /* stagger-in genérico pra listas renderizadas via JS (aplicado com --i por item) */
     .tape-stagger-item { opacity: 0; animation: tape-fade-up var(--dur-base) var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 35ms); }
+
+    /* ---------- Menu mobile (hambúrguer) ---------- */
+    #tapeNavToggle {
+      display: none; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line, #0000001a);
+      background: var(--card, #fff); color: var(--ink, #1A2333); font-size: 1.2rem; cursor: pointer;
+      flex-shrink: 0; transition: background var(--dur-base) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    }
+    #tapeNavToggle:active { transform: scale(0.94); }
+    @media (max-width: 760px) {
+      .topbar-inner { flex-wrap: wrap; }
+      #tapeNavToggle { display: inline-flex; order: 1; }
+      .mainnav {
+        display: none; width: 100%; order: 5; flex-direction: column !important; gap: 2px !important;
+        margin-top: 10px; max-height: 0; overflow: hidden;
+        transition: max-height var(--dur-slow, .3s) var(--ease-out, ease);
+      }
+      .mainnav.tape-nav-aberto { display: flex; max-height: 900px; }
+      nav.mainnav a, .mainnav a {
+        width: 100%; box-sizing: border-box; text-align: left;
+        font-size: 0.95rem !important; padding: 12px 14px !important; border-radius: 8px !important;
+      }
+      #authBox, #langSwitch, .lang-switch { order: 6; }
+    }
     :root[data-theme="escuro"] { --paper: #1C1B18; --ink: #F0EEE8; --line: #FFFFFF26; --card: #26241F; --overlay: #FFFFFF12; --overlay-2: #FFFFFF1C; --pauta: #FFFFFF0F; }
     [data-theme="escuro"] body { background: var(--paper); color: var(--ink); }
     [data-theme="escuro"] .topbar { background: var(--paper); border-color: var(--line); }
