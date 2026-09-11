@@ -88,6 +88,7 @@ aplicarTema(localStorage.getItem(TAPE_THEME_KEY) || "claro");
     }
     button:active:not(:disabled), .missao-btn:active:not(:disabled), .concluir:active:not(:disabled),
     .ex-opcao:active:not(:disabled), .code-runner-play:active, .new-disc-btn:active { transform: scale(0.96); }
+    #btnSair:hover { background: #C13B2E14; }
 
     /* toast de XP / subida de nível */
     @keyframes tape-toast-in { from { opacity: 0; transform: translate(-50%, -14px) scale(0.96); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
@@ -603,22 +604,25 @@ document.addEventListener("DOMContentLoaded", () => {
     linkApoie.id = "linkApoie";
     linkApoie.href = "apoie.html";
     linkApoie.textContent = "💛 Contribua";
-    linkApoie.style.cssText = "font-size:.82rem;font-weight:700;color:#B65C38;text-decoration:none;padding:6px 10px;";
+    linkApoie.style.cssText = "font-size:.82rem;font-weight:700;color:#C97B4E;text-decoration:none;padding:6px 10px;";
     authBoxForApoio.insertBefore(linkApoie, authBoxForApoio.firstChild);
   }
 
   // Botão Sair: garante que apareça em TODAS as páginas que tenham #authBox,
   // criando o botão automaticamente quando ele não estiver no HTML da página.
+  // Estilo discreto (contorno) em vez de vermelho de alerta — "sair" não é uma
+  // ação destrutiva/perigosa, não precisa gritar.
+  const ESTILO_BTN_SAIR = "background:none;color:#9A4A3D;border:1px solid #C13B2E55;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem;";
   let btnSair = document.getElementById("btnSair");
   const authBox = document.getElementById("authBox");
   if (!btnSair && authBox) {
     btnSair = document.createElement("button");
     btnSair.id = "btnSair";
     btnSair.textContent = "Sair";
-    btnSair.style.cssText = "background-color:#dc3545;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.82rem;";
     authBox.appendChild(btnSair);
   }
   if (btnSair) {
+    btnSair.style.cssText = ESTILO_BTN_SAIR;
     btnSair.addEventListener("click", async (e) => {
       e.preventDefault();
       try {
